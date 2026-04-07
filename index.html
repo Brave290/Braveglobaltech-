@@ -3,26 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SkyVoid Drones | Future of Flight</title>
+    <title>Phantom Drones | Stealth Aerial Systems</title>
     
-    <!-- External Font: Rosnoc (using a similar modern tech font as Rosnoc style, but we load a striking display font) -->
-    <!-- Since 'Rosnoc' is a unique custom font, we'll use a high-quality Google Font that matches the futuristic vibe + add a custom @font-face for authenticity -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
+    <!-- Fonts: Smaller, sleek, tech-oriented -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* Custom font definition for "Rosnoc" - using a similar techy aesthetic. 
-           For demonstration, we alias Rosnoc to 'Orbitron' but with slight modifications.
-           In production, you would upload a real Rosnoc font file. */
-        @font-face {
-            font-family: 'Rosnoc';
-            src: local('Orbitron'), url('https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -30,15 +18,16 @@
         }
 
         body {
-            margin: 0;
-            overflow-x: hidden;
-            font-family: 'Rosnoc', 'Orbitron', monospace;
-            color: white;
+            font-family: 'Space Grotesk', sans-serif;
             background-color: #03050b;
+            overflow-x: hidden;
+            color: #eef5ff;
+            font-size: 14px; /* smaller base font for cool compact look */
+            line-height: 1.5;
         }
 
-        /* Canvas fills background */
-        canvas {
+        /* Canvas 3D background */
+        #canvas-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -48,587 +37,573 @@
             display: block;
         }
 
-        /* Content overlay */
-        .content {
+        /* Main content overlay */
+        .site-wrapper {
             position: relative;
             z-index: 10;
-            pointer-events: auto;
+            min-height: 100vh;
         }
 
-        /* Navigation - Glassmorphism */
-        nav {
+        /* ----- Transparent Hamburger NAV ----- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 5%;
-            backdrop-filter: blur(15px);
-            background: rgba(3, 5, 11, 0.65);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            font-family: 'Rosnoc', 'Orbitron', sans-serif;
+            backdrop-filter: blur(12px);
+            background: rgba(3, 5, 11, 0.5);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            z-index: 1000;
+            transition: 0.3s;
         }
 
         .logo {
-            font-size: 1.9rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #aaffff, #3a86ff, #00ccff);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff, #0cf, #3a86ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 2px;
         }
-
         .logo span {
-            font-size: 1rem;
+            font-size: 0.75rem;
             background: none;
             color: cyan;
             font-weight: 400;
         }
 
-        .nav-links a {
-            color: #f0f0f0;
-            text-decoration: none;
-            margin-left: 2rem;
-            font-weight: 500;
+        /* Hamburger Icon */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: #0cf;
             transition: 0.3s;
-            font-size: 1rem;
-            letter-spacing: 1px;
+            border-radius: 2px;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
         }
 
-        .nav-links a:hover {
-            color: cyan;
-            text-shadow: 0 0 8px cyan;
-        }
-
-        /* Hero Section */
-        .hero {
+        /* Sidebar Menu (Pages) */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
             height: 100vh;
+            background: rgba(5, 10, 25, 0.92);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(0, 255, 255, 0.3);
+            z-index: 999;
+            transition: 0.4s ease-out;
+            padding: 5rem 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+        }
+        .side-menu.open {
+            right: 0;
+        }
+        .side-menu a {
+            color: #eef5ff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .side-menu a i {
+            width: 24px;
+            color: #0cf;
+        }
+        .side-menu a:hover {
+            color: cyan;
+            padding-left: 8px;
+            border-bottom-color: cyan;
+        }
+
+        /* Page sections - each page is a full viewport block */
+        .page {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid rgba(0,255,255,0.1);
+            scroll-snap-align: start;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
             text-align: center;
-            padding: 0 1rem;
-            background: radial-gradient(circle at 20% 30%, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
         }
-
-        .hero h1 {
-            font-size: 4.8rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            font-family: 'Rosnoc', 'Orbitron', sans-serif;
-            background: linear-gradient(135deg, #ffffff, #7ad0ff, #2a6eff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: fadeUp 1s ease-out;
-            letter-spacing: -1px;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            max-width: 620px;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            font-weight: 400;
-            animation: fadeUp 1s ease-out 0.2s backwards;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1.8rem;
-            animation: fadeUp 1s ease-out 0.4s backwards;
-        }
-
-        .btn {
-            padding: 0.9rem 2.2rem;
-            border-radius: 60px;
+        h1 {
+            font-size: 3rem;
             font-weight: 700;
-            text-decoration: none;
-            transition: 0.3s;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
-            font-family: 'Rosnoc', 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(95deg, #0af, #0cf);
-            color: #0a0f1f;
-            box-shadow: 0 0 18px rgba(0, 200, 255, 0.5);
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px cyan;
-            background: linear-gradient(95deg, #2cf, #0ef);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1.5px solid cyan;
-            color: cyan;
-            backdrop-filter: blur(5px);
-        }
-
-        .btn-outline:hover {
-            background: rgba(0, 255, 255, 0.2);
-            box-shadow: 0 0 12px cyan;
-            transform: scale(1.05);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 6rem 5%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            text-align: center;
-            border-top: 1px solid rgba(0, 255, 255, 0.2);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-        }
-
-        .features h2 {
-            font-size: 2.8rem;
-            margin-bottom: 3rem;
-            font-family: 'Rosnoc', 'Orbitron', sans-serif;
             background: linear-gradient(135deg, #fff, #7ad0ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 1rem;
         }
-
-        .feature-grid {
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #aaffff;
+        }
+        .page p {
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin: 1rem auto;
+            opacity: 0.85;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.7rem 1.6rem;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, #0af, #0cf);
+            color: #0a0f1f;
+            box-shadow: 0 0 12px rgba(0,200,255,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid cyan;
+            color: cyan;
+        }
+        .grid-features {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
-
-        .feature-card {
-            background: rgba(10, 20, 40, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 30px;
-            width: 280px;
-            transition: 0.4s;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        .card {
+            background: rgba(10, 20, 35, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 1.5rem;
+            border-radius: 20px;
+            width: 220px;
+            border: 1px solid rgba(0,255,255,0.2);
+            transition: 0.3s;
         }
-
-        .feature-card:hover {
-            transform: translateY(-12px);
-            border-color: cyan;
-            box-shadow: 0 20px 35px rgba(0, 200, 255, 0.2);
-        }
-
-        .feature-card i {
-            font-size: 3rem;
+        .card i {
+            font-size: 2rem;
             color: cyan;
-            margin-bottom: 1.2rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.6rem;
             margin-bottom: 0.8rem;
         }
-
-        .feature-card p {
-            font-size: 0.95rem;
-            opacity: 0.85;
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
-
-        /* CTA Section */
-        .cta {
-            padding: 5rem 2rem;
-            text-align: center;
-            background: radial-gradient(ellipse at center, rgba(0,20,40,0.8), rgba(0,0,0,0.9));
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
-            font-family: 'Rosnoc', 'Orbitron', sans-serif;
-            margin-bottom: 1rem;
-        }
-
-        .cta .btn-primary {
-            margin-top: 1.5rem;
-            display: inline-block;
-        }
-
-        footer {
-            padding: 2rem;
-            text-align: center;
+        .card p {
             font-size: 0.8rem;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5rem;
             background: rgba(0,0,0,0.7);
-            border-top: 1px solid rgba(0,255,255,0.2);
+            font-size: 0.7rem;
         }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.8rem; }
-            .nav-links a { margin-left: 1rem; font-size: 0.8rem; }
-            .btn-group { flex-direction: column; gap: 1rem; }
-            .feature-card { width: 90%; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .page { padding: 3rem 1rem; }
+            .card { width: 100%; max-width: 260px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="content">
-        <nav>
-            <div class="logo">SKYVOID<span> DRONES</span></div>
-            <div class="nav-links">
-                <a href="#">HOME</a>
-                <a href="#">DRONES</a>
-                <a href="#">TECH</a>
-                <a href="#">SHOP</a>
-                <a href="#">CONTACT</a>
-            </div>
-        </nav>
+<div id="canvas-container"></div>
 
-        <section class="hero">
-            <h1>ASCEND BEYOND LIMITS</h1>
-            <p>Next-gen AI-powered drones with 8K vision, 45-min flight time, and autonomous swarm intelligence. Experience the future of aerial innovation.</p>
-            <div class="btn-group">
-                <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> SHOP NOW</a>
-                <a href="#" class="btn btn-outline"><i class="fas fa-play"></i> EXPLORE FLEET</a>
-            </div>
-        </section>
-
-        <section class="features">
-            <h2>CYBER DRONE TECHNOLOGY</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <i class="fas fa-camera-retro"></i>
-                    <h3>8K HyperSight</h3>
-                    <p>Dual 8K HDR camera with 360° obstacle avoidance and night vision.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-battery-full"></i>
-                    <h3>45 Min Flight</h3>
-                    <p>Graphene battery technology with fast swap & solar assist.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-microchip"></i>
-                    <h3>AI Pilot 2.0</h3>
-                    <p>Neural navigation & autonomous tracking, follow-me mode.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-globe"></i>
-                    <h3>20KM Range</h3>
-                    <p>Long-range HD digital transmission, real-time 4G backup.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="cta">
-            <h2>Ready to Dominate the Skies?</h2>
-            <p>Join the elite pilots club and get 15% off on your first drone.</p>
-            <a href="#" class="btn btn-primary">PRE-ORDER NOW <i class="fas fa-arrow-right"></i></a>
-        </section>
-
-        <footer>
-            <p>© 2026 SKYVOID DRONES — Propel the Future. All trademarks belong to their respective owners.</p>
-        </footer>
+<div class="site-wrapper">
+    <!-- Transparent Hamburger Nav -->
+    <div class="navbar">
+        <div class="logo">PHANTOM<span> DRONES</span></div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
 
-    <!-- Three.js core and add-ons -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
-    </script>
+    <!-- Side Menu (Pages Navigation) -->
+    <div class="side-menu" id="sideMenu">
+        <a href="#home"><i class="fas fa-home"></i> HOME</a>
+        <a href="#drones"><i class="fas fa-drone"></i> DRONES</a>
+        <a href="#technology"><i class="fas fa-microchip"></i> TECHNOLOGY</a>
+        <a href="#shop"><i class="fas fa-shopping-cart"></i> SHOP</a>
+        <a href="#contact"><i class="fas fa-envelope"></i> CONTACT</a>
+    </div>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    <!-- PAGES EMBEDDED -->
+    <section id="home" class="page">
+        <div class="container">
+            <h1>PHANTOM DRONES</h1>
+            <p>Stealth, Speed & AI Precision — Redefining aerial dominance. Experience the next generation of unmanned systems with zero signature technology.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="#shop" class="btn btn-primary"><i class="fas fa-bolt"></i> EXPLORE FLEET</a>
+                <a href="#technology" class="btn btn-outline"><i class="fas fa-eye"></i> TECH SPECS</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="drones" class="page">
+        <div class="container">
+            <h2>OUR DRONES</h2>
+            <p>Phantom X7 · GhostWing · Spectre VTOL — engineered for silence, range, and raw power.</p>
+            <div class="grid-features">
+                <div class="card"><i class="fas fa-rocket"></i><h3>Phantom X7</h3><p>45min flight, 8K stealth cam, AI swarm</p></div>
+                <div class="card"><i class="fas fa-fighter-jet"></i><h3>GhostWing</h3><p>Fixed-wing hybrid, 90km range, LiDAR</p></div>
+                <div class="card"><i class="fas fa-robot"></i><h3>Spectre VTOL</h3><p>Vertical takeoff, thermal vision, autonomous</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="technology" class="page">
+        <div class="container">
+            <h2>CYBER CORE TECH</h2>
+            <p>Quantum encryption · Neural flight control · Graphene batteries · 20km HD transmission</p>
+            <div class="grid-features">
+                <div class="card"><i class="fas fa-brain"></i><h3>AI Pilot 3.0</h3><p>Self-learning obstacle avoidance</p></div>
+                <div class="card"><i class="fas fa-shield-alt"></i><h3>Stealth Coating</h3><p>Radar-absorbing meta-material</p></div>
+                <div class="card"><i class="fas fa-satellite-dish"></i><h3>Quantum Link</h3><p>Anti-jamming coms</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop" class="page">
+        <div class="container">
+            <h2>PRE-ORDER NOW</h2>
+            <p>Secure your Phantom Drone today with exclusive launch discount. Limited stealth units available.</p>
+            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> SHOP BUNDLES</a>
+            <div style="margin-top: 2rem; font-size: 0.8rem;">⚡ Free worldwide shipping + 2 year warranty</div>
+        </div>
+    </section>
+
+    <section id="contact" class="page">
+        <div class="container">
+            <h2>CONTACT PHANTOM</h2>
+            <p>Reach our command center: <strong>support@phantomdrones.tech</strong> | Hotline: +1 (800) 555-DRONE</p>
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
+                <i class="fab fa-instagram" style="font-size: 1.5rem; color:cyan;"></i>
+                <i class="fab fa-twitter" style="font-size: 1.5rem; color:cyan;"></i>
+                <i class="fab fa-linkedin" style="font-size: 1.5rem; color:cyan;"></i>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>© 2026 PHANTOM DRONES — Stealth Aerial Systems. All rights reserved.</p>
+    </footer>
+</div>
+
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+        }
+    }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    // --- Setup Scene with drone slide-in animation at beginning ---
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x03050b);
+    scene.fog = new THREE.FogExp2(0x03050b, 0.004);
+
+    const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(6, 3.5, 9);
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+    // Controls: subtle user interaction but we handle initial slide-in
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.autoRotate = false;
+    controls.enableZoom = true;
+    controls.enablePan = false;
+    controls.target.set(0, 1.2, 0);
+    controls.zoomSpeed = 0.8;
+
+    // --- Lighting ---
+    const ambientLight = new THREE.AmbientLight(0x222222);
+    scene.add(ambientLight);
+    const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    mainLight.position.set(5, 8, 4);
+    mainLight.castShadow = true;
+    mainLight.receiveShadow = true;
+    scene.add(mainLight);
+    const fillLight = new THREE.PointLight(0x2266ff, 0.5);
+    fillLight.position.set(0, -1, 1);
+    scene.add(fillLight);
+    const rimLight = new THREE.PointLight(0x00ccff, 0.8);
+    rimLight.position.set(-2, 2.5, -3);
+    scene.add(rimLight);
+    const movingLight = new THREE.PointLight(0xff44aa, 0.6);
+    movingLight.position.set(2, 1, 2);
+    scene.add(movingLight);
+
+    // Grid and platform
+    const gridHelper = new THREE.GridHelper(22, 28, 0x00aaff, 0x2266aa);
+    gridHelper.position.y = -1.1;
+    gridHelper.material.transparent = true;
+    gridHelper.material.opacity = 0.3;
+    scene.add(gridHelper);
+    
+    const platform = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.5, 2.5, 0.08, 64),
+        new THREE.MeshStandardMaterial({ color: 0x112244, metalness: 0.8, roughness: 0.3, emissive: 0x004466, emissiveIntensity: 0.3 })
+    );
+    platform.position.y = -1.05;
+    platform.receiveShadow = true;
+    scene.add(platform);
+
+    // --- BUILD SLICK DRONE MODEL (Phantom style) ---
+    const droneGroup = new THREE.Group();
+    // Central fuselage
+    const bodyGeo = new THREE.BoxGeometry(0.95, 0.4, 1.3);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2a6f9f, metalness: 0.85, roughness: 0.2, emissive: 0x004466, emissiveIntensity: 0.25 });
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.castShadow = true;
+    droneGroup.add(body);
+    
+    // Cockpit dome
+    const cockpit = new THREE.Mesh(
+        new THREE.SphereGeometry(0.38, 32, 32),
+        new THREE.MeshStandardMaterial({ color: 0x88aaff, metalness: 0.3, roughness: 0.1, emissive: 0x2288ff, emissiveIntensity: 0.5 })
+    );
+    cockpit.position.set(0, 0.26, 0.5);
+    droneGroup.add(cockpit);
+    
+    // Arms
+    const armMatGloss = new THREE.MeshStandardMaterial({ color: 0xbbccdd, metalness: 0.7 });
+    const armGeoLong = new THREE.BoxGeometry(0.18, 0.1, 1.2);
+    const armPositions = [
+        [0.85, 0, 0.6], [-0.85, 0, 0.6], [0.85, 0, -0.7], [-0.85, 0, -0.7]
+    ];
+    armPositions.forEach(pos => {
+        const arm = new THREE.Mesh(armGeoLong, armMatGloss);
+        arm.position.set(pos[0], pos[1], pos[2]);
+        arm.castShadow = true;
+        droneGroup.add(arm);
+        // motor housings
+        const motor = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.32, 0.32, 0.1, 24),
+            new THREE.MeshStandardMaterial({ color: 0xaaaaff, metalness: 0.9 })
+        );
+        motor.position.set(pos[0], pos[1] + 0.12, pos[2]);
+        motor.castShadow = true;
+        droneGroup.add(motor);
+    });
+    
+    // Propellers (with groups for spinning)
+    const propellerBladeMat = new THREE.MeshStandardMaterial({ color: 0xeef4ff, metalness: 0.95 });
+    const bladeGeo1 = new THREE.BoxGeometry(0.85, 0.05, 0.14);
+    const propellerGroups = [];
+    const propMounts = [
+        [0.85, 0.18, 0.6], [-0.85, 0.18, 0.6], [0.85, 0.18, -0.7], [-0.85, 0.18, -0.7]
+    ];
+    propMounts.forEach(pos => {
+        const group = new THREE.Group();
+        const bladeA = new THREE.Mesh(bladeGeo1, propellerBladeMat);
+        bladeA.position.set(0.4, 0, 0);
+        bladeA.castShadow = true;
+        const bladeB = new THREE.Mesh(bladeGeo1, propellerBladeMat);
+        bladeB.position.set(-0.4, 0, 0);
+        bladeB.castShadow = true;
+        group.add(bladeA);
+        group.add(bladeB);
+        group.position.set(pos[0], pos[1], pos[2]);
+        droneGroup.add(group);
+        propellerGroups.push(group);
+    });
+    
+    // Additional glowing rings
+    const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(0.72, 0.05, 32, 100),
+        new THREE.MeshStandardMaterial({ color: 0x0cf, emissive: 0x0af, emissiveIntensity: 0.7 })
+    );
+    ring.position.y = -0.12;
+    ring.rotation.x = Math.PI / 2;
+    droneGroup.add(ring);
+    
+    scene.add(droneGroup);
+    droneGroup.position.y = 0.45;
+    droneGroup.scale.set(0.95, 0.95, 0.95);
+    
+    // --- DRONE SLIDE-IN ANIMATION at beginning ---
+    // Initial position: off-screen left (x = -6) and slightly rotated
+    droneGroup.position.x = -7;
+    droneGroup.position.y = 0.2;
+    droneGroup.rotation.z = 0.3;
+    let slideProgress = 0; // 0 to 1
+    let sliding = true;
+    
+    // Also add floating particles + stars
+    const particleCount = 1000;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+        particlePositions[i*3] = (Math.random() - 0.5) * 35;
+        particlePositions[i*3+1] = (Math.random() - 0.5) * 12;
+        particlePositions[i*3+2] = (Math.random() - 0.5) * 25 - 8;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    const particleMat = new THREE.PointsMaterial({ color: 0x44bbff, size: 0.045, transparent: true, blending: THREE.AdditiveBlending });
+    const particlesSys = new THREE.Points(particleGeo, particleMat);
+    scene.add(particlesSys);
+    
+    // Starfield background
+    const starCount = 1800;
+    const starPosArray = [];
+    for (let i = 0; i < starCount; i++) {
+        starPosArray.push((Math.random() - 0.5) * 200);
+        starPosArray.push((Math.random() - 0.5) * 100);
+        starPosArray.push((Math.random() - 0.5) * 90 - 50);
+    }
+    const starFieldGeo = new THREE.BufferGeometry();
+    starFieldGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPosArray), 3));
+    const starFieldMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.07, transparent: true });
+    const starsField = new THREE.Points(starFieldGeo, starFieldMat);
+    scene.add(starsField);
+    
+    // Futuristic rotating torus knot
+    const knotGeo = new THREE.TorusKnotGeometry(1.5, 0.07, 200, 32, 3, 4);
+    const knotMat = new THREE.MeshStandardMaterial({ color: 0x0af, emissive: 0x0088aa, emissiveIntensity: 0.5, metalness: 0.8 });
+    const knot = new THREE.Mesh(knotGeo, knotMat);
+    knot.position.y = 1.6;
+    scene.add(knot);
+    
+    let time = 0;
+    
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 0.016;
         
-        // --- Setup Scene, Camera, Renderer ---
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x03050b);
-        scene.fog = new THREE.FogExp2(0x03050b, 0.003); // subtle fog for depth
+        // Handle slide-in (first 1.8 seconds)
+        if (sliding) {
+            slideProgress += 0.025;
+            if (slideProgress >= 1) {
+                slideProgress = 1;
+                sliding = false;
+                // final position adjustment
+                droneGroup.position.x = 0;
+                droneGroup.rotation.z = 0;
+                droneGroup.rotation.x = 0;
+            } else {
+                // easeOutCubic
+                const ease = 1 - Math.pow(1 - slideProgress, 3);
+                const targetX = -7 + (ease * 7);
+                droneGroup.position.x = targetX;
+                droneGroup.rotation.z = 0.3 * (1 - ease);
+                droneGroup.rotation.x = 0.2 * (1 - ease);
+            }
+        } else {
+            // Idle floating after slide
+            droneGroup.position.y = 0.45 + Math.sin(time * 1.8) * 0.04;
+            droneGroup.rotation.z = Math.sin(time * 1.2) * 0.02;
+            droneGroup.rotation.x = Math.sin(time * 1.4) * 0.015;
+        }
         
-        // Camera: perspective for dramatic drone view
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(5, 3, 8);
-        camera.lookAt(0, 1, 0);
+        // Propellers spinning
+        propellerGroups.forEach(prop => {
+            prop.rotation.y += 0.28;
+        });
         
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        // Animate knot & moving light
+        knot.rotation.x += 0.008;
+        knot.rotation.y += 0.01;
+        movingLight.position.x = 2.5 + Math.sin(time) * 1.8;
+        movingLight.position.z = 2 + Math.cos(time * 0.8) * 1.6;
+        rimLight.intensity = 0.7 + Math.sin(time * 2.5) * 0.3;
+        
+        particlesSys.rotation.y += 0.001;
+        starsField.rotation.x += 0.0003;
+        
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.shadowMap.enabled = true; // enable shadows for realism
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        document.body.appendChild(renderer.domElement);
-        
-        // --- Controls (disabled auto-rotate for better user experience, but slight drag) ---
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.autoRotate = false;
-        controls.enableZoom = true;
-        controls.enablePan = false;
-        controls.target.set(0, 1.2, 0);
-        controls.zoomSpeed = 1.0;
-        
-        // --- Lighting System for Dramatic Drone Showcase ---
-        // Ambient light
-        const ambientLight = new THREE.AmbientLight(0x222222);
-        scene.add(ambientLight);
-        
-        // Main directional light (simulating sun)
-        const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        mainLight.position.set(5, 10, 3);
-        mainLight.castShadow = true;
-        mainLight.receiveShadow = true;
-        mainLight.shadow.mapSize.width = 1024;
-        mainLight.shadow.mapSize.height = 1024;
-        scene.add(mainLight);
-        
-        // Fill light from below (cool tone)
-        const fillLight = new THREE.PointLight(0x2266ff, 0.5);
-        fillLight.position.set(0, -1, 0);
-        scene.add(fillLight);
-        
-        // Back rim light (cyan)
-        const rimLight = new THREE.PointLight(0x00ccff, 0.8);
-        rimLight.position.set(-2, 2, -3);
-        scene.add(rimLight);
-        
-        // Dynamic moving light for extra "cool" effect
-        const movingLight = new THREE.PointLight(0xff44aa, 0.6);
-        movingLight.position.set(2, 1, 2);
-        scene.add(movingLight);
-        
-        // Add a subtle grid floor with reflection effect
-        const gridHelper = new THREE.GridHelper(20, 30, 0x00aaff, 0x336699);
-        gridHelper.position.y = -1.2;
-        gridHelper.material.transparent = true;
-        gridHelper.material.opacity = 0.35;
-        scene.add(gridHelper);
-        
-        // Reflective platform disc (glossy)
-        const platformDisc = new THREE.Mesh(
-            new THREE.CylinderGeometry(2.8, 2.8, 0.1, 64),
-            new THREE.MeshStandardMaterial({ color: 0x112233, metalness: 0.85, roughness: 0.25, emissive: 0x001133, emissiveIntensity: 0.4 })
-        );
-        platformDisc.position.y = -1.05;
-        platformDisc.receiveShadow = true;
-        platformDisc.castShadow = true;
-        scene.add(platformDisc);
-        
-        // --- External 3D Drone Model (High-quality GLTF from external CDN) ---
-        // Using a sleek sci-fi drone model from a reliable external source (Sketchfab's example model, but I'll use a public drone model available)
-        // This model is a futuristic drone from Three.js examples alternative.
-        // We'll load from a known CDN that hosts a nice drone glTF. If fails, fallback to a custom group.
-        const loader = new GLTFLoader();
-        let droneModel = null;
-        
-        // URL of a high-quality drone model (Drone variant from Three.js example repo? I'll use a nice drone from raw GitHub / or a CDN)
-        // To ensure external 3D asset works, I'm using a fantastic drone model from 'https://threejs.org/examples/models/gltf/FlightHelmet/glTF/FlightHelmet.gltf' 
-        // But that's a helmet. Better: Using a drone model from a public repository (Sketchfab not allowed direct). Instead I'll use a detailed futuristic drone from a CDN.
-        // I've hosted/prepared a drone GLB from a known source (example: 'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf' is not a drone). 
-        // For demonstration, I'll load a sleek Sci-fi drone model from a valid external URL (credits to Khronos Group). I'll use a free drone model link.
-        // Let's use a high-quality drone asset available online: "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/gltf/FlightHelmet/glTF/FlightHelmet.gltf" no.
-        // Instead, I will create a complex grouped drone using primitives as a robust fallback, but also attempt to load external glTF and combine.
-        // For impressive result, I will import an actual drone model from Sketchfab's downloadable? Not allowed. But we can use 'https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb' no.
-        // To guarantee no CORS and awesome visuals, I'll generate a stunning parametric drone with rotating propellers and metallic materials, plus loading an external texture. 
-        // Also we will add a glowing halo. This is a 3D masterpiece.
-        
-        // --- Create a highly detailed custom drone group (ensures cool factor even without external) plus we add floating particles ---
-        const droneGroup = new THREE.Group();
-        
-        // Body: central core
-        const bodyGeo = new THREE.BoxGeometry(0.9, 0.4, 1.2);
-        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x33aaff, metalness: 0.9, roughness: 0.2, emissive: 0x0066aa, emissiveIntensity: 0.3 });
-        const body = new THREE.Mesh(bodyGeo, bodyMat);
-        body.castShadow = true;
-        body.receiveShadow = true;
-        droneGroup.add(body);
-        
-        // Cockpit / sensor ball
-        const cockpitGeo = new THREE.SphereGeometry(0.35, 32, 32);
-        const cockpitMat = new THREE.MeshStandardMaterial({ color: 0x88ccff, metalness: 0.4, roughness: 0.1, emissive: 0x2288ff, emissiveIntensity: 0.5 });
-        const cockpit = new THREE.Mesh(cockpitGeo, cockpitMat);
-        cockpit.position.set(0, 0.25, 0.45);
-        droneGroup.add(cockpit);
-        
-        // Arms (4 arms extending outward)
-        const armMat = new THREE.MeshStandardMaterial({ color: 0xccccdd, metalness: 0.7, roughness: 0.3 });
-        const armLength = 1.1;
-        const armGeo = new THREE.BoxGeometry(0.2, 0.1, armLength);
-        
-        const positions = [
-            { pos: [0.8, 0, 0.5], rot: 0 }, // front right
-            { pos: [-0.8, 0, 0.5], rot: 0 }, // front left
-            { pos: [0.8, 0, -0.6], rot: 0 }, // rear right
-            { pos: [-0.8, 0, -0.6], rot: 0 } // rear left
-        ];
-        
-        positions.forEach(p => {
-            const arm = new THREE.Mesh(armGeo, armMat);
-            arm.position.set(p.pos[0], p.pos[1], p.pos[2]);
-            arm.rotation.z = p.rot;
-            arm.castShadow = true;
-            droneGroup.add(arm);
-            
-            // Propeller housing (cylinder)
-            const propRing = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.32, 0.32, 0.08, 24),
-                new THREE.MeshStandardMaterial({ color: 0xaaaaff, metalness: 0.85, roughness: 0.2 })
-            );
-            propRing.position.set(p.pos[0], p.pos[1] + 0.1, p.pos[2]);
-            propRing.castShadow = true;
-            droneGroup.add(propRing);
+    });
+    
+    // --- Hamburger menu logic ---
+    const hamburger = document.getElementById('hamburger');
+    const sideMenu = document.getElementById('sideMenu');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        sideMenu.classList.toggle('open');
+    });
+    // Close menu when clicking a link
+    const menuLinks = document.querySelectorAll('.side-menu a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            sideMenu.classList.remove('open');
         });
-        
-        // Propellers (blades) - we will animate them
-        const propellerGroup = new THREE.Group();
-        const bladeMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.95, emissive: 0x88aaff, emissiveIntensity: 0.2 });
-        const bladeGeo = new THREE.BoxGeometry(0.75, 0.05, 0.15);
-        
-        const propPositions = [
-            { pos: [0.8, 0.16, 0.5], rotAxis: 'y' },
-            { pos: [-0.8, 0.16, 0.5], rotAxis: 'y' },
-            { pos: [0.8, 0.16, -0.6], rotAxis: 'y' },
-            { pos: [-0.8, 0.16, -0.6], rotAxis: 'y' }
-        ];
-        
-        const propellers = [];
-        propPositions.forEach(p => {
-            const blade1 = new THREE.Mesh(bladeGeo, bladeMat);
-            blade1.position.set(0.35, 0, 0);
-            blade1.castShadow = true;
-            const blade2 = new THREE.Mesh(bladeGeo, bladeMat);
-            blade2.position.set(-0.35, 0, 0);
-            blade2.castShadow = true;
-            const propGroup = new THREE.Group();
-            propGroup.add(blade1);
-            propGroup.add(blade2);
-            propGroup.position.set(p.pos[0], p.pos[1], p.pos[2]);
-            droneGroup.add(propGroup);
-            propellers.push(propGroup);
-        });
-        
-        // Add glowing rings under body
-        const glowRing = new THREE.Mesh(
-            new THREE.TorusGeometry(0.65, 0.05, 32, 100),
-            new THREE.MeshStandardMaterial({ color: 0x00ffff, emissive: 0x00aaff, emissiveIntensity: 0.8 })
-        );
-        glowRing.position.y = -0.15;
-        glowRing.rotation.x = Math.PI / 2;
-        droneGroup.add(glowRing);
-        
-        scene.add(droneGroup);
-        droneGroup.position.y = 0.6;
-        droneGroup.scale.set(0.9, 0.9, 0.9);
-        
-        // Also attempt to load external GLTF model to enhance (we can place second drone flying around, but for performance we add floating particles)
-        // Add floating particles / tech sparkles
-        const particleCount = 1200;
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlePositions = new Float32Array(particleCount * 3);
-        for (let i = 0; i < particleCount; i++) {
-            particlePositions[i*3] = (Math.random() - 0.5) * 30;
-            particlePositions[i*3+1] = (Math.random() - 0.5) * 10 + 1;
-            particlePositions[i*3+2] = (Math.random() - 0.5) * 20 - 5;
+    });
+    // Close if click outside? simple but not needed for demo
+    document.addEventListener('click', (e) => {
+        if (!sideMenu.contains(e.target) && !hamburger.contains(e.target) && sideMenu.classList.contains('open')) {
+            hamburger.classList.remove('active');
+            sideMenu.classList.remove('open');
         }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-        const particleMaterial = new THREE.PointsMaterial({ color: 0x44aaff, size: 0.05, transparent: true, blending: THREE.AdditiveBlending });
-        const particles = new THREE.Points(particlesGeometry, particleMaterial);
-        scene.add(particles);
-        
-        // Add a rotating ring torus knot for extra sci-fi
-        const knotGeo = new THREE.TorusKnotGeometry(1.4, 0.08, 200, 32, 3, 4);
-        const knotMat = new THREE.MeshStandardMaterial({ color: 0x00aaff, emissive: 0x0088aa, emissiveIntensity: 0.6, metalness: 0.9 });
-        const knot = new THREE.Mesh(knotGeo, knotMat);
-        knot.position.y = 1.3;
-        scene.add(knot);
-        
-        // Stars background effect (small particles far)
-        const starGeo = new THREE.BufferGeometry();
-        const starCount = 1500;
-        const starPos = [];
-        for (let i = 0; i < starCount; i++) {
-            starPos.push((Math.random() - 0.5) * 200);
-            starPos.push((Math.random() - 0.5) * 100);
-            starPos.push((Math.random() - 0.5) * 80 - 40);
-        }
-        starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
-        const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.08, transparent: true });
-        const stars = new THREE.Points(starGeo, starMat);
-        scene.add(stars);
-        
-        // Animation variables
-        let time = 0;
-        
-        // Animate drone floating and propellers
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.016;
-            
-            // Rotate propellers fast
-            propellers.forEach(prop => {
-                prop.rotation.y += 0.25;
-            });
-            
-            // Floating motion for drone
-            droneGroup.position.y = 0.6 + Math.sin(time * 2) * 0.05;
-            droneGroup.rotation.z = Math.sin(time * 1.2) * 0.03;
-            droneGroup.rotation.x = Math.sin(time * 1.5) * 0.02;
-            
-            // Rotate knot and moving light
-            knot.rotation.x += 0.008;
-            knot.rotation.y += 0.012;
-            
-            movingLight.position.x = 2.5 + Math.sin(time) * 1.5;
-            movingLight.position.z = 2 + Math.cos(time * 0.7) * 1.8;
-            
-            // Particles rotation
-            particles.rotation.y += 0.002;
-            stars.rotation.x += 0.0005;
-            
-            // Update rim light intensity pulse
-            const intensity = 0.7 + Math.sin(time * 3) * 0.3;
-            rimLight.intensity = intensity;
-            
-            // Slight camera auto-rotation orbit? but disabled, but controls update
-            controls.update(); 
-            
-            renderer.render(scene, camera);
-        }
-        
-        animate();
-        
-        // Window resize handler
-        window.addEventListener('resize', onWindowResize, false);
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-        
-        // Simple console log confirming 3D is live
-        console.log("SkyVoid 3D Scene Loaded with Drone Model & External effects");
-    </script>
+    });
+    
+    console.log("Phantom Drones 3D live — slide-in animation active");
+</script>
 </body>
 </html>
