@@ -22,7 +22,7 @@
             background-color: #03050b;
             overflow-x: hidden;
             color: #eef5ff;
-            font-size: 14px; /* smaller base font for cool compact look */
+            font-size: 14px;
             line-height: 1.5;
         }
 
@@ -44,7 +44,7 @@
             min-height: 100vh;
         }
 
-        /* ----- Transparent Hamburger NAV ----- */
+        /* Transparent Hamburger NAV */
         .navbar {
             position: fixed;
             top: 0;
@@ -77,7 +77,6 @@
             font-weight: 400;
         }
 
-        /* Hamburger Icon */
         .hamburger {
             display: flex;
             flex-direction: column;
@@ -102,14 +101,13 @@
             transform: rotate(-45deg) translate(7px, -6px);
         }
 
-        /* Sidebar Menu (Pages) */
         .side-menu {
             position: fixed;
             top: 0;
             right: -280px;
             width: 280px;
             height: 100vh;
-            background: rgba(5, 10, 25, 0.92);
+            background: rgba(5, 10, 25, 0.94);
             backdrop-filter: blur(20px);
             border-left: 1px solid rgba(0, 255, 255, 0.3);
             z-index: 999;
@@ -146,7 +144,7 @@
             border-bottom-color: cyan;
         }
 
-        /* Page sections - each page is a full viewport block */
+        /* Page sections */
         .page {
             min-height: 100vh;
             display: flex;
@@ -157,10 +155,9 @@
             background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(4px);
             border-bottom: 1px solid rgba(0,255,255,0.1);
-            scroll-snap-align: start;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
             text-align: center;
@@ -179,9 +176,14 @@
             margin-bottom: 1rem;
             color: #aaffff;
         }
+        h3 {
+            font-size: 1.3rem;
+            margin: 1rem 0 0.5rem;
+            color: #ccf;
+        }
         .page p {
             font-size: 0.95rem;
-            max-width: 600px;
+            max-width: 700px;
             margin: 1rem auto;
             opacity: 0.85;
         }
@@ -207,6 +209,26 @@
             border: 1px solid cyan;
             color: cyan;
         }
+        
+        /* 3D Carousel Container */
+        .carousel-3d-container {
+            width: 100%;
+            height: 480px;
+            margin: 2rem 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #carousel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 28px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Bulky content grids */
         .grid-features {
             display: flex;
             flex-wrap: wrap;
@@ -219,9 +241,13 @@
             backdrop-filter: blur(8px);
             padding: 1.5rem;
             border-radius: 20px;
-            width: 220px;
+            width: 250px;
             border: 1px solid rgba(0,255,255,0.2);
             transition: 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: cyan;
         }
         .card i {
             font-size: 2rem;
@@ -235,6 +261,69 @@
         .card p {
             font-size: 0.8rem;
         }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .spec-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            border-left: 3px solid cyan;
+        }
+        
+        .contact-form {
+            max-width: 550px;
+            margin: 2rem auto 0;
+            background: rgba(5, 15, 30, 0.7);
+            backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 28px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            text-align: left;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #bbffff;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 16px;
+            color: white;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: cyan;
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+        }
+        .submit-btn {
+            background: linear-gradient(95deg, #0af, #0cf);
+            width: 100%;
+            padding: 0.85rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #0a0f1f;
+        }
         footer {
             text-align: center;
             padding: 1.5rem;
@@ -244,8 +333,7 @@
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             h2 { font-size: 1.5rem; }
-            .page { padding: 3rem 1rem; }
-            .card { width: 100%; max-width: 260px; }
+            .carousel-3d-container { height: 320px; }
         }
     </style>
 </head>
@@ -254,7 +342,6 @@
 <div id="canvas-container"></div>
 
 <div class="site-wrapper">
-    <!-- Transparent Hamburger Nav -->
     <div class="navbar">
         <div class="logo">PHANTOM<span> DRONES</span></div>
         <div class="hamburger" id="hamburger">
@@ -264,73 +351,115 @@
         </div>
     </div>
 
-    <!-- Side Menu (Pages Navigation) -->
     <div class="side-menu" id="sideMenu">
         <a href="#home"><i class="fas fa-home"></i> HOME</a>
         <a href="#drones"><i class="fas fa-drone"></i> DRONES</a>
         <a href="#technology"><i class="fas fa-microchip"></i> TECHNOLOGY</a>
+        <a href="#carousel-section"><i class="fas fa-cubes"></i> 3D SHOWCASE</a>
         <a href="#shop"><i class="fas fa-shopping-cart"></i> SHOP</a>
         <a href="#contact"><i class="fas fa-envelope"></i> CONTACT</a>
     </div>
 
-    <!-- PAGES EMBEDDED -->
+    <!-- HOME PAGE -->
     <section id="home" class="page">
         <div class="container">
             <h1>PHANTOM DRONES</h1>
-            <p>Stealth, Speed & AI Precision — Redefining aerial dominance. Experience the next generation of unmanned systems with zero signature technology.</p>
-            <div style="display: flex; gap: 1rem; justify-content: center;">
+            <p>Stealth, Speed & AI Precision — Redefining aerial dominance. Experience the next generation of unmanned systems with zero signature technology. Our drones are used by elite forces, cinematographers, and innovators worldwide.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <a href="#shop" class="btn btn-primary"><i class="fas fa-bolt"></i> EXPLORE FLEET</a>
-                <a href="#technology" class="btn btn-outline"><i class="fas fa-eye"></i> TECH SPECS</a>
+                <a href="#carousel-section" class="btn btn-outline"><i class="fas fa-vr-cardboard"></i> 3D CAROUSEL</a>
+            </div>
+            <div class="specs-grid" style="margin-top: 2.5rem;">
+                <div class="spec-item"><i class="fas fa-chart-line"></i> <strong>Max Speed:</strong> 120 km/h (Stealth mode)</div>
+                <div class="spec-item"><i class="fas fa-battery-full"></i> <strong>Flight Time:</strong> Up to 52 minutes</div>
+                <div class="spec-item"><i class="fas fa-microchip"></i> <strong>Processor:</strong> Neural Edge AI Chip</div>
+                <div class="spec-item"><i class="fas fa-camera"></i> <strong>Camera:</strong> 8K HDR + Thermal Overlay</div>
             </div>
         </div>
     </section>
 
+    <!-- DRONES PAGE (bulky) -->
     <section id="drones" class="page">
         <div class="container">
-            <h2>OUR DRONES</h2>
-            <p>Phantom X7 · GhostWing · Spectre VTOL — engineered for silence, range, and raw power.</p>
+            <h2>OUR ELITE FLEET</h2>
+            <p>Three variants engineered for domination: reconnaissance, combat support, and cinematic excellence.</p>
             <div class="grid-features">
-                <div class="card"><i class="fas fa-rocket"></i><h3>Phantom X7</h3><p>45min flight, 8K stealth cam, AI swarm</p></div>
-                <div class="card"><i class="fas fa-fighter-jet"></i><h3>GhostWing</h3><p>Fixed-wing hybrid, 90km range, LiDAR</p></div>
-                <div class="card"><i class="fas fa-robot"></i><h3>Spectre VTOL</h3><p>Vertical takeoff, thermal vision, autonomous</p></div>
+                <div class="card"><i class="fas fa-rocket"></i><h3>Phantom X7</h3><p>45min flight, 8K stealth cam, AI swarm, foldable arms, 12km range.</p><small>🔹 Signature Series</small></div>
+                <div class="card"><i class="fas fa-fighter-jet"></i><h3>GhostWing</h3><p>Fixed-wing hybrid, 90km range, LiDAR mapping, silent propeller tech.</p><small>🔹 Long-range Ops</small></div>
+                <div class="card"><i class="fas fa-robot"></i><h3>Spectre VTOL</h3><p>Vertical takeoff, thermal vision, autonomous formation, 4K night mode.</p><small>🔹 Tactical Unit</small></div>
+                <div class="card"><i class="fas fa-water"></i><h3>Aqua Phantom</h3><p>Waterproof, submersible up to 10m, dual sonar, maritime rescue.</p><small>🔹 Amphibious</small></div>
             </div>
+            <p style="margin-top: 2rem;">⚡ All models include real-time telemetry, encrypted data links, and 2-year warranty.</p>
         </div>
     </section>
 
+    <!-- TECHNOLOGY PAGE (bulky) -->
     <section id="technology" class="page">
         <div class="container">
             <h2>CYBER CORE TECH</h2>
-            <p>Quantum encryption · Neural flight control · Graphene batteries · 20km HD transmission</p>
-            <div class="grid-features">
-                <div class="card"><i class="fas fa-brain"></i><h3>AI Pilot 3.0</h3><p>Self-learning obstacle avoidance</p></div>
-                <div class="card"><i class="fas fa-shield-alt"></i><h3>Stealth Coating</h3><p>Radar-absorbing meta-material</p></div>
-                <div class="card"><i class="fas fa-satellite-dish"></i><h3>Quantum Link</h3><p>Anti-jamming coms</p></div>
+            <p>Beyond conventional. Phantom integrates military-grade innovations into commercial aerial systems.</p>
+            <div class="specs-grid">
+                <div class="spec-item"><i class="fas fa-brain"></i> <strong>Neural Flight Controller</strong><br>Self-learning obstacle avoidance with 3D mapping</div>
+                <div class="spec-item"><i class="fas fa-shield-alt"></i> <strong>Radar-Absorbing Coating</strong><br>Signature reduction for stealth missions</div>
+                <div class="spec-item"><i class="fas fa-satellite-dish"></i> <strong>Quantum Encryption Link</strong><br>Anti-jamming, 20km HD video transmission</div>
+                <div class="spec-item"><i class="fas fa-battery-quarter"></i> <strong>Graphene-Silicon Cells</strong><br>Ultra-fast charge, 52 min endurance</div>
+                <div class="spec-item"><i class="fas fa-vr-cardboard"></i> <strong>FPV Low-Latency Goggles</strong><br>Zero lag, 4K immersive feed</div>
+                <div class="spec-item"><i class="fas fa-cloud-sun"></i> <strong>All-Weather Stabilization</strong><br>Fly in winds up to 50km/h, IP55 rating</div>
             </div>
         </div>
     </section>
 
-    <section id="shop" class="page">
+    <!-- 3D CAROUSEL SECTION -->
+    <section id="carousel-section" class="page">
         <div class="container">
-            <h2>PRE-ORDER NOW</h2>
-            <p>Secure your Phantom Drone today with exclusive launch discount. Limited stealth units available.</p>
-            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> SHOP BUNDLES</a>
-            <div style="margin-top: 2rem; font-size: 0.8rem;">⚡ Free worldwide shipping + 2 year warranty</div>
+            <h2><i class="fas fa-cube"></i> 3D DRONE CAROUSEL</h2>
+            <p>Rotating showcase of our most advanced models. Interactive 360° view — drag to explore!</p>
+            <div class="carousel-3d-container">
+                <canvas id="carousel-canvas"></canvas>
+            </div>
+            <p style="font-size: 0.8rem; margin-top: 0.5rem;">✨ Phantom X7 | GhostWing | Spectre VTOL | Aqua Phantom — spinning in real-time 3D</p>
         </div>
     </section>
 
+    <!-- SHOP PAGE (bulky) -->
+    <section id="shop" class="page">
+        <div class="container">
+            <h2>PRE-ORDER & BUNDLES</h2>
+            <p>Secure your Phantom Drone today with exclusive launch discount. Limited stealth units available. Free worldwide shipping + Phantom flight kit included.</p>
+            <div class="grid-features">
+                <div class="card"><i class="fas fa-gem"></i><h3>Starter Bundle</h3><p>$1,299<br>Drone + 2 batteries + case + 64GB SD</p><button class="btn btn-primary" style="margin-top:10px;">Buy Now</button></div>
+                <div class="card"><i class="fas fa-crown"></i><h3>Pro Pilot Kit</h3><p>$2,499<br>Includes FPV goggles, 4 batteries, hard case</p><button class="btn btn-primary" style="margin-top:10px;">Pre-order</button></div>
+                <div class="card"><i class="fas fa-skull"></i><h3>Stealth Ops</h3><p>$3,899<br>Full stealth coating + thermal cam + extended warranty</p><button class="btn btn-primary" style="margin-top:10px;">Enquire</button></div>
+            </div>
+            <p style="margin-top: 1.5rem;">🔒 Secure payments | 30-day test flight | 24/7 tech support</p>
+        </div>
+    </section>
+
+    <!-- CONTACT PAGE with FORM -->
     <section id="contact" class="page">
         <div class="container">
             <h2>CONTACT PHANTOM</h2>
-            <p>Reach our command center: <strong>support@phantomdrones.tech</strong> | Hotline: +1 (800) 555-DRONE</p>
-            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
-                <i class="fab fa-instagram" style="font-size: 1.5rem; color:cyan;"></i>
-                <i class="fab fa-twitter" style="font-size: 1.5rem; color:cyan;"></i>
-                <i class="fab fa-linkedin" style="font-size: 1.5rem; color:cyan;"></i>
+            <p>Reach our command center or send us a message. We'll get back to you within 24 hours. For partnership and military inquiries, use the form below.</p>
+            <div class="contact-form">
+                <form id="droneContactForm">
+                    <div class="form-group"><label><i class="fas fa-user"></i> Full Name</label><input type="text" id="fullName" placeholder="E.g., Alex Mercer" required></div>
+                    <div class="form-group"><label><i class="fas fa-envelope"></i> Email Address</label><input type="email" id="emailAddr" placeholder="contact@phantom.com" required></div>
+                    <div class="form-group"><label><i class="fas fa-drone"></i> Drone Model Interest</label><input type="text" id="droneModel" placeholder="Phantom X7 / GhostWing / Spectre"></div>
+                    <div class="form-group"><label><i class="fas fa-comment"></i> Message</label><textarea id="messageText" placeholder="Tell us about your mission requirements..."></textarea></div>
+                    <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> SEND MESSAGE</button>
+                    <div id="formFeedback" class="form-status"></div>
+                </form>
             </div>
+            <div style="margin-top: 2rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <div><i class="fas fa-phone-alt"></i> +1 (800) 555-DRONE</div>
+                <div><i class="fas fa-envelope-open-text"></i> support@phantomdrones.tech</div>
+                <div><i class="fab fa-discord"></i> PhantomHQ Discord</div>
+            </div>
+            <div style="margin-top: 1rem;"><i class="fab fa-instagram"></i> <i class="fab fa-twitter"></i> <i class="fab fa-linkedin"></i> <i class="fab fa-youtube"></i> @phantomdrones</div>
         </div>
     </section>
     <footer>
-        <p>© 2026 PHANTOM DRONES — Stealth Aerial Systems. All rights reserved.</p>
+        <p>© 2026 PHANTOM DRONES — Stealth Aerial Systems. All rights reserved. | Leading the future of unmanned flight.</p>
     </footer>
 </div>
 
@@ -348,37 +477,31 @@
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-    // --- Setup Scene with drone slide-in animation at beginning ---
+    // --- Main Scene Setup (Background 3D with drone slide-in) ---
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x03050b);
-    scene.fog = new THREE.FogExp2(0x03050b, 0.004);
-
+    scene.fog = new THREE.FogExp2(0x03050b, 0.003);
     const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(6, 3.5, 9);
-    
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
-    renderer.setPixelRatio(window.devicePixelRatio);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-    // Controls: subtle user interaction but we handle initial slide-in
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.06;
-    controls.autoRotate = false;
-    controls.enableZoom = true;
-    controls.enablePan = false;
-    controls.target.set(0, 1.2, 0);
-    controls.zoomSpeed = 0.8;
-
-    // --- Lighting ---
+    
+    const controlsBg = new OrbitControls(camera, renderer.domElement);
+    controlsBg.enableDamping = true;
+    controlsBg.dampingFactor = 0.06;
+    controlsBg.autoRotate = false;
+    controlsBg.enableZoom = true;
+    controlsBg.enablePan = false;
+    controlsBg.target.set(0, 1.2, 0);
+    
+    // Lighting
     const ambientLight = new THREE.AmbientLight(0x222222);
     scene.add(ambientLight);
     const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
     mainLight.position.set(5, 8, 4);
     mainLight.castShadow = true;
-    mainLight.receiveShadow = true;
     scene.add(mainLight);
     const fillLight = new THREE.PointLight(0x2266ff, 0.5);
     fillLight.position.set(0, -1, 1);
@@ -389,221 +512,181 @@
     const movingLight = new THREE.PointLight(0xff44aa, 0.6);
     movingLight.position.set(2, 1, 2);
     scene.add(movingLight);
-
-    // Grid and platform
+    
     const gridHelper = new THREE.GridHelper(22, 28, 0x00aaff, 0x2266aa);
     gridHelper.position.y = -1.1;
     gridHelper.material.transparent = true;
     gridHelper.material.opacity = 0.3;
     scene.add(gridHelper);
-    
-    const platform = new THREE.Mesh(
-        new THREE.CylinderGeometry(2.5, 2.5, 0.08, 64),
-        new THREE.MeshStandardMaterial({ color: 0x112244, metalness: 0.8, roughness: 0.3, emissive: 0x004466, emissiveIntensity: 0.3 })
-    );
+    const platform = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.08, 64), new THREE.MeshStandardMaterial({ color: 0x112244, metalness: 0.8, roughness: 0.3, emissive: 0x004466, emissiveIntensity: 0.3 }));
     platform.position.y = -1.05;
     platform.receiveShadow = true;
     scene.add(platform);
-
-    // --- BUILD SLICK DRONE MODEL (Phantom style) ---
+    
+    // Main hero drone
     const droneGroup = new THREE.Group();
-    // Central fuselage
     const bodyGeo = new THREE.BoxGeometry(0.95, 0.4, 1.3);
     const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2a6f9f, metalness: 0.85, roughness: 0.2, emissive: 0x004466, emissiveIntensity: 0.25 });
     const body = new THREE.Mesh(bodyGeo, bodyMat);
     body.castShadow = true;
     droneGroup.add(body);
-    
-    // Cockpit dome
-    const cockpit = new THREE.Mesh(
-        new THREE.SphereGeometry(0.38, 32, 32),
-        new THREE.MeshStandardMaterial({ color: 0x88aaff, metalness: 0.3, roughness: 0.1, emissive: 0x2288ff, emissiveIntensity: 0.5 })
-    );
+    const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.38, 32, 32), new THREE.MeshStandardMaterial({ color: 0x88aaff, metalness: 0.3, roughness: 0.1, emissive: 0x2288ff, emissiveIntensity: 0.5 }));
     cockpit.position.set(0, 0.26, 0.5);
     droneGroup.add(cockpit);
-    
-    // Arms
     const armMatGloss = new THREE.MeshStandardMaterial({ color: 0xbbccdd, metalness: 0.7 });
     const armGeoLong = new THREE.BoxGeometry(0.18, 0.1, 1.2);
-    const armPositions = [
-        [0.85, 0, 0.6], [-0.85, 0, 0.6], [0.85, 0, -0.7], [-0.85, 0, -0.7]
-    ];
+    const armPositions = [[0.85, 0, 0.6], [-0.85, 0, 0.6], [0.85, 0, -0.7], [-0.85, 0, -0.7]];
     armPositions.forEach(pos => {
         const arm = new THREE.Mesh(armGeoLong, armMatGloss);
         arm.position.set(pos[0], pos[1], pos[2]);
         arm.castShadow = true;
         droneGroup.add(arm);
-        // motor housings
-        const motor = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.32, 0.32, 0.1, 24),
-            new THREE.MeshStandardMaterial({ color: 0xaaaaff, metalness: 0.9 })
-        );
+        const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.1, 24), new THREE.MeshStandardMaterial({ color: 0xaaaaff, metalness: 0.9 }));
         motor.position.set(pos[0], pos[1] + 0.12, pos[2]);
         motor.castShadow = true;
         droneGroup.add(motor);
     });
-    
-    // Propellers (with groups for spinning)
-    const propellerBladeMat = new THREE.MeshStandardMaterial({ color: 0xeef4ff, metalness: 0.95 });
-    const bladeGeo1 = new THREE.BoxGeometry(0.85, 0.05, 0.14);
     const propellerGroups = [];
-    const propMounts = [
-        [0.85, 0.18, 0.6], [-0.85, 0.18, 0.6], [0.85, 0.18, -0.7], [-0.85, 0.18, -0.7]
-    ];
+    const propMounts = [[0.85, 0.18, 0.6], [-0.85, 0.18, 0.6], [0.85, 0.18, -0.7], [-0.85, 0.18, -0.7]];
     propMounts.forEach(pos => {
         const group = new THREE.Group();
-        const bladeA = new THREE.Mesh(bladeGeo1, propellerBladeMat);
+        const bladeA = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.05, 0.14), new THREE.MeshStandardMaterial({ color: 0xeef4ff, metalness: 0.95 }));
         bladeA.position.set(0.4, 0, 0);
-        bladeA.castShadow = true;
-        const bladeB = new THREE.Mesh(bladeGeo1, propellerBladeMat);
+        const bladeB = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.05, 0.14), new THREE.MeshStandardMaterial({ color: 0xeef4ff, metalness: 0.95 }));
         bladeB.position.set(-0.4, 0, 0);
-        bladeB.castShadow = true;
-        group.add(bladeA);
-        group.add(bladeB);
+        group.add(bladeA, bladeB);
         group.position.set(pos[0], pos[1], pos[2]);
         droneGroup.add(group);
         propellerGroups.push(group);
     });
-    
-    // Additional glowing rings
-    const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(0.72, 0.05, 32, 100),
-        new THREE.MeshStandardMaterial({ color: 0x0cf, emissive: 0x0af, emissiveIntensity: 0.7 })
-    );
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.05, 32, 100), new THREE.MeshStandardMaterial({ color: 0x0cf, emissive: 0x0af, emissiveIntensity: 0.7 }));
     ring.position.y = -0.12;
     ring.rotation.x = Math.PI / 2;
     droneGroup.add(ring);
-    
     scene.add(droneGroup);
     droneGroup.position.y = 0.45;
-    droneGroup.scale.set(0.95, 0.95, 0.95);
     
-    // --- DRONE SLIDE-IN ANIMATION at beginning ---
-    // Initial position: off-screen left (x = -6) and slightly rotated
+    // Slide-in animation
     droneGroup.position.x = -7;
-    droneGroup.position.y = 0.2;
-    droneGroup.rotation.z = 0.3;
-    let slideProgress = 0; // 0 to 1
-    let sliding = true;
+    let slideProgress = 0, sliding = true;
     
-    // Also add floating particles + stars
-    const particleCount = 1000;
-    const particleGeo = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-        particlePositions[i*3] = (Math.random() - 0.5) * 35;
-        particlePositions[i*3+1] = (Math.random() - 0.5) * 12;
-        particlePositions[i*3+2] = (Math.random() - 0.5) * 25 - 8;
-    }
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-    const particleMat = new THREE.PointsMaterial({ color: 0x44bbff, size: 0.045, transparent: true, blending: THREE.AdditiveBlending });
-    const particlesSys = new THREE.Points(particleGeo, particleMat);
-    scene.add(particlesSys);
-    
-    // Starfield background
-    const starCount = 1800;
-    const starPosArray = [];
-    for (let i = 0; i < starCount; i++) {
-        starPosArray.push((Math.random() - 0.5) * 200);
-        starPosArray.push((Math.random() - 0.5) * 100);
-        starPosArray.push((Math.random() - 0.5) * 90 - 50);
-    }
-    const starFieldGeo = new THREE.BufferGeometry();
-    starFieldGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPosArray), 3));
-    const starFieldMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.07, transparent: true });
-    const starsField = new THREE.Points(starFieldGeo, starFieldMat);
-    scene.add(starsField);
-    
-    // Futuristic rotating torus knot
-    const knotGeo = new THREE.TorusKnotGeometry(1.5, 0.07, 200, 32, 3, 4);
-    const knotMat = new THREE.MeshStandardMaterial({ color: 0x0af, emissive: 0x0088aa, emissiveIntensity: 0.5, metalness: 0.8 });
-    const knot = new THREE.Mesh(knotGeo, knotMat);
+    const particlesSys = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0x44bbff, size: 0.045, transparent: true, blending: THREE.AdditiveBlending }));
+    const starField = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0xffffff, size: 0.07 }));
+    scene.add(particlesSys, starField);
+    const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(1.5, 0.07, 200, 32, 3, 4), new THREE.MeshStandardMaterial({ color: 0x0af, emissive: 0x0088aa, emissiveIntensity: 0.5 }));
     knot.position.y = 1.6;
     scene.add(knot);
     
     let time = 0;
-    
-    // Animation loop
-    function animate() {
-        requestAnimationFrame(animate);
+    function animateBackground() {
+        requestAnimationFrame(animateBackground);
         time += 0.016;
-        
-        // Handle slide-in (first 1.8 seconds)
         if (sliding) {
             slideProgress += 0.025;
-            if (slideProgress >= 1) {
-                slideProgress = 1;
-                sliding = false;
-                // final position adjustment
-                droneGroup.position.x = 0;
-                droneGroup.rotation.z = 0;
-                droneGroup.rotation.x = 0;
-            } else {
-                // easeOutCubic
-                const ease = 1 - Math.pow(1 - slideProgress, 3);
-                const targetX = -7 + (ease * 7);
-                droneGroup.position.x = targetX;
-                droneGroup.rotation.z = 0.3 * (1 - ease);
-                droneGroup.rotation.x = 0.2 * (1 - ease);
-            }
+            if (slideProgress >= 1) { sliding = false; droneGroup.position.x = 0; droneGroup.rotation.z = 0; }
+            else { const ease = 1 - Math.pow(1 - slideProgress, 3); droneGroup.position.x = -7 + (ease * 7); droneGroup.rotation.z = 0.3 * (1 - ease); }
         } else {
-            // Idle floating after slide
             droneGroup.position.y = 0.45 + Math.sin(time * 1.8) * 0.04;
             droneGroup.rotation.z = Math.sin(time * 1.2) * 0.02;
-            droneGroup.rotation.x = Math.sin(time * 1.4) * 0.015;
         }
-        
-        // Propellers spinning
-        propellerGroups.forEach(prop => {
-            prop.rotation.y += 0.28;
-        });
-        
-        // Animate knot & moving light
-        knot.rotation.x += 0.008;
-        knot.rotation.y += 0.01;
+        propellerGroups.forEach(p => p.rotation.y += 0.28);
+        knot.rotation.x += 0.008; knot.rotation.y += 0.01;
         movingLight.position.x = 2.5 + Math.sin(time) * 1.8;
-        movingLight.position.z = 2 + Math.cos(time * 0.8) * 1.6;
         rimLight.intensity = 0.7 + Math.sin(time * 2.5) * 0.3;
-        
-        particlesSys.rotation.y += 0.001;
-        starsField.rotation.x += 0.0003;
-        
-        controls.update();
+        controlsBg.update();
         renderer.render(scene, camera);
     }
+    animateBackground();
     
-    animate();
+    // --- 3D CAROUSEL (Separate canvas) ---
+    const carouselCanvas = document.getElementById('carousel-canvas');
+    const carouselScene = new THREE.Scene();
+    carouselScene.background = new THREE.Color(0x050b14);
+    const carouselCamera = new THREE.PerspectiveCamera(45, carouselCanvas.clientWidth / carouselCanvas.clientHeight, 0.1, 1000);
+    carouselCamera.position.set(0, 2, 8);
+    const carouselRenderer = new THREE.WebGLRenderer({ canvas: carouselCanvas, alpha: true });
     
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    function resizeCarousel() {
+        const w = carouselCanvas.clientWidth;
+        const h = carouselCanvas.clientHeight;
+        carouselRenderer.setSize(w, h);
+        carouselCamera.aspect = w / h;
+        carouselCamera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resizeCarousel);
+    resizeCarousel();
     
-    // --- Hamburger menu logic ---
+    const carouselGroup = new THREE.Group();
+    // Create 4 drone models for carousel (simplified but stylish)
+    const colors = [0x3a86ff, 0x8338ec, 0xf4066a, 0x0cf];
+    const names = ["Phantom X7", "GhostWing", "Spectre VTOL", "Aqua Phantom"];
+    const items = [];
+    for (let i = 0; i < 4; i++) {
+        const grp = new THREE.Group();
+        const fuselage = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.35, 1.2), new THREE.MeshStandardMaterial({ color: colors[i], metalness: 0.8, roughness: 0.2 }));
+        fuselage.castShadow = true;
+        grp.add(fuselage);
+        const dome = new THREE.Mesh(new THREE.SphereGeometry(0.32, 24, 24), new THREE.MeshStandardMaterial({ color: 0xaaffff, emissive: 0x2288ff }));
+        dome.position.set(0, 0.25, 0.45);
+        grp.add(dome);
+        for (let s = -1; s <= 1; s+=2) {
+            const arm = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.08, 0.9), new THREE.MeshStandardMaterial({ color: 0xccccdd }));
+            arm.position.set(s*0.85, 0, 0.5);
+            grp.add(arm);
+            const prop = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.04, 0.12), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+            prop.position.set(s*0.85, 0.16, 0.5);
+            grp.add(prop);
+        }
+        grp.position.x = i * 2.5;
+        grp.scale.set(0.7, 0.7, 0.7);
+        carouselGroup.add(grp);
+        items.push(grp);
+    }
+    carouselScene.add(carouselGroup);
+    
+    const ambientCar = new THREE.AmbientLight(0x404060);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.set(2, 5, 3);
+    const backLight = new THREE.PointLight(0x2266ff, 0.5);
+    backLight.position.set(0, 1, -2);
+    carouselScene.add(ambientCar, dirLight, backLight);
+    const gridCar = new THREE.GridHelper(12, 20, 0x0cf, 0x3388ff);
+    gridCar.position.y = -1.2;
+    carouselScene.add(gridCar);
+    
+    let carouselAngle = 0;
+    function animateCarousel() {
+        requestAnimationFrame(animateCarousel);
+        carouselAngle += 0.008;
+        items.forEach((item, idx) => {
+            const angle = carouselAngle + (idx * Math.PI * 2 / items.length);
+            const radius = 2.8;
+            item.position.x = Math.sin(angle) * radius;
+            item.position.z = Math.cos(angle) * radius;
+            item.lookAt(0, 0, 0);
+            item.rotation.y += 0.05;
+        });
+        carouselRenderer.render(carouselScene, carouselCamera);
+    }
+    animateCarousel();
+    
+    // --- UI Interactions ---
     const hamburger = document.getElementById('hamburger');
     const sideMenu = document.getElementById('sideMenu');
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        sideMenu.classList.toggle('open');
-    });
-    // Close menu when clicking a link
-    const menuLinks = document.querySelectorAll('.side-menu a');
-    menuLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            sideMenu.classList.remove('open');
-        });
-    });
-    // Close if click outside? simple but not needed for demo
-    document.addEventListener('click', (e) => {
-        if (!sideMenu.contains(e.target) && !hamburger.contains(e.target) && sideMenu.classList.contains('open')) {
-            hamburger.classList.remove('active');
-            sideMenu.classList.remove('open');
-        }
-    });
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); sideMenu.classList.toggle('open'); });
+    document.querySelectorAll('.side-menu a').forEach(link => link.addEventListener('click', () => { hamburger.classList.remove('active'); sideMenu.classList.remove('open'); }));
+    document.addEventListener('click', (e) => { if (!sideMenu.contains(e.target) && !hamburger.contains(e.target) && sideMenu.classList.contains('open')) { hamburger.classList.remove('active'); sideMenu.classList.remove('open'); } });
     
-    console.log("Phantom Drones 3D live — slide-in animation active");
+    const contactForm = document.getElementById('droneContactForm');
+    const feedbackDiv = document.getElementById('formFeedback');
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('emailAddr').value.trim();
+        if (!name || !email) { feedbackDiv.innerHTML = '<span style="color:#ff8888;">❌ Please fill name and email.</span>'; return; }
+        feedbackDiv.innerHTML = '<span style="color:#0cf;"><i class="fas fa-spinner fa-pulse"></i> Transmitting...</span>';
+        setTimeout(() => { feedbackDiv.innerHTML = '<span style="color:#0f0;">✅ Message received! Phantom command will contact you soon.</span>'; contactForm.reset(); setTimeout(() => feedbackDiv.innerHTML = '', 4000); }, 1000);
+    });
 </script>
 </body>
 </html>
