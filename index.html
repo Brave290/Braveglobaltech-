@@ -1,793 +1,694 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Phantom Drones | Stealth Aerial Systems</title>
-    
-    <!-- Fonts: Smaller, sleek, tech-oriented -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>₦airaVault · personal wallet</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #03050b;
-            overflow-x: hidden;
-            color: #eef5ff;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+    body {
+      background: linear-gradient(145deg, #0b2e1f 0%, #0f3d2a 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
 
-        /* Canvas 3D background */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            display: block;
-        }
+    .wallet-container {
+      max-width: 520px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 40px;
+      padding: 24px;
+      box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.5);
+    }
 
-        /* Main content overlay */
-        .site-wrapper {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-        }
+    /* login screen */
+    .auth-screen {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
 
-        /* Transparent Hamburger NAV */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(12px);
-            background: rgba(3, 5, 11, 0.5);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-            z-index: 1000;
-            transition: 0.3s;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #d4edc9;
+    }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #fff, #0cf, #3a86ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .logo span {
-            font-size: 0.75rem;
-            background: none;
-            color: cyan;
-            font-weight: 400;
-        }
+    .logo-icon {
+      background: #f5b342;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 26px;
+      color: #0b2e1f;
+      box-shadow: 0 8px 0 #9e6f1e;
+    }
 
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            z-index: 1001;
-        }
-        .hamburger span {
-            width: 28px;
-            height: 2px;
-            background: #0cf;
-            transition: 0.3s;
-            border-radius: 2px;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
+    .logo h1 {
+      font-weight: 600;
+      font-size: 28px;
+      letter-spacing: -0.5px;
+      color: #e6f7da;
+    }
 
-        .side-menu {
-            position: fixed;
-            top: 0;
-            right: -280px;
-            width: 280px;
-            height: 100vh;
-            background: rgba(5, 10, 25, 0.94);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(0, 255, 255, 0.3);
-            z-index: 999;
-            transition: 0.4s ease-out;
-            padding: 5rem 1.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.8rem;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
-        }
-        .side-menu.open {
-            right: 0;
-        }
-        .side-menu a {
-            color: #eef5ff;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .side-menu a i {
-            width: 24px;
-            color: #0cf;
-        }
-        .side-menu a:hover {
-            color: cyan;
-            padding-left: 8px;
-            border-bottom-color: cyan;
-        }
+    .logo span {
+      font-weight: 300;
+      font-size: 16px;
+      color: #b1d8a4;
+      margin-left: 6px;
+    }
 
-        /* Page sections */
-        .page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 5rem 2rem;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(4px);
-            border-bottom: 1px solid rgba(0,255,255,0.1);
-        }
-        .container {
-            max-width: 1300px;
-            width: 100%;
-            margin: 0 auto;
-            text-align: center;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #7ad0ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-        }
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #aaffff;
-        }
-        h3 {
-            font-size: 1.3rem;
-            margin: 1rem 0 0.5rem;
-            color: #ccf;
-        }
-        .page p {
-            font-size: 0.95rem;
-            max-width: 700px;
-            margin: 1rem auto;
-            opacity: 0.85;
-        }
-        .btn {
-            display: inline-block;
-            padding: 0.7rem 1.6rem;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: 0.3s;
-            margin-top: 1rem;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-primary {
-            background: linear-gradient(95deg, #0af, #0cf);
-            color: #0a0f1f;
-            box-shadow: 0 0 12px rgba(0,200,255,0.4);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid cyan;
-            color: cyan;
-        }
-        
-        /* 3D Carousel Container */
-        .carousel-3d-container {
-            width: 100%;
-            height: 500px;
-            margin: 2rem 0;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #carousel-canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 28px;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-        }
-        
-        /* Bulky content grids */
-        .grid-features {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.8rem;
-            margin-top: 2rem;
-        }
-        .card {
-            background: rgba(10, 20, 35, 0.7);
-            backdrop-filter: blur(8px);
-            padding: 1.5rem;
-            border-radius: 20px;
-            width: 260px;
-            border: 1px solid rgba(0,255,255,0.2);
-            transition: 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: cyan;
-            box-shadow: 0 10px 25px rgba(0,255,255,0.1);
-        }
-        .card i {
-            font-size: 2rem;
-            color: cyan;
-            margin-bottom: 0.8rem;
-        }
-        .card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-        .card p {
-            font-size: 0.8rem;
-        }
-        
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-            text-align: left;
-        }
-        .spec-item {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 1rem 1.2rem;
-            border-radius: 18px;
-            border-left: 3px solid cyan;
-            transition: 0.2s;
-        }
-        .spec-item:hover {
-            background: rgba(0, 50, 80, 0.5);
-            transform: translateX(5px);
-        }
-        
-        /* Stats counter row */
-        .stats-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2.5rem;
-            margin: 2.5rem 0;
-        }
-        .stat {
-            text-align: center;
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: cyan;
-            line-height: 1;
-        }
-        .stat-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .testimonial-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-        .testimonial {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            padding: 1.5rem;
-            border-radius: 24px;
-            width: 280px;
-            border: 1px solid rgba(0,255,255,0.2);
-        }
-        .testimonial i {
-            color: cyan;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .contact-form {
-            max-width: 550px;
-            margin: 2rem auto 0;
-            background: rgba(5, 15, 30, 0.7);
-            backdrop-filter: blur(12px);
-            padding: 2rem;
-            border-radius: 28px;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            text-align: left;
-        }
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.4rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #bbffff;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 255, 255, 0.4);
-            border-radius: 16px;
-            color: white;
-            font-family: 'Space Grotesk', monospace;
-            font-size: 0.85rem;
-            transition: 0.2s;
-            outline: none;
-        }
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: cyan;
-            box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
-        }
-        .submit-btn {
-            background: linear-gradient(95deg, #0af, #0cf);
-            width: 100%;
-            padding: 0.85rem;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.3s;
-            color: #0a0f1f;
-        }
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(0,0,0,0.7);
-            font-size: 0.7rem;
-        }
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
-            .carousel-3d-container { height: 320px; }
-            .stats-row { gap: 1rem; }
-            .stat-number { font-size: 1.8rem; }
-        }
-    </style>
+    .auth-form {
+      background: #1a3e2b;
+      padding: 28px 20px;
+      border-radius: 32px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 8px 0 #0a1f14;
+      border: 1px solid #3c6e4c;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      color: #c3e0b0;
+      font-weight: 500;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 16px 18px;
+      background: #0e2c1d;
+      border: 1.5px solid #2e6b42;
+      border-radius: 24px;
+      font-size: 16px;
+      color: #f0ffe6;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: #f5b342;
+      box-shadow: 0 0 0 3px rgba(245, 179, 66, 0.3);
+    }
+
+    .input-field::placeholder {
+      color: #6f9e7c;
+      font-weight: 300;
+    }
+
+    .btn {
+      background: #f5b342;
+      color: #0a2e1b;
+      border: none;
+      padding: 16px 22px;
+      font-weight: 700;
+      font-size: 18px;
+      border-radius: 40px;
+      width: 100%;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #b57e28;
+      transition: all 0.1s ease;
+      border: 1px solid #ffe5a3;
+      letter-spacing: 0.3px;
+    }
+
+    .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #b57e28;
+    }
+
+    .btn.secondary {
+      background: #cbdcc0;
+      box-shadow: 0 5px 0 #8f9e84;
+      color: #0b2e1f;
+      border-color: #e2f0d6;
+    }
+
+    .btn.small {
+      padding: 10px 16px;
+      font-size: 15px;
+      box-shadow: 0 4px 0 #b57e28;
+    }
+
+    .error-message {
+      color: #ffb0a0;
+      margin-top: 12px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    /* dashboard screen */
+    .dashboard {
+      display: none;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .wallet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ebffe0;
+    }
+
+    .greeting {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .logout-btn {
+      background: none;
+      border: 1.5px solid #6f9e7c;
+      color: #d4f0c0;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 14px;
+    }
+
+    .logout-btn:hover {
+      background: #2c5a3a;
+    }
+
+    .balance-card {
+      background: #0b2e1f;
+      border-radius: 36px;
+      padding: 28px 24px;
+      border: 1px solid #3b7852;
+      box-shadow: inset 0 1px 3px #1e5736, 0 12px 0 #07170e;
+      text-align: center;
+    }
+
+    .balance-label {
+      color: #b1d8a4;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+
+    .balance-amount {
+      font-size: 58px;
+      font-weight: 800;
+      color: #f9f2d9;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .balance-amount small {
+      font-size: 28px;
+      font-weight: 500;
+      color: #c6e2b4;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .action-card {
+      background: #1e4a31;
+      border-radius: 28px;
+      padding: 20px 10px;
+      box-shadow: inset 0 1px 2px #407a54, 0 8px 0 #0b2617;
+      border: 1px solid #3e8057;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.15s;
+      color: #f2ffe3;
+    }
+
+    .action-card:active {
+      transform: translateY(4px);
+      box-shadow: inset 0 1px 2px #407a54, 0 4px 0 #0b2617;
+    }
+
+    .action-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .action-title {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    /* modal overlay */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 20, 5, 0.8);
+      backdrop-filter: blur(6px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+
+    .modal-card {
+      background: #153f28;
+      max-width: 420px;
+      width: 100%;
+      border-radius: 36px;
+      padding: 24px;
+      box-shadow: 0 25px 30px #00000033, 0 8px 0 #0b2416;
+      border: 1px solid #5b9a6e;
+    }
+
+    .modal-title {
+      color: #e6ffd6;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .modal .input-group {
+      margin-bottom: 24px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .transaction-list {
+      margin-top: 8px;
+      background: #0e301e;
+      border-radius: 24px;
+      padding: 6px 4px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .tx-item {
+      background: #1c412b;
+      margin: 6px 4px;
+      padding: 14px 18px;
+      border-radius: 24px;
+      color: #dff0cf;
+      display: flex;
+      justify-content: space-between;
+      border-left: 6px solid #f5b342;
+      font-size: 15px;
+    }
+
+    .tx-amount {
+      font-weight: 700;
+    }
+
+    .note {
+      color: #afcf9a;
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    hr {
+      border: 1px solid #2e6b42;
+      margin: 16px 0;
+    }
+  </style>
 </head>
 <body>
+<div class="wallet-container">
+  <!-- LOGIN / REGISTER SCREEN (exclusive password) -->
+  <div id="authScreen" class="auth-screen">
+    <div class="logo">
+      <div class="logo-icon">₦</div>
+      <h1>NairaVault <span>· solo</span></h1>
+    </div>
+    <div class="auth-form">
+      <div class="input-group">
+        <label>👤 Username</label>
+        <input type="text" id="loginUsername" class="input-field" placeholder="e.g., kelvin_ng" autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label>🔐 Exclusive password</label>
+        <input type="password" id="loginPassword" class="input-field" placeholder="··········">
+      </div>
+      <button class="btn" id="loginBtn">🔓 Access my wallet</button>
+      <button class="btn secondary" id="createWalletBtn" style="margin-top: 12px;">✨ Create new wallet</button>
+      <div id="authError" class="error-message"></div>
+      <div class="note">⚡ Only you can access — your data stays in this browser</div>
+    </div>
+  </div>
 
-<div id="canvas-container"></div>
-
-<div class="site-wrapper">
-    <div class="navbar">
-        <div class="logo">PHANTOM<span> DRONES</span></div>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+  <!-- MAIN DASHBOARD (hidden until login) -->
+  <div id="dashboardScreen" class="dashboard">
+    <div class="wallet-header">
+      <div class="greeting" id="greetingUser">👋</div>
+      <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
     </div>
 
-    <div class="side-menu" id="sideMenu">
-        <a href="#home"><i class="fas fa-home"></i> HOME</a>
-        <a href="#drones"><i class="fas fa-drone"></i> DRONES</a>
-        <a href="#technology"><i class="fas fa-microchip"></i> TECHNOLOGY</a>
-        <a href="#features-ext"><i class="fas fa-star-of-life"></i> MORE FEATURES</a>
-        <a href="#carousel-section"><i class="fas fa-cubes"></i> 3D SHOWCASE</a>
-        <a href="#shop"><i class="fas fa-shopping-cart"></i> SHOP</a>
-        <a href="#contact"><i class="fas fa-envelope"></i> CONTACT</a>
+    <div class="balance-card">
+      <div class="balance-label">₦ BALANCE</div>
+      <div class="balance-amount" id="balanceDisplay">₦0.00</div>
     </div>
 
-    <!-- HOME PAGE with stats -->
-    <section id="home" class="page">
-        <div class="container">
-            <h1>PHANTOM DRONES</h1>
-            <p>Stealth, Speed & AI Precision — Redefining aerial dominance. Trusted by 50+ defense agencies and top cinematographers worldwide.</p>
-            <div class="stats-row">
-                <div class="stat"><div class="stat-number">52</div><div class="stat-label">MIN FLIGHT</div></div>
-                <div class="stat"><div class="stat-number">20</div><div class="stat-label">KM RANGE</div></div>
-                <div class="stat"><div class="stat-number">8K</div><div class="stat-label">HDR CAMERA</div></div>
-                <div class="stat"><div class="stat-number">120</div><div class="stat-label">KM/H TOP SPEED</div></div>
-            </div>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="#shop" class="btn btn-primary"><i class="fas fa-bolt"></i> EXPLORE FLEET</a>
-                <a href="#carousel-section" class="btn btn-outline"><i class="fas fa-vr-cardboard"></i> 3D CAROUSEL</a>
-            </div>
-        </div>
-    </section>
+    <div class="action-grid">
+      <div class="action-card" id="topupAction">
+        <div class="action-icon">⬆️➕</div>
+        <div class="action-title">Top up</div>
+      </div>
+      <div class="action-card" id="payBillAction">
+        <div class="action-icon">🧾💡</div>
+        <div class="action-title">Pay bill</div>
+      </div>
+      <div class="action-card" id="transferAction">
+        <div class="action-icon">💸↗️</div>
+        <div class="action-title">Transfer</div>
+      </div>
+      <div class="action-card" id="historyAction">
+        <div class="action-icon">📋</div>
+        <div class="action-title">History</div>
+      </div>
+    </div>
 
-    <!-- DRONES PAGE (bulky) -->
-    <section id="drones" class="page">
-        <div class="container">
-            <h2>OUR ELITE FLEET</h2>
-            <p>Four variants engineered for domination: reconnaissance, combat support, cinematic excellence, and maritime operations.</p>
-            <div class="grid-features">
-                <div class="card"><i class="fas fa-rocket"></i><h3>Phantom X7</h3><p>45min flight, 8K stealth cam, AI swarm, foldable arms, 12km range, obstacle avoidance.</p><small>🔹 Signature Series</small></div>
-                <div class="card"><i class="fas fa-fighter-jet"></i><h3>GhostWing</h3><p>Fixed-wing hybrid, 90km range, LiDAR mapping, silent propeller tech, auto-return.</p><small>🔹 Long-range Ops</small></div>
-                <div class="card"><i class="fas fa-robot"></i><h3>Spectre VTOL</h3><p>Vertical takeoff, thermal vision, autonomous formation, 4K night mode, AI tracking.</p><small>🔹 Tactical Unit</small></div>
-                <div class="card"><i class="fas fa-water"></i><h3>Aqua Phantom</h3><p>Waterproof IP68, submersible 10m, dual sonar, maritime rescue, underwater imaging.</p><small>🔹 Amphibious</small></div>
-            </div>
-            <p style="margin-top: 2rem;">⚡ All models include real-time telemetry, encrypted data links, and 2-year warranty. <strong>Custom payloads available.</strong></p>
-        </div>
-    </section>
-
-    <!-- TECHNOLOGY PAGE (bulky) -->
-    <section id="technology" class="page">
-        <div class="container">
-            <h2>CYBER CORE TECH</h2>
-            <p>Beyond conventional. Phantom integrates military-grade innovations into commercial aerial systems.</p>
-            <div class="specs-grid">
-                <div class="spec-item"><i class="fas fa-brain"></i> <strong>Neural Flight Controller</strong><br>Self-learning obstacle avoidance with real-time 3D mapping and predictive path planning.</div>
-                <div class="spec-item"><i class="fas fa-shield-alt"></i> <strong>Radar-Absorbing Coating</strong><br>Signature reduction for stealth missions. IR-suppressed exhaust.</div>
-                <div class="spec-item"><i class="fas fa-satellite-dish"></i> <strong>Quantum Encryption Link</strong><br>Anti-jamming, 20km HD video transmission with triple redundancy.</div>
-                <div class="spec-item"><i class="fas fa-battery-quarter"></i> <strong>Graphene-Silicon Cells</strong><br>Ultra-fast charge (0-80% in 25min), 52 min endurance, smart power management.</div>
-                <div class="spec-item"><i class="fas fa-vr-cardboard"></i> <strong>FPV Low-Latency Goggles</strong><br>Zero lag, 4K immersive feed with head tracking integration.</div>
-                <div class="spec-item"><i class="fas fa-cloud-sun"></i> <strong>All-Weather Stabilization</strong><br>Fly in winds up to 50km/h, IP55 rating, -10°C to 50°C operation.</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- MORE FEATURES (bulky additional section) -->
-    <section id="features-ext" class="page">
-        <div class="container">
-            <h2><i class="fas fa-microphone-alt"></i> ADVANCED CAPABILITIES</h2>
-            <p>Discover what makes Phantom the most advanced drone ecosystem on the planet.</p>
-            <div class="grid-features">
-                <div class="card"><i class="fas fa-charging-station"></i><h3>Wireless Charging Pad</h3><p>Land & charge automatically. 30W fast wireless charging compatible.</p></div>
-                <div class="card"><i class="fas fa-map-marked-alt"></i><h3>Real-time 3D Mapping</h3><p>Generate photogrammetry models on the fly. Export to CAD.</p></div>
-                <div class="card"><i class="fas fa-users"></i><h3>Swarm Intelligence</h3><p>Control up to 50 drones simultaneously with AI coordination.</p></div>
-                <div class="card"><i class="fas fa-fingerprint"></i><h3>Biometric Auth</h3><p>Fingerprint & facial recognition for secure deployment.</p></div>
-                <div class="card"><i class="fas fa-database"></i><h3>Edge Computing</h3><p>Onboard 1TB SSD, process data without cloud latency.</p></div>
-                <div class="card"><i class="fas fa-tachometer-alt"></i><h3>Telemetry Overlay</h3><p>Live AR data feed: speed, altitude, battery, radar.</p></div>
-            </div>
-            <div class="stats-row" style="margin-top: 2rem;">
-                <div class="stat"><div class="stat-number">50+</div><div class="stat-label">MILITARY UNITS</div></div>
-                <div class="stat"><div class="stat-number">10K+</div><div class="stat-label">ACTIVE DRONES</div></div>
-                <div class="stat"><div class="stat-number">99.7%</div><div class="stat-label">RELIABILITY RATE</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3D CAROUSEL SECTION -->
-    <section id="carousel-section" class="page">
-        <div class="container">
-            <h2><i class="fas fa-cube"></i> 3D DRONE CAROUSEL</h2>
-            <p>Rotating showcase of our most advanced models. Interactive 360° view — drag to explore!</p>
-            <div class="carousel-3d-container">
-                <canvas id="carousel-canvas"></canvas>
-            </div>
-            <p style="font-size: 0.8rem; margin-top: 0.5rem;">✨ Phantom X7 | GhostWing | Spectre VTOL | Aqua Phantom — spinning in real-time 3D</p>
-        </div>
-    </section>
-
-    <!-- TESTIMONIALS + SHOP combined -->
-    <section id="shop" class="page">
-        <div class="container">
-            <h2>PRE-ORDER & BUNDLES</h2>
-            <p>Secure your Phantom Drone today with exclusive launch discount. Limited stealth units available. Free worldwide shipping + Phantom flight kit included.</p>
-            <div class="grid-features">
-                <div class="card"><i class="fas fa-gem"></i><h3>Starter Bundle</h3><p>$1,299<br>Drone + 2 batteries + case + 64GB SD + basic controller</p><button class="btn btn-primary" style="margin-top:10px;">Buy Now</button></div>
-                <div class="card"><i class="fas fa-crown"></i><h3>Pro Pilot Kit</h3><p>$2,499<br>Includes FPV goggles, 4 batteries, hard case, backback</p><button class="btn btn-primary" style="margin-top:10px;">Pre-order</button></div>
-                <div class="card"><i class="fas fa-skull"></i><h3>Stealth Ops</h3><p>$3,899<br>Full stealth coating + thermal cam + extended warranty + AI swarm license</p><button class="btn btn-primary" style="margin-top:10px;">Enquire</button></div>
-            </div>
-            
-            <h2 style="margin-top: 3rem;"><i class="fas fa-star"></i> PILOT TESTIMONIALS</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial"><i class="fas fa-quote-left"></i><p>"The Phantom X7 changed how we shoot aerial sequences. Unmatched stability and 8K clarity."</p><strong>- James Cameron, DP</strong></div>
-                <div class="testimonial"><i class="fas fa-quote-left"></i><p>"Military-grade reliability in a portable frame. The stealth coating is no joke."</p><strong>- General M. Vance, Ret.</strong></div>
-                <div class="testimonial"><i class="fas fa-quote-left"></i><p>"Best investment for search & rescue. The thermal overlay saved lives."</p><strong>- SAR Team Lead</strong></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT PAGE with enhanced FORM -->
-    <section id="contact" class="page">
-        <div class="container">
-            <h2>CONTACT PHANTOM</h2>
-            <p>Reach our command center or send us a message. We'll get back to you within 24 hours. For partnership and military inquiries, use the form below.</p>
-            <div class="contact-form">
-                <form id="droneContactForm">
-                    <div class="form-group"><label><i class="fas fa-user"></i> Full Name</label><input type="text" id="fullName" placeholder="E.g., Alex Mercer" required></div>
-                    <div class="form-group"><label><i class="fas fa-envelope"></i> Email Address</label><input type="email" id="emailAddr" placeholder="contact@phantom.com" required></div>
-                    <div class="form-group"><label><i class="fas fa-drone"></i> Drone Model Interest</label><input type="text" id="droneModel" placeholder="Phantom X7 / GhostWing / Spectre"></div>
-                    <div class="form-group"><label><i class="fas fa-comment"></i> Message</label><textarea id="messageText" placeholder="Tell us about your mission requirements..."></textarea></div>
-                    <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> SEND MESSAGE</button>
-                    <div id="formFeedback" class="form-status"></div>
-                </form>
-            </div>
-            <div style="margin-top: 2rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <div><i class="fas fa-phone-alt"></i> +1 (800) 555-DRONE</div>
-                <div><i class="fas fa-envelope-open-text"></i> support@phantomdrones.tech</div>
-                <div><i class="fab fa-discord"></i> PhantomHQ Discord</div>
-            </div>
-            <div style="margin-top: 1rem;"><i class="fab fa-instagram"></i> <i class="fab fa-twitter"></i> <i class="fab fa-linkedin"></i> <i class="fab fa-youtube"></i> @phantomdrones</div>
-        </div>
-    </section>
-    <footer>
-        <p>© 2026 PHANTOM DRONES — Stealth Aerial Systems. All rights reserved. | Leading the future of unmanned flight.</p>
-    </footer>
+    <!-- mini recent tx preview -->
+    <div style="color:#cbe8bb; font-weight:500; margin-top:8px;">📌 Recent activity</div>
+    <div class="transaction-list" id="recentTxList">
+      <div style="padding:16px; text-align:center; color:#7fa381;">No transactions yet</div>
+    </div>
+  </div>
 </div>
 
-<script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-        }
-    }
-</script>
+<!-- MODALS (Top-up, Pay bill, Transfer) -->
+<div class="modal" id="topupModal">
+  <div class="modal-card">
+    <div class="modal-title">⬆️ Top up Naira</div>
+    <div class="input-group">
+      <label>Amount (₦)</label>
+      <input type="number" id="topupAmount" class="input-field" placeholder="5000" min="1" step="1">
+    </div>
+    <div class="modal-actions">
+      <button class="btn small secondary" id="cancelTopup">Cancel</button>
+      <button class="btn small" id="confirmTopup">Add funds</button>
+    </div>
+    <div id="topupError" class="error-message"></div>
+  </div>
+</div>
 
-<script type="module">
-    import * as THREE from 'three';
-    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+<div class="modal" id="billModal">
+  <div class="modal-card">
+    <div class="modal-title">🧾 Pay bill</div>
+    <div class="input-group">
+      <label>Bill type (e.g., IKEDC, DSTV)</label>
+      <input type="text" id="billType" class="input-field" placeholder="Electricity">
+    </div>
+    <div class="input-group">
+      <label>Amount (₦)</label>
+      <input type="number" id="billAmount" class="input-field" placeholder="2500" min="1">
+    </div>
+    <div class="modal-actions">
+      <button class="btn small secondary" id="cancelBill">Cancel</button>
+      <button class="btn small" id="confirmBill">Pay bill</button>
+    </div>
+    <div id="billError" class="error-message"></div>
+  </div>
+</div>
 
-    // --- Main Scene Setup (Background 3D with drone slide-in) ---
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x03050b);
-    scene.fog = new THREE.FogExp2(0x03050b, 0.003);
-    const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(6, 3.5, 9);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    document.getElementById('canvas-container').appendChild(renderer.domElement);
-    
-    const controlsBg = new OrbitControls(camera, renderer.domElement);
-    controlsBg.enableDamping = true;
-    controlsBg.dampingFactor = 0.06;
-    controlsBg.autoRotate = false;
-    controlsBg.enableZoom = true;
-    controlsBg.enablePan = false;
-    controlsBg.target.set(0, 1.2, 0);
-    
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0x222222);
-    scene.add(ambientLight);
-    const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    mainLight.position.set(5, 8, 4);
-    mainLight.castShadow = true;
-    scene.add(mainLight);
-    const fillLight = new THREE.PointLight(0x2266ff, 0.5);
-    fillLight.position.set(0, -1, 1);
-    scene.add(fillLight);
-    const rimLight = new THREE.PointLight(0x00ccff, 0.8);
-    rimLight.position.set(-2, 2.5, -3);
-    scene.add(rimLight);
-    const movingLight = new THREE.PointLight(0xff44aa, 0.6);
-    movingLight.position.set(2, 1, 2);
-    scene.add(movingLight);
-    
-    const gridHelper = new THREE.GridHelper(22, 28, 0x00aaff, 0x2266aa);
-    gridHelper.position.y = -1.1;
-    gridHelper.material.transparent = true;
-    gridHelper.material.opacity = 0.3;
-    scene.add(gridHelper);
-    const platform = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.08, 64), new THREE.MeshStandardMaterial({ color: 0x112244, metalness: 0.8, roughness: 0.3, emissive: 0x004466, emissiveIntensity: 0.3 }));
-    platform.position.y = -1.05;
-    platform.receiveShadow = true;
-    scene.add(platform);
-    
-    // Main hero drone
-    const droneGroup = new THREE.Group();
-    const bodyGeo = new THREE.BoxGeometry(0.95, 0.4, 1.3);
-    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2a6f9f, metalness: 0.85, roughness: 0.2, emissive: 0x004466, emissiveIntensity: 0.25 });
-    const body = new THREE.Mesh(bodyGeo, bodyMat);
-    body.castShadow = true;
-    droneGroup.add(body);
-    const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.38, 32, 32), new THREE.MeshStandardMaterial({ color: 0x88aaff, metalness: 0.3, roughness: 0.1, emissive: 0x2288ff, emissiveIntensity: 0.5 }));
-    cockpit.position.set(0, 0.26, 0.5);
-    droneGroup.add(cockpit);
-    const armMatGloss = new THREE.MeshStandardMaterial({ color: 0xbbccdd, metalness: 0.7 });
-    const armGeoLong = new THREE.BoxGeometry(0.18, 0.1, 1.2);
-    const armPositions = [[0.85, 0, 0.6], [-0.85, 0, 0.6], [0.85, 0, -0.7], [-0.85, 0, -0.7]];
-    armPositions.forEach(pos => {
-        const arm = new THREE.Mesh(armGeoLong, armMatGloss);
-        arm.position.set(pos[0], pos[1], pos[2]);
-        arm.castShadow = true;
-        droneGroup.add(arm);
-        const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.1, 24), new THREE.MeshStandardMaterial({ color: 0xaaaaff, metalness: 0.9 }));
-        motor.position.set(pos[0], pos[1] + 0.12, pos[2]);
-        motor.castShadow = true;
-        droneGroup.add(motor);
+<div class="modal" id="transferModal">
+  <div class="modal-card">
+    <div class="modal-title">💸 Transfer to person</div>
+    <div class="input-group">
+      <label>Recipient (username/name)</label>
+      <input type="text" id="transferRecipient" class="input-field" placeholder="jane_doe">
+    </div>
+    <div class="input-group">
+      <label>Amount (₦)</label>
+      <input type="number" id="transferAmount" class="input-field" placeholder="1000" min="1">
+    </div>
+    <div class="modal-actions">
+      <button class="btn small secondary" id="cancelTransfer">Cancel</button>
+      <button class="btn small" id="confirmTransfer">Send</button>
+    </div>
+    <div id="transferError" class="error-message"></div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    'use strict';
+
+    // ---------- STORAGE KEYS ----------
+    const STORAGE_WALLET = 'naira_wallet_exclusive';
+    const STORAGE_CREDS = 'naira_creds_exclusive';
+
+    // ---------- GLOBAL STATE ----------
+    let currentUser = null;                // { username, password (hashed-like, just for demo) }
+    let walletData = {
+      balance: 0,
+      transactions: []      // { type, amount, description, date }
+    };
+
+    // DOM elements
+    const authScreen = document.getElementById('authScreen');
+    const dashboardScreen = document.getElementById('dashboardScreen');
+    const loginUsername = document.getElementById('loginUsername');
+    const loginPassword = document.getElementById('loginPassword');
+    const authError = document.getElementById('authError');
+    const loginBtn = document.getElementById('loginBtn');
+    const createWalletBtn = document.getElementById('createWalletBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const greetingUser = document.getElementById('greetingUser');
+    const balanceDisplay = document.getElementById('balanceDisplay');
+    const recentTxList = document.getElementById('recentTxList');
+
+    // Modals
+    const topupModal = document.getElementById('topupModal');
+    const billModal = document.getElementById('billModal');
+    const transferModal = document.getElementById('transferModal');
+    const topupAmount = document.getElementById('topupAmount');
+    const billType = document.getElementById('billType');
+    const billAmount = document.getElementById('billAmount');
+    const transferRecipient = document.getElementById('transferRecipient');
+    const transferAmount = document.getElementById('transferAmount');
+    const topupError = document.getElementById('topupError');
+    const billError = document.getElementById('billError');
+    const transferError = document.getElementById('transferError');
+
+    // Buttons
+    document.getElementById('topupAction').addEventListener('click', ()=> openModal(topupModal));
+    document.getElementById('payBillAction').addEventListener('click', ()=> openModal(billModal));
+    document.getElementById('transferAction').addEventListener('click', ()=> openModal(transferModal));
+    document.getElementById('historyAction').addEventListener('click', ()=>{
+      alert('📋 Full transaction history is shown below balance card.');
     });
-    const propellerGroups = [];
-    const propMounts = [[0.85, 0.18, 0.6], [-0.85, 0.18, 0.6], [0.85, 0.18, -0.7], [-0.85, 0.18, -0.7]];
-    propMounts.forEach(pos => {
-        const group = new THREE.Group();
-        const bladeA = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.05, 0.14), new THREE.MeshStandardMaterial({ color: 0xeef4ff, metalness: 0.95 }));
-        bladeA.position.set(0.4, 0, 0);
-        const bladeB = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.05, 0.14), new THREE.MeshStandardMaterial({ color: 0xeef4ff, metalness: 0.95 }));
-        bladeB.position.set(-0.4, 0, 0);
-        group.add(bladeA, bladeB);
-        group.position.set(pos[0], pos[1], pos[2]);
-        droneGroup.add(group);
-        propellerGroups.push(group);
+
+    // cancel buttons
+    document.getElementById('cancelTopup').addEventListener('click', ()=> closeModal(topupModal));
+    document.getElementById('cancelBill').addEventListener('click', ()=> closeModal(billModal));
+    document.getElementById('cancelTransfer').addEventListener('click', ()=> closeModal(transferModal));
+
+    // confirm actions
+    document.getElementById('confirmTopup').addEventListener('click', handleTopup);
+    document.getElementById('confirmBill').addEventListener('click', handlePayBill);
+    document.getElementById('confirmTransfer').addEventListener('click', handleTransfer);
+
+    // modal close on background click
+    [topupModal, billModal, transferModal].forEach(m => {
+      m.addEventListener('click', (e) => { if (e.target === m) closeModal(m); });
     });
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.05, 32, 100), new THREE.MeshStandardMaterial({ color: 0x0cf, emissive: 0x0af, emissiveIntensity: 0.7 }));
-    ring.position.y = -0.12;
-    ring.rotation.x = Math.PI / 2;
-    droneGroup.add(ring);
-    scene.add(droneGroup);
-    droneGroup.position.y = 0.45;
-    
-    // Slide-in animation
-    droneGroup.position.x = -7;
-    let slideProgress = 0, sliding = true;
-    
-    // Particles & stars
-    const particleCount = 1200;
-    const particleGeo = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-        particlePositions[i*3] = (Math.random() - 0.5) * 35;
-        particlePositions[i*3+1] = (Math.random() - 0.5) * 12;
-        particlePositions[i*3+2] = (Math.random() - 0.5) * 25 - 8;
+
+    function openModal(modal) {
+      modal.style.display = 'flex';
+      // clear errors & inputs
+      if (modal === topupModal) { topupAmount.value = ''; topupError.textContent = ''; }
+      if (modal === billModal) { billType.value = ''; billAmount.value = ''; billError.textContent = ''; }
+      if (modal === transferModal) { transferRecipient.value = ''; transferAmount.value = ''; transferError.textContent = ''; }
     }
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-    const particlesSys = new THREE.Points(particleGeo, new THREE.PointsMaterial({ color: 0x44bbff, size: 0.045, transparent: true, blending: THREE.AdditiveBlending }));
-    scene.add(particlesSys);
-    
-    const starCount = 2000;
-    const starPosArray = [];
-    for (let i = 0; i < starCount; i++) {
-        starPosArray.push((Math.random() - 0.5) * 200);
-        starPosArray.push((Math.random() - 0.5) * 100);
-        starPosArray.push((Math.random() - 0.5) * 90 - 50);
+    function closeModal(modal) { modal.style.display = 'none'; }
+
+    // ---------- UTILS ----------
+    function formatNaira(amount) {
+      return '₦' + Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
-    const starFieldGeo = new THREE.BufferGeometry();
-    starFieldGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPosArray), 3));
-    const starField = new THREE.Points(starFieldGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.07 }));
-    scene.add(starField);
-    
-    const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(1.5, 0.07, 200, 32, 3, 4), new THREE.MeshStandardMaterial({ color: 0x0af, emissive: 0x0088aa, emissiveIntensity: 0.5 }));
-    knot.position.y = 1.6;
-    scene.add(knot);
-    
-    let time = 0;
-    function animateBackground() {
-        requestAnimationFrame(animateBackground);
-        time += 0.016;
-        if (sliding) {
-            slideProgress += 0.025;
-            if (slideProgress >= 1) { sliding = false; droneGroup.position.x = 0; droneGroup.rotation.z = 0; }
-            else { const ease = 1 - Math.pow(1 - slideProgress, 3); droneGroup.position.x = -7 + (ease * 7); droneGroup.rotation.z = 0.3 * (1 - ease); }
-        } else {
-            droneGroup.position.y = 0.45 + Math.sin(time * 1.8) * 0.04;
-            droneGroup.rotation.z = Math.sin(time * 1.2) * 0.02;
-        }
-        propellerGroups.forEach(p => p.rotation.y += 0.28);
-        knot.rotation.x += 0.008; knot.rotation.y += 0.01;
-        movingLight.position.x = 2.5 + Math.sin(time) * 1.8;
-        rimLight.intensity = 0.7 + Math.sin(time * 2.5) * 0.3;
-        particlesSys.rotation.y += 0.001;
-        starField.rotation.x += 0.0003;
-        controlsBg.update();
-        renderer.render(scene, camera);
+
+    function updateUI() {
+      balanceDisplay.textContent = formatNaira(walletData.balance);
+      renderRecentTransactions();
     }
-    animateBackground();
-    
-    // --- 3D CAROUSEL (Separate canvas) ---
-    const carouselCanvas = document.getElementById('carousel-canvas');
-    const carouselScene = new THREE.Scene();
-    carouselScene.background = new THREE.Color(0x050b14);
-    const carouselCamera = new THREE.PerspectiveCamera(45, carouselCanvas.clientWidth / carouselCanvas.clientHeight, 0.1, 1000);
-    carouselCamera.position.set(0, 2, 8);
-    const carouselRenderer = new THREE.WebGLRenderer({ canvas: carouselCanvas, alpha: true });
-    
-    function resizeCarousel() {
-        const w = carouselCanvas.clientWidth;
-        const h = carouselCanvas.clientHeight;
-        carouselRenderer.setSize(w, h);
-        carouselCamera.aspect = w / h;
-        carouselCamera.updateProjectionMatrix();
+
+    function renderRecentTransactions() {
+      if (!walletData.transactions.length) {
+        recentTxList.innerHTML = '<div style="padding:16px; text-align:center; color:#7fa381;">No transactions yet</div>';
+        return;
+      }
+      const recent = [...walletData.transactions].reverse().slice(0, 5);
+      recentTxList.innerHTML = recent.map(tx => {
+        const sign = tx.type === 'topup' ? '+' : '-';
+        return `<div class="tx-item"><span>${tx.description || tx.type}</span><span class="tx-amount">${sign}${formatNaira(tx.amount)}</span></div>`;
+      }).join('');
     }
-    window.addEventListener('resize', resizeCarousel);
-    resizeCarousel();
-    
-    const carouselGroup = new THREE.Group();
-    const colors = [0x3a86ff, 0x8338ec, 0xf4066a, 0x0cf];
-    const items = [];
-    for (let i = 0; i < 4; i++) {
-        const grp = new THREE.Group();
-        const fuselage = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.35, 1.2), new THREE.MeshStandardMaterial({ color: colors[i], metalness: 0.8, roughness: 0.2 }));
-        fuselage.castShadow = true;
-        grp.add(fuselage);
-        const dome = new THREE.Mesh(new THREE.SphereGeometry(0.32, 24, 24), new THREE.MeshStandardMaterial({ color: 0xaaffff, emissive: 0x2288ff }));
-        dome.position.set(0, 0.25, 0.45);
-        grp.add(dome);
-        for (let s = -1; s <= 1; s+=2) {
-            const arm = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.08, 0.9), new THREE.MeshStandardMaterial({ color: 0xccccdd }));
-            arm.position.set(s*0.85, 0, 0.5);
-            grp.add(arm);
-            const prop = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.04, 0.12), new THREE.MeshStandardMaterial({ color: 0xffffff }));
-            prop.position.set(s*0.85, 0.16, 0.5);
-            grp.add(prop);
-        }
-        grp.scale.set(0.7, 0.7, 0.7);
-        carouselGroup.add(grp);
-        items.push(grp);
+
+    function addTransaction(type, amount, description) {
+      walletData.transactions.push({
+        type, amount, description,
+        date: new Date().toLocaleString()
+      });
+      if (type === 'topup') walletData.balance += amount;
+      else walletData.balance -= amount;
+      saveWallet();
+      updateUI();
     }
-    carouselScene.add(carouselGroup);
-    
-    const ambientCar = new THREE.AmbientLight(0x404060);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(2, 5, 3);
-    const backLight = new THREE.PointLight(0x2266ff, 0.5);
-    backLight.position.set(0, 1, -2);
-    carouselScene.add(ambientCar, dirLight, backLight);
-    const gridCar = new THREE.GridHelper(12, 20, 0x0cf, 0x3388ff);
-    gridCar.position.y = -1.2;
-    carouselScene.add(gridCar);
-    
-    let carouselAngle = 0;
-    function animateCarousel() {
-        requestAnimationFrame(animateCarousel);
-        carouselAngle += 0.008;
-        items.forEach((item, idx) => {
-            const angle = carouselAngle + (idx * Math.PI * 2 / items.length);
-            const radius = 2.8;
-            item.position.x = Math.sin(angle) * radius;
-            item.position.z = Math.cos(angle) * radius;
-            item.lookAt(0, 0, 0);
-            item.rotation.y += 0.05;
-        });
-        carouselRenderer.render(carouselScene, carouselCamera);
+
+    function saveWallet() {
+      if (currentUser) {
+        localStorage.setItem(STORAGE_WALLET + '_' + currentUser.username, JSON.stringify(walletData));
+      }
     }
-    animateCarousel();
-    
-    // --- UI Interactions ---
-    const hamburger = document.getElementById('hamburger');
-    const sideMenu = document.getElementById('sideMenu');
-    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); sideMenu.classList.toggle('open'); });
-    document.querySelectorAll('.side-menu a').forEach(link => link.addEventListener('click', () => { hamburger.classList.remove('active'); sideMenu.classList.remove('open'); }));
-    document.addEventListener('click', (e) => { if (!sideMenu.contains(e.target) && !hamburger.contains(e.target) && sideMenu.classList.contains('open')) { hamburger.classList.remove('active'); sideMenu.classList.remove('open'); } });
-    
-    // Contact form handler
-    const contactForm = document.getElementById('droneContactForm');
-    const feedbackDiv = document.getElementById('formFeedback');
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('fullName').value.trim();
-        const email = document.getElementById('emailAddr').value.trim();
-        if (!name || !email) { feedbackDiv.innerHTML = '<span style="color:#ff8888;">❌ Please fill name and email.</span>'; return; }
-        feedbackDiv.innerHTML = '<span style="color:#0cf;"><i class="fas fa-spinner fa-pulse"></i> Transmitting secure message...</span>';
-        setTimeout(() => { feedbackDiv.innerHTML = '<span style="color:#0f0;">✅ Message received! Phantom command will contact you soon.</span>'; contactForm.reset(); setTimeout(() => feedbackDiv.innerHTML = '', 4000); }, 1000);
+
+    function loadWallet(username) {
+      const saved = localStorage.getItem(STORAGE_WALLET + '_' + username);
+      if (saved) {
+        walletData = JSON.parse(saved);
+      } else {
+        walletData = { balance: 0, transactions: [] };
+      }
+    }
+
+    // save credentials (simplified, plain comparison for demo)
+    function saveCredentials(username, password) {
+      const creds = { username, password }; // demo, not hashed
+      localStorage.setItem(STORAGE_CREDS + '_' + username, JSON.stringify(creds));
+    }
+
+    function getStoredCredentials(username) {
+      const data = localStorage.getItem(STORAGE_CREDS + '_' + username);
+      return data ? JSON.parse(data) : null;
+    }
+
+    // Login flow
+    function attemptLogin(username, password) {
+      const stored = getStoredCredentials(username);
+      if (!stored) return false;
+      return stored.password === password;
+    }
+
+    function doLogin(username) {
+      currentUser = { username };
+      loadWallet(username);
+      showDashboard();
+    }
+
+    function showDashboard() {
+      authScreen.style.display = 'none';
+      dashboardScreen.style.display = 'flex';
+      greetingUser.textContent = `👋 ${currentUser.username}`;
+      updateUI();
+    }
+
+    function showAuthScreen() {
+      dashboardScreen.style.display = 'none';
+      authScreen.style.display = 'flex';
+      loginUsername.value = '';
+      loginPassword.value = '';
+      authError.textContent = '';
+      currentUser = null;
+    }
+
+    // event: login
+    loginBtn.addEventListener('click', () => {
+      const user = loginUsername.value.trim();
+      const pass = loginPassword.value;
+      if (!user || !pass) {
+        authError.textContent = 'Enter username and exclusive password';
+        return;
+      }
+      if (attemptLogin(user, pass)) {
+        doLogin(user);
+      } else {
+        authError.textContent = 'Invalid username or password';
+      }
     });
+
+    // create new wallet (exclusive to you)
+    createWalletBtn.addEventListener('click', () => {
+      const user = loginUsername.value.trim();
+      const pass = loginPassword.value;
+      if (!user || !pass) {
+        authError.textContent = 'Choose username & password';
+        return;
+      }
+      if (getStoredCredentials(user)) {
+        authError.textContent = 'Username already exists. Login instead.';
+        return;
+      }
+      // create credentials
+      saveCredentials(user, pass);
+      // init empty wallet
+      walletData = { balance: 0, transactions: [] };
+      localStorage.setItem(STORAGE_WALLET + '_' + user, JSON.stringify(walletData));
+      doLogin(user);
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      showAuthScreen();
+    });
+
+    // ----- HANDLERS -----
+    function handleTopup() {
+      const amt = parseFloat(topupAmount.value);
+      if (isNaN(amt) || amt <= 0) {
+        topupError.textContent = 'Enter a valid amount';
+        return;
+      }
+      addTransaction('topup', amt, 'Top up');
+      closeModal(topupModal);
+    }
+
+    function handlePayBill() {
+      const type = billType.value.trim();
+      const amt = parseFloat(billAmount.value);
+      if (!type) { billError.textContent = 'Enter bill type'; return; }
+      if (isNaN(amt) || amt <= 0) { billError.textContent = 'Valid amount required'; return; }
+      if (amt > walletData.balance) { billError.textContent = 'Insufficient balance'; return; }
+      addTransaction('bill', amt, `Bill: ${type}`);
+      closeModal(billModal);
+    }
+
+    function handleTransfer() {
+      const recipient = transferRecipient.value.trim();
+      const amt = parseFloat(transferAmount.value);
+      if (!recipient) { transferError.textContent = 'Enter recipient name'; return; }
+      if (isNaN(amt) || amt <= 0) { transferError.textContent = 'Enter valid amount'; return; }
+      if (amt > walletData.balance) { transferError.textContent = 'Insufficient funds'; return; }
+      addTransaction('transfer', amt, `Transfer to ${recipient}`);
+      closeModal(transferModal);
+    }
+
+    // enter key quick login
+    loginPassword.addEventListener('keypress', (e) => { if(e.key==='Enter') loginBtn.click(); });
+
+    // initial state: show auth
+    showAuthScreen();
+
+    // prefill any saved session? none. keep exclusive.
+    // for convenience, if user was logged in? we don't auto-login for security (exclusive)
+  })();
 </script>
 </body>
 </html>
