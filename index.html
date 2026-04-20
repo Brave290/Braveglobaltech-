@@ -1,694 +1,2171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>₦airaVault · personal wallet</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phantom Ink Creative — Graphics Design Agency</title>
+  <meta
+    name="description"
+    content="Phantom Ink Creative is a modern graphics design agency crafting bold brands, social visuals, and conversion-focused digital experiences."
+  />
   <style>
+    :root {
+      --bg: #070b16;
+      --bg-soft: #0f1528;
+      --panel: rgba(18, 24, 44, 0.72);
+      --panel-solid: #12192d;
+      --text: #f5f7ff;
+      --muted: #a4afc7;
+      --line: rgba(255, 255, 255, 0.09);
+      --accent: #7c5cff;
+      --accent-2: #1de8d3;
+      --accent-3: #ff6ac2;
+      --gold: #ffd166;
+      --success: #34d399;
+      --danger: #ff6b6b;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --max: 1200px;
+      --blur: blur(16px);
+    }
+
+    body.light-theme {
+      --bg: #f4f7ff;
+      --bg-soft: #edf1ff;
+      --panel: rgba(255, 255, 255, 0.78);
+      --panel-solid: #ffffff;
+      --text: #101828;
+      --muted: #59637a;
+      --line: rgba(16, 24, 40, 0.08);
+      --shadow: 0 20px 60px rgba(30, 41, 59, 0.12);
+    }
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background: linear-gradient(145deg, #0b2e1f 0%, #0f3d2a 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(124, 92, 255, 0.24), transparent 25%),
+        radial-gradient(circle at 85% 12%, rgba(29, 232, 211, 0.22), transparent 24%),
+        radial-gradient(circle at 70% 80%, rgba(255, 106, 194, 0.18), transparent 28%),
+        linear-gradient(180deg, var(--bg) 0%, #090d1a 40%, var(--bg-soft) 100%);
+      color: var(--text);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
+      overflow-x: hidden;
     }
 
-    .wallet-container {
-      max-width: 520px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 40px;
-      padding: 24px;
-      box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.5);
+    body.light-theme {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(124, 92, 255, 0.12), transparent 25%),
+        radial-gradient(circle at 85% 12%, rgba(29, 232, 211, 0.10), transparent 24%),
+        radial-gradient(circle at 70% 80%, rgba(255, 106, 194, 0.10), transparent 28%),
+        linear-gradient(180deg, #f8faff 0%, #f4f7ff 40%, #edf2ff 100%);
     }
 
-    /* login screen */
-    .auth-screen {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .logo {
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
+      pointer-events: none;
+      opacity: 0.6;
+      z-index: -2;
+    }
+
+    body.light-theme .grid-bg {
+      background-image:
+        linear-gradient(rgba(16,24,40,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16,24,40,0.04) 1px, transparent 1px);
+    }
+
+    .blob {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      z-index: -3;
+      animation: floatBlob 14s ease-in-out infinite alternate;
+    }
+
+    .blob.one {
+      top: -90px;
+      left: -80px;
+      background: var(--accent);
+    }
+
+    .blob.two {
+      top: 20%;
+      right: -120px;
+      background: var(--accent-2);
+      animation-duration: 18s;
+    }
+
+    .blob.three {
+      bottom: -120px;
+      left: 45%;
+      background: var(--accent-3);
+      animation-duration: 16s;
+    }
+
+    @keyframes floatBlob {
+      from { transform: translateY(0) translateX(0) scale(1); }
+      to { transform: translateY(24px) translateX(18px) scale(1.08); }
+    }
+
+    .section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .section-title {
       display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
       align-items: center;
       gap: 10px;
-      color: #d4edc9;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      backdrop-filter: var(--blur);
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-size: 14px;
+      letter-spacing: 0.02em;
     }
 
-    .logo-icon {
-      background: #f5b342;
-      width: 48px;
-      height: 48px;
-      border-radius: 18px;
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 4px rgba(124,92,255,0.12);
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      max-width: 12ch;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      max-width: 60ch;
+    }
+
+    .tagline {
+      background: linear-gradient(135deg, var(--text), #a8f0ff 55%, #ffc2ec);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .btn-row {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 26px;
-      color: #0b2e1f;
-      box-shadow: 0 8px 0 #9e6f1e;
-    }
-
-    .logo h1 {
-      font-weight: 600;
-      font-size: 28px;
-      letter-spacing: -0.5px;
-      color: #e6f7da;
-    }
-
-    .logo span {
-      font-weight: 300;
-      font-size: 16px;
-      color: #b1d8a4;
-      margin-left: 6px;
-    }
-
-    .auth-form {
-      background: #1a3e2b;
-      padding: 28px 20px;
-      border-radius: 32px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 8px 0 #0a1f14;
-      border: 1px solid #3c6e4c;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    .input-group label {
-      display: block;
-      color: #c3e0b0;
-      font-weight: 500;
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
-
-    .input-field {
-      width: 100%;
-      padding: 16px 18px;
-      background: #0e2c1d;
-      border: 1.5px solid #2e6b42;
-      border-radius: 24px;
-      font-size: 16px;
-      color: #f0ffe6;
-      outline: none;
-      transition: all 0.2s;
-    }
-
-    .input-field:focus {
-      border-color: #f5b342;
-      box-shadow: 0 0 0 3px rgba(245, 179, 66, 0.3);
-    }
-
-    .input-field::placeholder {
-      color: #6f9e7c;
-      font-weight: 300;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
     }
 
     .btn {
-      background: #f5b342;
-      color: #0a2e1b;
-      border: none;
-      padding: 16px 22px;
-      font-weight: 700;
-      font-size: 18px;
-      border-radius: 40px;
-      width: 100%;
-      cursor: pointer;
-      box-shadow: 0 6px 0 #b57e28;
-      transition: all 0.1s ease;
-      border: 1px solid #ffe5a3;
-      letter-spacing: 0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-radius: 16px;
+      transition: 0.25s ease;
+      border: 1px solid transparent;
+      font-weight: 600;
     }
 
-    .btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #b57e28;
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #071018;
+      box-shadow: 0 18px 32px rgba(29, 232, 211, 0.22);
     }
 
     .btn.secondary {
-      background: #cbdcc0;
-      box-shadow: 0 5px 0 #8f9e84;
-      color: #0b2e1f;
-      border-color: #e2f0d6;
+      background: var(--panel);
+      backdrop-filter: var(--blur);
+      border-color: var(--line);
+      color: var(--text);
     }
 
-    .btn.small {
-      padding: 10px 16px;
-      font-size: 15px;
-      box-shadow: 0 4px 0 #b57e28;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
     }
 
-    .error-message {
-      color: #ffb0a0;
-      margin-top: 12px;
-      font-weight: 500;
-      text-align: center;
+    .nav-wrap {
+      position: sticky;
+      top: 18px;
+      z-index: 50;
+      padding-top: 18px;
     }
 
-    /* dashboard screen */
-    .dashboard {
-      display: none;
-      flex-direction: column;
-      gap: 22px;
-    }
-
-    .wallet-header {
+    .nav {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--panel);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: #ebffe0;
+      gap: 20px;
     }
 
-    .greeting {
-      font-size: 22px;
-      font-weight: 600;
-    }
-
-    .logout-btn {
-      background: none;
-      border: 1.5px solid #6f9e7c;
-      color: #d4f0c0;
-      padding: 10px 18px;
-      border-radius: 30px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 14px;
-    }
-
-    .logout-btn:hover {
-      background: #2c5a3a;
-    }
-
-    .balance-card {
-      background: #0b2e1f;
-      border-radius: 36px;
-      padding: 28px 24px;
-      border: 1px solid #3b7852;
-      box-shadow: inset 0 1px 3px #1e5736, 0 12px 0 #07170e;
-      text-align: center;
-    }
-
-    .balance-label {
-      color: #b1d8a4;
-      font-size: 18px;
-      letter-spacing: 1px;
-    }
-
-    .balance-amount {
-      font-size: 58px;
-      font-weight: 800;
-      color: #f9f2d9;
-      line-height: 1.2;
-      word-break: break-word;
-    }
-
-    .balance-amount small {
-      font-size: 28px;
-      font-weight: 500;
-      color: #c6e2b4;
-    }
-
-    .action-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .brand {
+      display: flex;
+      align-items: center;
       gap: 14px;
+      min-width: 0;
     }
 
-    .action-card {
-      background: #1e4a31;
-      border-radius: 28px;
-      padding: 20px 10px;
-      box-shadow: inset 0 1px 2px #407a54, 0 8px 0 #0b2617;
-      border: 1px solid #3e8057;
-      cursor: pointer;
-      text-align: center;
-      transition: 0.15s;
-      color: #f2ffe3;
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.03)),
+        linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.24);
     }
 
-    .action-card:active {
-      transform: translateY(4px);
-      box-shadow: inset 0 1px 2px #407a54, 0 4px 0 #0b2617;
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border: 2px solid rgba(255,255,255,0.35);
+      border-radius: 11px;
+      transform: rotate(12deg);
     }
 
-    .action-icon {
-      font-size: 36px;
+    .brand-mark::after {
+      inset: 14px;
+      transform: rotate(-14deg);
+      border-color: rgba(255,255,255,0.8);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+
+    .brand-text strong {
+      font-size: 1rem;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 0.83rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 12px;
+      color: var(--muted);
+      transition: 0.2s ease;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(124, 92, 255, 0.12);
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn,
+    .menu-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--panel-solid);
+      color: var(--text);
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      transition: 0.25s ease;
+    }
+
+    .icon-btn:hover,
+    .menu-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .menu-btn {
+      display: none;
+    }
+
+    .hero {
+      padding: 80px 0 42px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hero-points {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      backdrop-filter: var(--blur);
+      font-size: 0.94rem;
+    }
+
+    .hero-panel {
+      position: relative;
+      min-height: 620px;
+      border-radius: 32px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+        rgba(11, 16, 29, 0.55);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    body.light-theme .hero-panel {
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.7), rgba(255,255,255,0.45)),
+        rgba(255, 255, 255, 0.75);
+    }
+
+    .panel-noise {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(124,92,255,0.16), transparent 18%),
+        radial-gradient(circle at 80% 20%, rgba(29,232,211,0.12), transparent 20%),
+        linear-gradient(transparent, rgba(255,255,255,0.02));
+      pointer-events: none;
+    }
+
+    .ui-card {
+      position: absolute;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(18px);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+
+    body.light-theme .ui-card {
+      background: rgba(255,255,255,0.72);
+    }
+
+    .ui-card.one {
+      width: 78%;
+      top: 7%;
+      left: 10%;
+      padding: 18px;
+      animation-delay: 0.1s;
+    }
+
+    .ui-card.two {
+      width: 52%;
+      top: 48%;
+      left: 6%;
+      padding: 16px;
+      animation-delay: 0.5s;
+    }
+
+    .ui-card.three {
+      width: 42%;
+      top: 34%;
+      right: 8%;
+      padding: 16px;
+      animation-delay: 0.9s;
+    }
+
+    .ui-card.four {
+      width: 66%;
+      right: 10%;
+      bottom: 7%;
+      padding: 18px;
+      animation-delay: 1.2s;
+    }
+
+    @keyframes drift {
+      from { transform: translateY(0) rotate(0deg); }
+      to { transform: translateY(14px) rotate(0.8deg); }
+    }
+
+    .mini-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.22);
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .hero-bars {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .preview-block {
+      min-height: 90px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(124,92,255,0.3), rgba(29,232,211,0.14));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .ui-title {
+      font-size: 1.1rem;
       margin-bottom: 8px;
     }
 
-    .action-title {
-      font-weight: 600;
-      font-size: 18px;
+    .ui-sub {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 14px;
     }
 
-    /* modal overlay */
-    .modal {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 20, 5, 0.8);
-      backdrop-filter: blur(6px);
-      display: none;
-      justify-content: center;
-      align-items: center;
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .logo-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-top: 42px;
+    }
+
+    .logo-chip {
       padding: 16px;
-      z-index: 1000;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: var(--blur);
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
     }
 
-    .modal-card {
-      background: #153f28;
-      max-width: 420px;
-      width: 100%;
-      border-radius: 36px;
+    .cards-3,
+    .cards-4,
+    .cards-2 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .cards-3 { grid-template-columns: repeat(3, 1fr); }
+    .cards-4 { grid-template-columns: repeat(4, 1fr); }
+    .cards-2 { grid-template-columns: repeat(2, 1fr); }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: var(--blur);
+      border-radius: var(--radius-lg);
       padding: 24px;
-      box-shadow: 0 25px 30px #00000033, 0 8px 0 #0b2416;
-      border: 1px solid #5b9a6e;
+      box-shadow: var(--shadow);
+      transition: 0.28s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .modal-title {
-      color: #e6ffd6;
-      font-size: 26px;
-      font-weight: 700;
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: auto -30% 0 auto;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(124,92,255,0.22), transparent 65%);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(124, 92, 255, 0.35);
+    }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(124,92,255,0.24), rgba(29,232,211,0.16));
+      border: 1px solid var(--line);
+      margin-bottom: 18px;
+      font-size: 1.4rem;
+    }
+
+    .service-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .service-list li {
+      color: var(--muted);
+      display: flex;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .service-list li::before {
+      content: "•";
+      color: var(--accent-2);
+      font-weight: 900;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .stat-card {
+      padding: 26px;
+      border-radius: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 10px;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-bottom: 24px;
     }
 
-    .modal .input-group {
-      margin-bottom: 24px;
+    .filter-btn {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      transition: 0.22s ease;
     }
 
-    .modal-actions {
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: linear-gradient(135deg, rgba(124,92,255,0.18), rgba(29,232,211,0.18));
+      color: var(--text);
+      border-color: rgba(124,92,255,0.3);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .project {
+      min-height: 300px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.05));
+      box-shadow: var(--shadow);
+      transition: 0.3s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-6px);
+    }
+
+    .project-visual {
+      height: 100%;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.16), transparent 20%),
+        linear-gradient(135deg, rgba(124,92,255,0.22), rgba(29,232,211,0.14), rgba(255,106,194,0.2));
+      opacity: 0.95;
+    }
+
+    .project-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .project .chip {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(7,11,22,0.36);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: white;
+      margin-bottom: 14px;
+      font-size: 0.82rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .project h4 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .project p {
+      color: rgba(255,255,255,0.86);
+      max-width: 28ch;
+    }
+
+    .project-wire {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 10px;
+    }
+
+    .wire-lg,
+    .wire-sm {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.12);
+      min-height: 110px;
+    }
+
+    .wire-sm {
+      display: grid;
+      gap: 10px;
+      background: transparent;
+      border: none;
+    }
+
+    .wire-sm span {
+      display: block;
+      min-height: 50px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .hide {
+      display: none !important;
+    }
+
+    .process-step {
+      position: relative;
+      padding-top: 16px;
+    }
+
+    .process-step::before {
+      content: attr(data-step);
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 4rem;
+      line-height: 1;
+      color: rgba(124,92,255,0.12);
+      font-weight: 800;
+    }
+
+    .testimonial-shell {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .testimonial-main,
+    .testimonial-side {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: var(--blur);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .testimonial-main {
+      padding: 30px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .quote-mark {
+      font-size: 4rem;
+      color: rgba(124, 92, 255, 0.3);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .testimonial-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06131a;
+    }
+
+    .meta-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stars {
+      letter-spacing: 2px;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    .testimonial-side {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .control-row {
       display: flex;
       gap: 12px;
     }
 
-    .transaction-list {
-      margin-top: 8px;
-      background: #0e301e;
-      border-radius: 24px;
-      padding: 6px 4px;
-      max-height: 200px;
-      overflow-y: auto;
+    .control-btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      color: var(--text);
     }
 
-    .tx-item {
-      background: #1c412b;
-      margin: 6px 4px;
-      padding: 14px 18px;
-      border-radius: 24px;
-      color: #dff0cf;
+    .pricing-toggle {
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 999px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      margin-bottom: 24px;
+      gap: 6px;
+    }
+
+    .pricing-toggle button {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      transition: 0.22s ease;
+    }
+
+    .pricing-toggle button.active {
+      background: linear-gradient(135deg, rgba(124,92,255,0.22), rgba(29,232,211,0.2));
+      color: var(--text);
+    }
+
+    .price {
+      display: flex;
+      align-items: end;
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .price strong {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .price span {
+      color: var(--muted);
+      padding-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #06131a;
+      background: linear-gradient(135deg, var(--gold), #fff0a3);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .faq-wrap {
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .faq-q {
+      width: 100%;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      padding: 20px 22px;
       display: flex;
       justify-content: space-between;
-      border-left: 6px solid #f5b342;
-      font-size: 15px;
+      align-items: center;
+      gap: 20px;
+      font-weight: 600;
     }
 
-    .tx-amount {
-      font-weight: 700;
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+      padding: 0 22px;
     }
 
-    .note {
-      color: #afcf9a;
-      margin-top: 10px;
-      font-size: 14px;
-      text-align: center;
+    .faq-item.open .faq-a {
+      max-height: 180px;
+      padding: 0 22px 20px;
     }
 
-    hr {
-      border: 1px solid #2e6b42;
-      margin: 16px 0;
+    .faq-plus {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(124,92,255,0.16);
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .contact-card {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .contact-left,
+    .contact-right {
+      padding: 28px;
+    }
+
+    .contact-left {
+      border-right: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(124,92,255,0.18), transparent 26%),
+        radial-gradient(circle at 80% 16%, rgba(29,232,211,0.14), transparent 24%);
+    }
+
+    .contact-list {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .contact-list li {
+      display: flex;
+      gap: 14px;
+      align-items: start;
+      color: var(--muted);
+    }
+
+    .contact-list b {
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .field,
+    .field-full {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 15px 16px;
+      transition: 0.22s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(124,92,255,0.5);
+      box-shadow: 0 0 0 4px rgba(124,92,255,0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 132px;
+    }
+
+    .form-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .status {
+      color: var(--muted);
+      min-height: 24px;
+    }
+
+    .footer {
+      padding: 30px 0 60px;
+    }
+
+    .footer-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 26px;
+      padding: 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .socials a {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--panel-solid);
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .contact-card,
+      .testimonial-shell,
+      .cards-3,
+      .cards-4,
+      .cards-2,
+      .portfolio-grid,
+      .stats,
+      .logo-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-panel {
+        min-height: 560px;
+      }
+
+      .contact-left {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .contact-card,
+      .testimonial-shell {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .menu-btn {
+        display: grid;
+      }
+
+      .nav {
+        align-items: center;
+      }
+
+      .nav-links {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        top: calc(100% + 10px);
+        display: grid;
+        gap: 8px;
+        padding: 12px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        backdrop-filter: var(--blur);
+        box-shadow: var(--shadow);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-10px);
+        transition: 0.22s ease;
+      }
+
+      .nav-links.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav-actions .btn.secondary {
+        display: none;
+      }
+
+      .hero-grid,
+      .cards-3,
+      .cards-4,
+      .cards-2,
+      .portfolio-grid,
+      .stats,
+      .logo-strip,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 52px;
+      }
+
+      .hero-panel {
+        min-height: 520px;
+      }
+
+      .ui-card.one {
+        width: 84%;
+      }
+
+      .ui-card.two {
+        width: 58%;
+      }
+
+      .ui-card.three {
+        width: 46%;
+      }
+
+      .ui-card.four {
+        width: 72%;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      h1 {
+        font-size: clamp(2.7rem, 14vw, 4.8rem);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav {
+        padding: 12px;
+      }
+
+      .brand-text span {
+        display: none;
+      }
+
+      .hero-panel {
+        min-height: 470px;
+      }
+
+      .ui-card.one,
+      .ui-card.two,
+      .ui-card.three,
+      .ui-card.four {
+        position: absolute;
+        transform: none !important;
+      }
+
+      .section-title {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .testimonial-meta,
+      .form-note,
+      .footer-card {
+        flex-direction: column;
+        align-items: start;
+      }
     }
   </style>
 </head>
 <body>
-<div class="wallet-container">
-  <!-- LOGIN / REGISTER SCREEN (exclusive password) -->
-  <div id="authScreen" class="auth-screen">
-    <div class="logo">
-      <div class="logo-icon">₦</div>
-      <h1>NairaVault <span>· solo</span></h1>
-    </div>
-    <div class="auth-form">
-      <div class="input-group">
-        <label>👤 Username</label>
-        <input type="text" id="loginUsername" class="input-field" placeholder="e.g., kelvin_ng" autocomplete="off">
+  <div class="grid-bg"></div>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+  <div class="blob three"></div>
+
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a href="#home" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <strong>Phantom Ink Creative</strong>
+          <span>Graphics Design Agency</span>
+        </div>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#contact" class="nav-link">Contact</a>
       </div>
-      <div class="input-group">
-        <label>🔐 Exclusive password</label>
-        <input type="password" id="loginPassword" class="input-field" placeholder="··········">
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">☾</button>
+        <a href="#contact" class="btn secondary">Start a project</a>
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
       </div>
-      <button class="btn" id="loginBtn">🔓 Access my wallet</button>
-      <button class="btn secondary" id="createWalletBtn" style="margin-top: 12px;">✨ Create new wallet</button>
-      <div id="authError" class="error-message"></div>
-      <div class="note">⚡ Only you can access — your data stays in this browser</div>
-    </div>
+    </nav>
   </div>
 
-  <!-- MAIN DASHBOARD (hidden until login) -->
-  <div id="dashboardScreen" class="dashboard">
-    <div class="wallet-header">
-      <div class="greeting" id="greetingUser">👋</div>
-      <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-    </div>
+  <main>
+    <section class="hero section" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">Designs that feel expensive</div>
+          <h1>We turn bold ideas into <span class="tagline">high-converting visuals</span>.</h1>
+          <p class="lead">
+            Phantom Ink Creative builds unforgettable brand identities, scroll-stopping social creatives, sharp print assets,
+            and sleek digital experiences for founders, creators, and ambitious businesses.
+          </p>
 
-    <div class="balance-card">
-      <div class="balance-label">₦ BALANCE</div>
-      <div class="balance-amount" id="balanceDisplay">₦0.00</div>
-    </div>
+          <div class="hero-points">
+            <span class="pill">Brand Identity</span>
+            <span class="pill">Social Media Design</span>
+            <span class="pill">Web Visual Systems</span>
+            <span class="pill">Print & Campaign Assets</span>
+          </div>
 
-    <div class="action-grid">
-      <div class="action-card" id="topupAction">
-        <div class="action-icon">⬆️➕</div>
-        <div class="action-title">Top up</div>
+          <div class="btn-row">
+            <a href="#work" class="btn primary">View our work →</a>
+            <a href="#pricing" class="btn secondary">See packages</a>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric">
+              <strong class="count" data-target="120">0</strong>
+              <span>Projects shipped</span>
+            </div>
+            <div class="metric">
+              <strong class="count" data-target="48">0</strong>
+              <span>Brand systems built</span>
+            </div>
+            <div class="metric">
+              <strong class="count" data-target="98">0</strong>
+              <span>Client satisfaction</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel reveal">
+          <div class="panel-noise"></div>
+
+          <div class="ui-card one">
+            <div class="mini-top">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span class="mini-label">Campaign dashboard</span>
+            </div>
+            <h3 class="ui-title">Creative direction for brands that want to look premium.</h3>
+            <p class="ui-sub">From concept to launch-ready assets, every touchpoint feels polished and intentional.</p>
+            <div class="hero-bars">
+              <div class="bar"><span style="width: 92%"></span></div>
+              <div class="bar"><span style="width: 76%"></span></div>
+              <div class="bar"><span style="width: 64%"></span></div>
+            </div>
+          </div>
+
+          <div class="ui-card two">
+            <div class="mini-top">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span class="mini-label">Brand board</span>
+            </div>
+            <div class="preview-grid">
+              <div class="preview-block"></div>
+              <div class="preview-block"></div>
+              <div class="preview-block"></div>
+              <div class="preview-block"></div>
+            </div>
+          </div>
+
+          <div class="ui-card three">
+            <div class="mini-top">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span class="mini-label">Analytics pulse</span>
+            </div>
+            <div class="hero-bars">
+              <div class="bar"><span style="width: 88%"></span></div>
+              <div class="bar"><span style="width: 54%"></span></div>
+              <div class="bar"><span style="width: 71%"></span></div>
+            </div>
+          </div>
+
+          <div class="ui-card four">
+            <div class="mini-top">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span class="mini-label">Launch kit</span>
+            </div>
+            <div class="preview-grid">
+              <div class="preview-block"></div>
+              <div class="preview-block"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="action-card" id="payBillAction">
-        <div class="action-icon">🧾💡</div>
-        <div class="action-title">Pay bill</div>
+
+      <div class="container">
+        <div class="logo-strip reveal">
+          <div class="logo-chip">Nova Labs</div>
+          <div class="logo-chip">Astra House</div>
+          <div class="logo-chip">Bloom Social</div>
+          <div class="logo-chip">Kinetic Wear</div>
+          <div class="logo-chip">Luxe Crate</div>
+        </div>
       </div>
-      <div class="action-card" id="transferAction">
-        <div class="action-icon">💸↗️</div>
-        <div class="action-title">Transfer</div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="eyebrow">Services</div>
+            <h2>Creative systems that make your brand impossible to ignore.</h2>
+          </div>
+          <p class="lead">
+            We design visuals that feel clean, modern, and strategic, so your brand looks consistent across every customer touchpoint.
+          </p>
+        </div>
+
+        <div class="cards-4">
+          <article class="card reveal">
+            <div class="service-icon">✦</div>
+            <h3>Brand Identity</h3>
+            <p>Logos, color systems, typography, brand voice direction, and launch-ready brand guidelines.</p>
+            <ul class="service-list">
+              <li>Primary and secondary logos</li>
+              <li>Color and type hierarchy</li>
+              <li>Brand guideline presentation</li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="service-icon">◈</div>
+            <h3>Social Media Design</h3>
+            <p>High-impact templates and campaign visuals built to stop the scroll and strengthen recognition.</p>
+            <ul class="service-list">
+              <li>Instagram and LinkedIn kits</li>
+              <li>Story, carousel, and ad formats</li>
+              <li>Editable content systems</li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="service-icon">▣</div>
+            <h3>Marketing Collateral</h3>
+            <p>Design for brochures, proposals, pitch decks, event materials, and product sell sheets.</p>
+            <ul class="service-list">
+              <li>Sales and event print design</li>
+              <li>Business cards and flyers</li>
+              <li>Presentation deck styling</li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="service-icon">⬡</div>
+            <h3>Web Visual Design</h3>
+            <p>Landing page visuals, UI sections, hero layouts, and conversion-driven website design assets.</p>
+            <ul class="service-list">
+              <li>Wireframes and visual concepts</li>
+              <li>Hero sections and UI cards</li>
+              <li>Developer-ready style direction</li>
+            </ul>
+          </article>
+        </div>
       </div>
-      <div class="action-card" id="historyAction">
-        <div class="action-icon">📋</div>
-        <div class="action-title">History</div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="eyebrow">Selected work</div>
+            <h2>Designs built for attention, trust, and conversion.</h2>
+          </div>
+          <p class="lead">
+            Filter through campaign examples to show how Phantom Ink Creative can shape different parts of a brand ecosystem.
+          </p>
+        </div>
+
+        <div class="filter-row reveal">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="branding">Branding</button>
+          <button class="filter-btn" data-filter="social">Social</button>
+          <button class="filter-btn" data-filter="web">Web</button>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="project reveal" data-category="branding">
+            <div class="project-visual">
+              <div class="project-inner">
+                <span class="chip">Brand Identity</span>
+                <h4>Velora Studio</h4>
+                <p>Luxury identity system with refined typography, packaging cues, and campaign direction.</p>
+                <div class="project-wire">
+                  <div class="wire-lg"></div>
+                  <div class="wire-sm"><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="social">
+            <div class="project-visual">
+              <div class="project-inner">
+                <span class="chip">Social Campaign</span>
+                <h4>Bloom Launch</h4>
+                <p>Bright social carousel system and ad creative pack tailored for product awareness.</p>
+                <div class="project-wire">
+                  <div class="wire-lg"></div>
+                  <div class="wire-sm"><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="web">
+            <div class="project-visual">
+              <div class="project-inner">
+                <span class="chip">Website Visuals</span>
+                <h4>NovaTech UI</h4>
+                <p>Futuristic landing page concept with layered cards, gradients, and conversion CTAs.</p>
+                <div class="project-wire">
+                  <div class="wire-lg"></div>
+                  <div class="wire-sm"><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="branding">
+            <div class="project-visual">
+              <div class="project-inner">
+                <span class="chip">Packaging</span>
+                <h4>Luna Crate</h4>
+                <p>Playful yet premium packaging language designed for shelf impact and brand recall.</p>
+                <div class="project-wire">
+                  <div class="wire-lg"></div>
+                  <div class="wire-sm"><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="social">
+            <div class="project-visual">
+              <div class="project-inner">
+                <span class="chip">Content System</span>
+                <h4>Founder Grid</h4>
+                <p>Template kit for creators who need consistency, speed, and a stronger visual identity.</p>
+                <div class="project-wire">
+                  <div class="wire-lg"></div>
+                  <div class="wire-sm"><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-category="web">
+            <div class="project-visual">
+              <div class="project-inner">
+                <span class="chip">Landing Page</span>
+                <h4>Orbit Convert</h4>
+                <p>Modern hero sections and visual hierarchy focused on trust, speed, and action.</p>
+                <div class="project-wire">
+                  <div class="wire-lg"></div>
+                  <div class="wire-sm"><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="eyebrow">Process</div>
+            <h2>Simple workflow. Premium output.</h2>
+          </div>
+          <p class="lead">
+            We keep the experience smooth so you always know what is happening, what is next, and what will be delivered.
+          </p>
+        </div>
+
+        <div class="cards-3">
+          <article class="card process-step reveal" data-step="01">
+            <h3>Discovery</h3>
+            <p>We align on your offer, audience, style direction, competitors, and visual positioning before design starts.</p>
+          </article>
+
+          <article class="card process-step reveal" data-step="02">
+            <h3>Direction</h3>
+            <p>We build a visual route with references, color energy, layout rhythm, and concept boards that match your goals.</p>
+          </article>
+
+          <article class="card process-step reveal" data-step="03">
+            <h3>Delivery</h3>
+            <p>You receive polished assets, organized exports, and a system you can actually use across channels.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="stats">
+          <div class="stat-card reveal">
+            <strong class="count" data-target="7">0</strong>
+            <p>Days average for a focused design sprint.</p>
+          </div>
+          <div class="stat-card reveal">
+            <strong class="count" data-target="35">0</strong>
+            <p>Editable social templates included in premium kits.</p>
+          </div>
+          <div class="stat-card reveal">
+            <strong class="count" data-target="18">0</strong>
+            <p>Brand touchpoints covered in a typical launch package.</p>
+          </div>
+          <div class="stat-card reveal">
+            <strong class="count" data-target="24">0</strong>
+            <p>Hour response window for active client projects.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="eyebrow">Testimonials</div>
+            <h2>Clients come for the visuals and stay for the clarity.</h2>
+          </div>
+          <p class="lead">
+            The best design work does more than look good. It gives businesses more confidence in how they show up.
+          </p>
+        </div>
+
+        <div class="testimonial-shell">
+          <div class="testimonial-main reveal" id="testimonialMain">
+            <div>
+              <div class="quote-mark">“</div>
+              <p id="testimonialQuote" class="lead"></p>
+            </div>
+
+            <div class="testimonial-meta">
+              <div class="meta-left">
+                <div class="avatar" id="testimonialAvatar">AM</div>
+                <div>
+                  <h3 id="testimonialName"></h3>
+                  <p id="testimonialRole"></p>
+                </div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+
+          <aside class="testimonial-side reveal">
+            <div>
+              <div class="eyebrow" style="margin-bottom:12px;">Live feedback</div>
+              <p id="testimonialMini">
+                Every design system is built to feel sharp, usable, and easy to roll out.
+              </p>
+            </div>
+            <div class="control-row">
+              <button class="control-btn" id="prevTestimonial">← Prev</button>
+              <button class="control-btn" id="nextTestimonial">Next →</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="eyebrow">Pricing</div>
+            <h2>Flexible packages for brands at different stages.</h2>
+          </div>
+          <p class="lead">
+            Use the toggle to switch between monthly retainers and one-time project pricing.
+          </p>
+        </div>
+
+        <div class="pricing-toggle reveal">
+          <button class="active" data-plan="monthly">Monthly</button>
+          <button data-plan="yearly">Yearly</button>
+        </div>
+
+        <div class="cards-3">
+          <article class="card reveal">
+            <h3>Starter Visuals</h3>
+            <p>For creators and small brands that need polished content support.</p>
+            <div class="price">
+              <strong data-monthly="350" data-yearly="3500">$350</strong>
+              <span>/ package</span>
+            </div>
+            <ul class="service-list">
+              <li>10 custom social posts</li>
+              <li>2 story designs</li>
+              <li>1 revision round</li>
+              <li>3 business day turnaround</li>
+            </ul>
+            <div class="btn-row">
+              <a href="#contact" class="btn secondary">Choose plan</a>
+            </div>
+          </article>
+
+          <article class="card reveal" style="border-color: rgba(29,232,211,0.3);">
+            <div class="badge">Most popular</div>
+            <h3>Growth Brand Kit</h3>
+            <p>For businesses that want an identity refresh plus campaign-ready assets.</p>
+            <div class="price">
+              <strong data-monthly="950" data-yearly="9500">$950</strong>
+              <span>/ package</span>
+            </div>
+            <ul class="service-list">
+              <li>Logo suite and mini guidelines</li>
+              <li>20 social templates</li>
+              <li>Pitch deck or flyer design</li>
+              <li>Priority communication</li>
+            </ul>
+            <div class="btn-row">
+              <a href="#contact" class="btn primary">Choose plan</a>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <h3>Agency Retainer</h3>
+            <p>For teams that need ongoing design production with premium creative support.</p>
+            <div class="price">
+              <strong data-monthly="1800" data-yearly="18000">$1800</strong>
+              <span>/ month</span>
+            </div>
+            <ul class="service-list">
+              <li>Dedicated design queue</li>
+              <li>Web and campaign assets</li>
+              <li>Weekly creative review</li>
+              <li>Fast-turn premium support</li>
+            </ul>
+            <div class="btn-row">
+              <a href="#contact" class="btn secondary">Choose plan</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="eyebrow">FAQ</div>
+            <h2>Answers before you ask.</h2>
+          </div>
+          <p class="lead">
+            These are the things most clients want to know before they book.
+          </p>
+        </div>
+
+        <div class="faq-wrap">
+          <div class="faq-item reveal open">
+            <button class="faq-q">
+              <span>What types of businesses do you work with?</span>
+              <span class="faq-plus">+</span>
+            </button>
+            <div class="faq-a">
+              <p>We work with startups, creators, ecommerce brands, service businesses, and teams that need premium visual direction without hiring full-time design staff.</p>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q">
+              <span>Can I request both branding and social media design?</span>
+              <span class="faq-plus">+</span>
+            </button>
+            <div class="faq-a">
+              <p>Yes. Most projects combine identity work with content templates, launch assets, or landing page visuals so the brand feels consistent everywhere.</p>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q">
+              <span>Do you also build websites?</span>
+              <span class="faq-plus">+</span>
+            </button>
+            <div class="faq-a">
+              <p>We can deliver the visual website design direction, UI sections, and developer-ready assets. This demo also shows how your coded site can look.</p>
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q">
+              <span>How fast can a project begin?</span>
+              <span class="faq-plus">+</span>
+            </button>
+            <div class="faq-a">
+              <p>Most focused projects can begin within a few days once the brief, deposit, and scope are confirmed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-card reveal">
+          <div class="contact-left">
+            <div class="eyebrow">Contact</div>
+            <h2>Ready to make your brand look unforgettable?</h2>
+            <p class="lead" style="margin-top: 16px;">
+              Send a quick brief and Phantom Ink Creative will reach out with the best next step for your project.
+            </p>
+
+            <ul class="contact-list">
+              <li>
+                <span>✉</span>
+                <div>
+                  <b>Email</b>
+                  hello@phantominkcreative.com
+                </div>
+              </li>
+              <li>
+                <span>⌘</span>
+                <div>
+                  <b>Services</b>
+                  Branding, social media design, print assets, and web visual design.
+                </div>
+              </li>
+              <li>
+                <span>⏱</span>
+                <div>
+                  <b>Response time</b>
+                  Usually within 24 hours on business days.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="contact-right">
+            <form id="contactForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="name">Your name</label>
+                  <input type="text" id="name" name="name" placeholder="Jane Michael" required />
+                </div>
+
+                <div class="field">
+                  <label for="email">Email address</label>
+                  <input type="email" id="email" name="email" placeholder="jane@email.com" required />
+                </div>
+
+                <div class="field">
+                  <label for="company">Company</label>
+                  <input type="text" id="company" name="company" placeholder="Your brand name" />
+                </div>
+
+                <div class="field">
+                  <label for="service">Service needed</label>
+                  <select id="service" name="service" required>
+                    <option value="">Select a service</option>
+                    <option>Brand Identity</option>
+                    <option>Social Media Design</option>
+                    <option>Marketing Collateral</option>
+                    <option>Web Visual Design</option>
+                    <option>Ongoing Retainer</option>
+                  </select>
+                </div>
+
+                <div class="field-full">
+                  <label for="message">Project brief</label>
+                  <textarea id="message" name="message" placeholder="Tell us what you need, your timeline, and your style direction." required></textarea>
+                </div>
+              </div>
+
+              <div class="form-note">
+                <p class="status" id="formStatus">Fill in the form and send your project brief.</p>
+                <button type="submit" class="btn primary">Send inquiry →</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-card">
+        <div>
+          <strong style="display:block; margin-bottom:6px;">Phantom Ink Creative</strong>
+          <p>Design agency for standout brands, polished campaigns, and modern digital visuals.</p>
+        </div>
+
+        <div class="socials">
+          <a href="#home">Home</a>
+          <a href="#services">Services</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Book</a>
+        </div>
       </div>
     </div>
+  </footer>
 
-    <!-- mini recent tx preview -->
-    <div style="color:#cbe8bb; font-weight:500; margin-top:8px;">📌 Recent activity</div>
-    <div class="transaction-list" id="recentTxList">
-      <div style="padding:16px; text-align:center; color:#7fa381;">No transactions yet</div>
-    </div>
-  </div>
-</div>
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    const themeToggle = document.getElementById("themeToggle");
+    const navAnchors = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll("section[id]");
+    const revealItems = document.querySelectorAll(".reveal");
+    const counters = document.querySelectorAll(".count");
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const projects = document.querySelectorAll(".project");
+    const faqItems = document.querySelectorAll(".faq-item");
+    const pricingBtns = document.querySelectorAll(".pricing-toggle button");
+    const priceValues = document.querySelectorAll(".price strong");
+    const priceSuffixes = document.querySelectorAll(".price span");
+    const form = document.getElementById("contactForm");
+    const formStatus = document.getElementById("formStatus");
 
-<!-- MODALS (Top-up, Pay bill, Transfer) -->
-<div class="modal" id="topupModal">
-  <div class="modal-card">
-    <div class="modal-title">⬆️ Top up Naira</div>
-    <div class="input-group">
-      <label>Amount (₦)</label>
-      <input type="number" id="topupAmount" class="input-field" placeholder="5000" min="1" step="1">
-    </div>
-    <div class="modal-actions">
-      <button class="btn small secondary" id="cancelTopup">Cancel</button>
-      <button class="btn small" id="confirmTopup">Add funds</button>
-    </div>
-    <div id="topupError" class="error-message"></div>
-  </div>
-</div>
-
-<div class="modal" id="billModal">
-  <div class="modal-card">
-    <div class="modal-title">🧾 Pay bill</div>
-    <div class="input-group">
-      <label>Bill type (e.g., IKEDC, DSTV)</label>
-      <input type="text" id="billType" class="input-field" placeholder="Electricity">
-    </div>
-    <div class="input-group">
-      <label>Amount (₦)</label>
-      <input type="number" id="billAmount" class="input-field" placeholder="2500" min="1">
-    </div>
-    <div class="modal-actions">
-      <button class="btn small secondary" id="cancelBill">Cancel</button>
-      <button class="btn small" id="confirmBill">Pay bill</button>
-    </div>
-    <div id="billError" class="error-message"></div>
-  </div>
-</div>
-
-<div class="modal" id="transferModal">
-  <div class="modal-card">
-    <div class="modal-title">💸 Transfer to person</div>
-    <div class="input-group">
-      <label>Recipient (username/name)</label>
-      <input type="text" id="transferRecipient" class="input-field" placeholder="jane_doe">
-    </div>
-    <div class="input-group">
-      <label>Amount (₦)</label>
-      <input type="number" id="transferAmount" class="input-field" placeholder="1000" min="1">
-    </div>
-    <div class="modal-actions">
-      <button class="btn small secondary" id="cancelTransfer">Cancel</button>
-      <button class="btn small" id="confirmTransfer">Send</button>
-    </div>
-    <div id="transferError" class="error-message"></div>
-  </div>
-</div>
-
-<script>
-  (function(){
-    'use strict';
-
-    // ---------- STORAGE KEYS ----------
-    const STORAGE_WALLET = 'naira_wallet_exclusive';
-    const STORAGE_CREDS = 'naira_creds_exclusive';
-
-    // ---------- GLOBAL STATE ----------
-    let currentUser = null;                // { username, password (hashed-like, just for demo) }
-    let walletData = {
-      balance: 0,
-      transactions: []      // { type, amount, description, date }
-    };
-
-    // DOM elements
-    const authScreen = document.getElementById('authScreen');
-    const dashboardScreen = document.getElementById('dashboardScreen');
-    const loginUsername = document.getElementById('loginUsername');
-    const loginPassword = document.getElementById('loginPassword');
-    const authError = document.getElementById('authError');
-    const loginBtn = document.getElementById('loginBtn');
-    const createWalletBtn = document.getElementById('createWalletBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const greetingUser = document.getElementById('greetingUser');
-    const balanceDisplay = document.getElementById('balanceDisplay');
-    const recentTxList = document.getElementById('recentTxList');
-
-    // Modals
-    const topupModal = document.getElementById('topupModal');
-    const billModal = document.getElementById('billModal');
-    const transferModal = document.getElementById('transferModal');
-    const topupAmount = document.getElementById('topupAmount');
-    const billType = document.getElementById('billType');
-    const billAmount = document.getElementById('billAmount');
-    const transferRecipient = document.getElementById('transferRecipient');
-    const transferAmount = document.getElementById('transferAmount');
-    const topupError = document.getElementById('topupError');
-    const billError = document.getElementById('billError');
-    const transferError = document.getElementById('transferError');
-
-    // Buttons
-    document.getElementById('topupAction').addEventListener('click', ()=> openModal(topupModal));
-    document.getElementById('payBillAction').addEventListener('click', ()=> openModal(billModal));
-    document.getElementById('transferAction').addEventListener('click', ()=> openModal(transferModal));
-    document.getElementById('historyAction').addEventListener('click', ()=>{
-      alert('📋 Full transaction history is shown below balance card.');
-    });
-
-    // cancel buttons
-    document.getElementById('cancelTopup').addEventListener('click', ()=> closeModal(topupModal));
-    document.getElementById('cancelBill').addEventListener('click', ()=> closeModal(billModal));
-    document.getElementById('cancelTransfer').addEventListener('click', ()=> closeModal(transferModal));
-
-    // confirm actions
-    document.getElementById('confirmTopup').addEventListener('click', handleTopup);
-    document.getElementById('confirmBill').addEventListener('click', handlePayBill);
-    document.getElementById('confirmTransfer').addEventListener('click', handleTransfer);
-
-    // modal close on background click
-    [topupModal, billModal, transferModal].forEach(m => {
-      m.addEventListener('click', (e) => { if (e.target === m) closeModal(m); });
-    });
-
-    function openModal(modal) {
-      modal.style.display = 'flex';
-      // clear errors & inputs
-      if (modal === topupModal) { topupAmount.value = ''; topupError.textContent = ''; }
-      if (modal === billModal) { billType.value = ''; billAmount.value = ''; billError.textContent = ''; }
-      if (modal === transferModal) { transferRecipient.value = ''; transferAmount.value = ''; transferError.textContent = ''; }
-    }
-    function closeModal(modal) { modal.style.display = 'none'; }
-
-    // ---------- UTILS ----------
-    function formatNaira(amount) {
-      return '₦' + Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-
-    function updateUI() {
-      balanceDisplay.textContent = formatNaira(walletData.balance);
-      renderRecentTransactions();
-    }
-
-    function renderRecentTransactions() {
-      if (!walletData.transactions.length) {
-        recentTxList.innerHTML = '<div style="padding:16px; text-align:center; color:#7fa381;">No transactions yet</div>';
-        return;
+    const testimonials = [
+      {
+        quote: "Phantom Ink Creative completely changed how our brand looks online. The identity felt premium, the social templates were incredibly usable, and our launch instantly looked more established.",
+        name: "Amina Bello",
+        role: "Founder, Bloom Social",
+        avatar: "AB",
+        mini: "Clear process, premium taste, and deliverables that were easy to roll out."
+      },
+      {
+        quote: "We needed a modern visual direction that felt sharp enough for tech and warm enough for real people. The final result looked like a top-tier startup brand from day one.",
+        name: "Michael Oraji",
+        role: "Product Lead, Nova Labs",
+        avatar: "MO",
+        mini: "The landing page visuals gave our team a strong head start with development."
+      },
+      {
+        quote: "The creative system saved our team hours every week. Instead of starting from scratch, we now have flexible templates that still look custom and intentional.",
+        name: "Sarah Knight",
+        role: "Marketing Manager, Kinetic Wear",
+        avatar: "SK",
+        mini: "Smart layout decisions made content production faster and more consistent."
       }
-      const recent = [...walletData.transactions].reverse().slice(0, 5);
-      recentTxList.innerHTML = recent.map(tx => {
-        const sign = tx.type === 'topup' ? '+' : '-';
-        return `<div class="tx-item"><span>${tx.description || tx.type}</span><span class="tx-amount">${sign}${formatNaira(tx.amount)}</span></div>`;
-      }).join('');
+    ];
+
+    let testimonialIndex = 0;
+    const testimonialQuote = document.getElementById("testimonialQuote");
+    const testimonialName = document.getElementById("testimonialName");
+    const testimonialRole = document.getElementById("testimonialRole");
+    const testimonialAvatar = document.getElementById("testimonialAvatar");
+    const testimonialMini = document.getElementById("testimonialMini");
+    const prevTestimonial = document.getElementById("prevTestimonial");
+    const nextTestimonial = document.getElementById("nextTestimonial");
+
+    function renderTestimonial(index) {
+      const item = testimonials[index];
+      testimonialQuote.textContent = item.quote;
+      testimonialName.textContent = item.name;
+      testimonialRole.textContent = item.role;
+      testimonialAvatar.textContent = item.avatar;
+      testimonialMini.textContent = item.mini;
     }
 
-    function addTransaction(type, amount, description) {
-      walletData.transactions.push({
-        type, amount, description,
-        date: new Date().toLocaleString()
+    renderTestimonial(testimonialIndex);
+
+    function nextSlide() {
+      testimonialIndex = (testimonialIndex + 1) % testimonials.length;
+      renderTestimonial(testimonialIndex);
+    }
+
+    function prevSlide() {
+      testimonialIndex = (testimonialIndex - 1 + testimonials.length) % testimonials.length;
+      renderTestimonial(testimonialIndex);
+    }
+
+    let testimonialTimer = setInterval(nextSlide, 5500);
+
+    nextTestimonial.addEventListener("click", () => {
+      nextSlide();
+      clearInterval(testimonialTimer);
+      testimonialTimer = setInterval(nextSlide, 5500);
+    });
+
+    prevTestimonial.addEventListener("click", () => {
+      prevSlide();
+      clearInterval(testimonialTimer);
+      testimonialTimer = setInterval(nextSlide, 5500);
+    });
+
+    menuBtn.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    navAnchors.forEach(link => {
+      link.addEventListener("click", () => navLinks.classList.remove("open"));
+    });
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("light-theme");
+      const isLight = document.body.classList.contains("light-theme");
+      themeToggle.textContent = isLight ? "☀" : "☾";
+      localStorage.setItem("phantomTheme", isLight ? "light" : "dark");
+    });
+
+    const savedTheme = localStorage.getItem("phantomTheme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light-theme");
+      themeToggle.textContent = "☀";
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
       });
-      if (type === 'topup') walletData.balance += amount;
-      else walletData.balance -= amount;
-      saveWallet();
-      updateUI();
-    }
+    }, { threshold: 0.14 });
 
-    function saveWallet() {
-      if (currentUser) {
-        localStorage.setItem(STORAGE_WALLET + '_' + currentUser.username, JSON.stringify(walletData));
-      }
-    }
+    revealItems.forEach(item => revealObserver.observe(item));
 
-    function loadWallet(username) {
-      const saved = localStorage.getItem(STORAGE_WALLET + '_' + username);
-      if (saved) {
-        walletData = JSON.parse(saved);
-      } else {
-        walletData = { balance: 0, transactions: [] };
-      }
-    }
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.dataset.target;
+        let current = 0;
+        const duration = 1400;
+        const stepTime = Math.max(20, Math.floor(duration / target));
+        const tick = setInterval(() => {
+          current += Math.ceil(target / 35);
+          if (current >= target) {
+            current = target;
+            clearInterval(tick);
+          }
+          el.textContent = target === 98 ? current + "%" : current;
+        }, stepTime);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.4 });
 
-    // save credentials (simplified, plain comparison for demo)
-    function saveCredentials(username, password) {
-      const creds = { username, password }; // demo, not hashed
-      localStorage.setItem(STORAGE_CREDS + '_' + username, JSON.stringify(creds));
-    }
+    counters.forEach(counter => counterObserver.observe(counter));
 
-    function getStoredCredentials(username) {
-      const data = localStorage.getItem(STORAGE_CREDS + '_' + username);
-      return data ? JSON.parse(data) : null;
-    }
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filter = btn.dataset.filter;
 
-    // Login flow
-    function attemptLogin(username, password) {
-      const stored = getStoredCredentials(username);
-      if (!stored) return false;
-      return stored.password === password;
-    }
-
-    function doLogin(username) {
-      currentUser = { username };
-      loadWallet(username);
-      showDashboard();
-    }
-
-    function showDashboard() {
-      authScreen.style.display = 'none';
-      dashboardScreen.style.display = 'flex';
-      greetingUser.textContent = `👋 ${currentUser.username}`;
-      updateUI();
-    }
-
-    function showAuthScreen() {
-      dashboardScreen.style.display = 'none';
-      authScreen.style.display = 'flex';
-      loginUsername.value = '';
-      loginPassword.value = '';
-      authError.textContent = '';
-      currentUser = null;
-    }
-
-    // event: login
-    loginBtn.addEventListener('click', () => {
-      const user = loginUsername.value.trim();
-      const pass = loginPassword.value;
-      if (!user || !pass) {
-        authError.textContent = 'Enter username and exclusive password';
-        return;
-      }
-      if (attemptLogin(user, pass)) {
-        doLogin(user);
-      } else {
-        authError.textContent = 'Invalid username or password';
-      }
+        projects.forEach(project => {
+          const category = project.dataset.category;
+          if (filter === "all" || filter === category) {
+            project.classList.remove("hide");
+          } else {
+            project.classList.add("hide");
+          }
+        });
+      });
     });
 
-    // create new wallet (exclusive to you)
-    createWalletBtn.addEventListener('click', () => {
-      const user = loginUsername.value.trim();
-      const pass = loginPassword.value;
-      if (!user || !pass) {
-        authError.textContent = 'Choose username & password';
-        return;
-      }
-      if (getStoredCredentials(user)) {
-        authError.textContent = 'Username already exists. Login instead.';
-        return;
-      }
-      // create credentials
-      saveCredentials(user, pass);
-      // init empty wallet
-      walletData = { balance: 0, transactions: [] };
-      localStorage.setItem(STORAGE_WALLET + '_' + user, JSON.stringify(walletData));
-      doLogin(user);
+    faqItems.forEach(item => {
+      const button = item.querySelector(".faq-q");
+      button.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
+        faqItems.forEach(i => i.classList.remove("open"));
+        if (!isOpen) item.classList.add("open");
+      });
     });
 
-    logoutBtn.addEventListener('click', () => {
-      showAuthScreen();
+    pricingBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        pricingBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const plan = btn.dataset.plan;
+
+        priceValues.forEach((price, index) => {
+          const monthly = price.dataset.monthly;
+          const yearly = price.dataset.yearly;
+          price.textContent = plan === "monthly" ? "$" + monthly : "$" + yearly;
+          priceSuffixes[index].textContent = plan === "monthly"
+            ? (index === 2 ? "/ month" : "/ package")
+            : "/ year";
+        });
+      });
     });
 
-    // ----- HANDLERS -----
-    function handleTopup() {
-      const amt = parseFloat(topupAmount.value);
-      if (isNaN(amt) || amt <= 0) {
-        topupError.textContent = 'Enter a valid amount';
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const service = document.getElementById("service").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!name || !email || !service || !message) {
+        formStatus.textContent = "Please complete the required fields.";
+        formStatus.style.color = "var(--danger)";
         return;
       }
-      addTransaction('topup', amt, 'Top up');
-      closeModal(topupModal);
-    }
 
-    function handlePayBill() {
-      const type = billType.value.trim();
-      const amt = parseFloat(billAmount.value);
-      if (!type) { billError.textContent = 'Enter bill type'; return; }
-      if (isNaN(amt) || amt <= 0) { billError.textContent = 'Valid amount required'; return; }
-      if (amt > walletData.balance) { billError.textContent = 'Insufficient balance'; return; }
-      addTransaction('bill', amt, `Bill: ${type}`);
-      closeModal(billModal);
-    }
+      formStatus.textContent = "Sending your inquiry...";
+      formStatus.style.color = "var(--muted)";
 
-    function handleTransfer() {
-      const recipient = transferRecipient.value.trim();
-      const amt = parseFloat(transferAmount.value);
-      if (!recipient) { transferError.textContent = 'Enter recipient name'; return; }
-      if (isNaN(amt) || amt <= 0) { transferError.textContent = 'Enter valid amount'; return; }
-      if (amt > walletData.balance) { transferError.textContent = 'Insufficient funds'; return; }
-      addTransaction('transfer', amt, `Transfer to ${recipient}`);
-      closeModal(transferModal);
-    }
+      setTimeout(() => {
+        formStatus.textContent = "Thanks. Your project inquiry has been sent successfully.";
+        formStatus.style.color = "var(--success)";
+        form.reset();
+      }, 1100);
+    });
 
-    // enter key quick login
-    loginPassword.addEventListener('keypress', (e) => { if(e.key==='Enter') loginBtn.click(); });
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navAnchors.forEach(link => {
+          link.classList.toggle(
+            "active",
+            link.getAttribute("href").slice(1) === entry.target.id
+          );
+        });
+      });
+    }, { threshold: 0.55 });
 
-    // initial state: show auth
-    showAuthScreen();
-
-    // prefill any saved session? none. keep exclusive.
-    // for convenience, if user was logged in? we don't auto-login for security (exclusive)
-  })();
-</script>
+    sections.forEach(section => sectionObserver.observe(section));
+  </script>
 </body>
 </html>
