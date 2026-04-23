@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SOLACEVENTURES | Artisanal Cocoa Tea</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FDF8F2;
+            color: #2A1A0E;
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Dark Mode */
+        body.dark {
+            background: #16100C;
+            color: #F0E5D8;
+        }
+        body.dark .glass-nav,
+        body.dark .product-card,
+        body.dark .testimonial-card,
+        body.dark .feature-card,
+        body.dark .contact-form,
+        body.dark .footer {
+            background: rgba(22, 16, 12, 0.92);
+            backdrop-filter: blur(12px);
+            border-color: rgba(200, 160, 110, 0.25);
+        }
+        body.dark .btn-outline {
+            border-color: #C9A063;
+            color: #C9A063;
+        }
+        body.dark .glass-nav {
+            background: rgba(22, 16, 12, 0.88);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ----- TYPOGRAPHY ----- */
+        h1, h2, h3, .heading {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+        .section-title {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #9B6E48;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+        body.dark .section-subtitle {
+            color: #D4AC7A;
+        }
+
+        /* ----- NAVBAR ----- */
+        .glass-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(253, 248, 242, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(139, 79, 45, 0.15);
+        }
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #5C3A22, #9E6A3E);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: inherit;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #B47C44; }
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: inherit;
+            margin-left: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-container { padding: 1rem 1.5rem; }
+        }
+
+        /* ----- CONTAINER & SPACING ----- */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        section {
+            padding: 5rem 0;
+        }
+        @media (max-width: 768px) {
+            section { padding: 3.5rem 0; }
+            .container { padding: 0 1.5rem; }
+            .section-title { font-size: 2.2rem; }
+        }
+
+        /* ----- BUTTONS ----- */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .btn-primary {
+            background: #784A2C;
+            color: white;
+            box-shadow: 0 8px 20px rgba(88, 52, 28, 0.25);
+        }
+        .btn-primary:hover {
+            background: #5C3820;
+            transform: translateY(-3px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #784A2C;
+            color: #784A2C;
+        }
+        .btn-outline:hover {
+            background: #784A2C;
+            color: white;
+        }
+
+        /* ----- HERO SECTION (Spacious) ----- */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-size: 4rem;
+            line-height: 1.15;
+            background: linear-gradient(125deg, #3D261A, #A27146);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            max-width: 90%;
+        }
+        .hero-image img {
+            width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.3);
+        }
+        .cta-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+            .hero-content p { max-width: 100%; }
+            .cta-group { justify-content: center; }
+            .hero-content h1 { font-size: 2.8rem; }
+        }
+
+        /* ----- PRODUCT GRID (AUTO-FIT MAGIC) ----- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+        .product-card {
+            background: rgba(255, 250, 242, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.35s;
+            border: 1px solid rgba(200, 160, 110, 0.3);
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.08);
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #C69454;
+            box-shadow: 0 24px 36px -16px rgba(0,0,0,0.15);
+        }
+        .product-img {
+            width: 140px;
+            margin-bottom: 1.2rem;
+            border-radius: 24px;
+        }
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+        .price {
+            font-weight: 700;
+            color: #B47C44;
+            font-size: 1.3rem;
+            margin: 0.8rem 0;
+        }
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.3rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+
+        /* FEATURES & TESTIMONIALS GRID (Auto-fit) */
+        .features-grid, .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .feature-card, .testimonial-card {
+            background: rgba(255, 250, 242, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 2rem 1.5rem;
+            border-radius: 28px;
+            text-align: center;
+            transition: 0.2s;
+            border: 1px solid rgba(200, 160, 110, 0.2);
+        }
+        .feature-card i {
+            font-size: 2.5rem;
+            color: #9E6A3E;
+            margin-bottom: 1rem;
+        }
+        .testimonial-card .stars {
+            color: #E6B422;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 1.2rem;
+        }
+        .profile img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* HEALTH SECTION (Clean spacing) */
+        .health-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .health-list {
+            list-style: none;
+        }
+        .health-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .health-list i {
+            color: #B47C44;
+            font-size: 1.3rem;
+        }
+
+        /* CTA SECTION */
+        .cta-block {
+            background: linear-gradient(125deg, #352419, #6A422A);
+            border-radius: 48px;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            margin: 2rem 0;
+        }
+        .cta-block h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* CONTACT FORM (Validated, red borders) */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        .contact-form {
+            background: rgba(255, 250, 242, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 2.2rem;
+            border: 1px solid rgba(200, 160, 110, 0.3);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border-radius: 48px;
+            border: 1.5px solid #EAD9C8;
+            background: rgba(255, 255, 245, 0.9);
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+            outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #AA7244;
+            box-shadow: 0 0 0 3px rgba(170, 114, 68, 0.15);
+        }
+        .form-group.error input, .form-group.error textarea {
+            border-color: #E35F5F !important;
+            background-color: #FFF5F5;
+        }
+        .error-message {
+            color: #E35F5F;
+            font-size: 0.7rem;
+            margin-top: 5px;
+            display: block;
+            padding-left: 1rem;
+        }
+        .contact-info {
+            padding: 1rem;
+        }
+        .contact-info p {
+            margin-bottom: 1.2rem;
+        }
+        @media (max-width: 800px) {
+            .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+        }
+
+        /* FLOATING ELEMENTS */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #25D366;
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            left: 28px;
+            background: #784A2C;
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+            z-index: 999;
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: #1F1812;
+            color: #F7EBDC;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: 500;
+            z-index: 2000;
+            backdrop-filter: blur(12px);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            font-size: 0.9rem;
+        }
+        body.dark .toast-notification {
+            background: #2A201A;
+            color: #F2E3D4;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #1D1510;
+            color: #DCC9B6;
+            padding: 2.5rem 0;
+            border-radius: 32px 32px 0 0;
+            margin-top: 3rem;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+        }
+        .social-icons a {
+            color: #C9A36A;
+            font-size: 1.3rem;
+            margin-left: 1rem;
+            transition: 0.2s;
+        }
+        .social-icons a:hover { color: #E6C28F; }
+
+        /* Texture background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 25%, rgba(90, 55, 30, 0.03) 1.8%, transparent 2%);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        section {
+            scroll-margin-top: 90px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="toast-notification" id="toastMsg">✨ Action completed</div>
+
+<nav class="glass-nav">
+    <div class="nav-container">
+        <div class="logo">SOLACEVENTURES</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">Story</a>
+            <a href="#products">Collection</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i></button>
+    </div>
+</nav>
+
+<main>
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content" data-aos="fade-right">
+                <h1>Experience the Rich Taste of <span class="serif">Pure Cocoa</span></h1>
+                <p>100% natural, antioxidant-rich cocoa tea — locally sourced, ethically crafted. Sip warmth, embrace wellness.</p>
+                <div class="cta-group">
+                    <a href="#products" class="btn btn-primary">Shop Now</a>
+                    <a href="#about" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image" data-aos="fade-left">
+                <img src="https://placehold.co/650x520/4B2E1C/FFF1E2?text=Artisan+Cocoa+Tea&font=playfair" alt="Premium cocoa tea">
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" data-aos="fade-up">
+        <div class="container" style="text-align: center; max-width: 800px;">
+            <span class="serif" style="font-size: 1.3rem; color: #B47C44;">Heritage & Craft</span>
+            <h2 class="section-title" style="font-size: 2.5rem;">The Soul of SOLACEVENTURES</h2>
+            <p style="font-size: 1.1rem; line-height: 1.7;">Family-owned and rooted in tradition, we source the finest cocoa beans from local farms. Small-batch roasting unlocks deep, velvety notes without additives. Every cup is a story of authenticity, comfort, and pure cacao richness.</p>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products">
+        <div class="container">
+            <h2 class="section-title">Our Collection</h2>
+            <p class="section-subtitle">Handcrafted cocoa blends for the discerning palate</p>
+            <div class="product-grid">
+                <div class="product-card" data-aos="zoom-in">
+                    <img class="product-img" src="https://placehold.co/200x200/5D3A24/FFF3E6?text=Dark+Cocoa" alt="Dark">
+                    <h3>Pure Origin Dark</h3>
+                    <p>Single-origin • 72% cacao</p>
+                    <div class="price">$24.90</div>
+                    <button class="whatsapp-btn" data-product="Pure Origin Dark"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+                </div>
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="100">
+                    <img class="product-img" src="https://placehold.co/200x200/77573B/FFF3E6?text=Spiced+Cocoa" alt="Spiced">
+                    <h3>Golden Spice Infusion</h3>
+                    <p>Cinnamon, vanilla & cardamom</p>
+                    <div class="price">$26.90</div>
+                    <button class="whatsapp-btn" data-product="Golden Spice Infusion"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+                </div>
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="200">
+                    <img class="product-img" src="https://placehold.co/200x200/8C6344/FFF3E6?text=Mocha+Blend" alt="Mocha">
+                    <h3>Velvet Mocha Blend</h3>
+                    <p>Deep roast + cacao nibs</p>
+                    <div class="price">$28.50</div>
+                    <button class="whatsapp-btn" data-product="Velvet Mocha Blend"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Why Choose Us</h2>
+            <p class="section-subtitle">Crafted with integrity, loved for flavor</p>
+            <div class="features-grid">
+                <div class="feature-card"><i class="fas fa-seedling"></i><h3>100% Natural</h3><p>No additives or preservatives</p></div>
+                <div class="feature-card"><i class="fas fa-trophy"></i><h3>Rich Flavor</h3><p>Slow-roasted for depth</p></div>
+                <div class="feature-card"><i class="fas fa-hand-holding-heart"></i><h3>Locally Produced</h3><p>Supporting local farmers</p></div>
+                <div class="feature-card"><i class="fas fa-heartbeat"></i><h3>Health Benefits</h3><p>Antioxidant rich</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health Benefits -->
+    <section>
+        <div class="container health-grid">
+            <div data-aos="fade-right">
+                <h2 style="font-size: 2rem;">Wellness in Every Sip</h2>
+                <ul class="health-list">
+                    <li><i class="fas fa-heart"></i> Supports heart & brain health</li>
+                    <li><i class="fas fa-bolt"></i> Natural clean energy boost</li>
+                    <li><i class="fas fa-smile"></i> Mood-enhancing theobromine</li>
+                    <li><i class="fas fa-shield-alt"></i> High flavonoid antioxidants</li>
+                </ul>
+            </div>
+            <div style="text-align: center;" data-aos="fade-left">
+                <i class="fas fa-chart-line" style="font-size: 4rem; color: #AB7242;"></i>
+                <p style="margin-top: 1rem;"><strong>+43% more antioxidants</strong> than conventional cocoa</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Trusted by Connoisseurs</h2>
+            <p class="section-subtitle">What our customers are saying</p>
+            <div class="testimonial-grid">
+                <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Exquisite depth & aroma. The purest cocoa tea I've ever tasted."</p><div class="profile"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="user"><span>— Diana M.</span></div></div>
+                <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Finally a brand that honors natural cocoa. My daily ritual."</p><div class="profile"><img src="https://randomuser.me/api/portraits/men/36.jpg" alt="user"><span>— James C.</span></div></div>
+                <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Luxury, smooth & healthy — delivered fast. I'm obsessed!"</p><div class="profile"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="user"><span>— Sophia L.</span></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="container">
+        <div class="cta-block" data-aos="flip-up">
+            <h2>Order Your Cocoa Tea Today</h2>
+            <p style="margin: 1rem 0; opacity: 0.9;">Indulge in pure cocoa bliss — crafted for wellness seekers and epicureans.</p>
+            <a href="#products" class="btn btn-primary" style="background: #F1CD91; color: #2E1C10;">Discover Collection →</a>
+        </div>
+    </div>
+
+    <!-- Contact Section with Validation -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Connect</h2>
+            <p class="section-subtitle">We'd love to hear from you</p>
+            <div class="contact-wrapper">
+                <div class="contact-form">
+                    <h3 style="margin-bottom: 1.5rem;">Send us a message</h3>
+                    <form id="premiumContactForm">
+                        <div class="form-group" id="nameGroup">
+                            <input type="text" id="contactName" placeholder="Full name *">
+                            <span class="error-message" id="nameError"></span>
+                        </div>
+                        <div class="form-group" id="emailGroup">
+                            <input type="email" id="contactEmail" placeholder="Email address *">
+                            <span class="error-message" id="emailError"></span>
+                        </div>
+                        <div class="form-group" id="msgGroup">
+                            <textarea rows="3" id="contactMsg" placeholder="Your message *"></textarea>
+                            <span class="error-message" id="msgError"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Inquiry <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fab fa-whatsapp" style="color: #25D366; font-size: 1.3rem;"></i> <strong>WhatsApp:</strong> <a href="#" id="waLinkText" style="color: #AA7244; text-decoration: none;">+1 (555) 347-8921</a></p>
+                    <p><i class="fas fa-phone-alt"></i> <strong>Call:</strong> +1 (800) 764-2930</p>
+                    <p><i class="fas fa-envelope"></i> <strong>Email:</strong> hello@solaceventures.com</p>
+                    <p style="margin-top: 1.5rem;"><i class="fas fa-map-marker-alt"></i> Brooklyn, NY — Artisanal Craft House</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container footer-grid">
+        <div>© 2025 SOLACEVENTURES — Premium Cocoa Tea</div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <div><a href="#home" style="color: #C9A36A; text-decoration: none;">Back to top ↑</a></div>
+    </div>
+</footer>
+
+<a href="#" class="whatsapp-float" id="whatsappFloatIcon"><i class="fab fa-whatsapp"></i></a>
+<div class="back-to-top" id="backToTopBtn"><i class="fas fa-arrow-up"></i></div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 700, once: true });
+
+    // Dark mode
+    const darkToggle = document.getElementById('darkModeToggle');
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        const icon = darkToggle.querySelector('i');
+        if (document.body.classList.contains('dark')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    });
+
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = msg || (isError ? '⚠️ Please fill all fields' : '✨ Success');
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    }
+
+    function clearErrors() {
+        document.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
+        document.getElementById('nameError').innerText = '';
+        document.getElementById('emailError').innerText = '';
+        document.getElementById('msgError').innerText = '';
+    }
+
+    // Form validation with red borders
+    const contactForm = document.getElementById('premiumContactForm');
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        clearErrors();
+        let valid = true;
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const msg = document.getElementById('contactMsg').value.trim();
+
+        if (!name) {
+            document.getElementById('nameGroup').classList.add('error');
+            document.getElementById('nameError').innerText = 'Name is required';
+            valid = false;
+        }
+        if (!email) {
+            document.getElementById('emailGroup').classList.add('error');
+            document.getElementById('emailError').innerText = 'Email is required';
+            valid = false;
+        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+            document.getElementById('emailGroup').classList.add('error');
+            document.getElementById('emailError').innerText = 'Valid email required';
+            valid = false;
+        }
+        if (!msg) {
+            document.getElementById('msgGroup').classList.add('error');
+            document.getElementById('msgError').innerText = 'Message cannot be empty';
+            valid = false;
+        }
+        if (!valid) {
+            showToast('❌ Please fill all required fields correctly', true);
+            return;
+        }
+        showToast(`✅ Thanks ${name}, we'll respond shortly!`);
+        contactForm.reset();
+        clearErrors();
+    });
+
+    // WhatsApp interactions
+    const phone = '15553478921';
+    document.querySelectorAll('.whatsapp-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const product = btn.getAttribute('data-product');
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(`Hi SOLACEVENTURES, I'd like to order ${product}.`)}`, '_blank');
+            showToast(`📦 Order for ${product} opened`);
+        });
+    });
+    document.getElementById('whatsappFloatIcon')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent('Hello! I am interested in your premium cocoa tea.')}`, '_blank');
+        showToast('💬 WhatsApp chat started');
+    });
+    document.getElementById('waLinkText')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent('I need more info about cocoa tea.')}`, '_blank');
+    });
+
+    // Back to top
+    const backBtn = document.getElementById('backToTopBtn');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+            backBtn.style.opacity = '1';
+            backBtn.style.visibility = 'visible';
+        } else {
+            backBtn.style.opacity = '0';
+            backBtn.style.visibility = 'hidden';
+        }
+    });
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+</body>
+</html>
