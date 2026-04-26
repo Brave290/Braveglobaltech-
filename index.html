@@ -10,7 +10,7 @@
     <meta property="og:title" content="BRAVEGLOBALTECH | Futuristic Graphics & AI Design">
     <meta property="og:description" content="Futuristic graphic design powered by Canva, PixelLab, AI generation, and creative expertise. Logos, photo editing, and more.">
     <meta property="og:type" content="website">
-    <title>BRAVEGLOBALTECH | Futuristic Graphics &amp; AI Design</title>
+    <title>BRAVEGLOBALTECH | Futuristic Graphics & AI Design</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,26 +23,22 @@
             --mid-blue: #151B3A;
             --accent: #4A6FA5;
             --accent-soft: #5C85C2;
-            --text-primary: rgba(224, 242, 254, 0.95);
-            --text-secondary: rgba(170, 190, 210, 0.85);
-            --text-dim: rgba(130, 150, 180, 0.65);
-            --border-soft: rgba(74, 111, 165, 0.18);
+            --text-primary: rgba(224,242,254,0.95);
+            --text-secondary: rgba(170,190,210,0.85);
+            --text-dim: rgba(130,150,180,0.65);
+            --border-soft: rgba(74,111,165,0.18);
             --error: #E53E3E;
             --success: #38A169;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.25);
             --shadow-md: 0 4px 20px rgba(0,0,0,0.35);
             --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            --font-thin: 'Exo 2', 'Segoe UI', sans-serif;
+            --radius-sm: 8px; --radius-md: 12px; --radius-lg: 20px; --radius-xl: 28px;
+            --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+            --transition-slow: 0.5s cubic-bezier(0.4,0,0.2,1);
+            --font-thin: 'Exo 2','Segoe UI',sans-serif;
             --max-width: 1200px;
             --nav-height: 80px;
         }
-
         body.light-mode {
             --deep-space: #F5F7FA;
             --dark-blue: #FFFFFF;
@@ -52,2077 +48,636 @@
             --text-primary: #1A202C;
             --text-secondary: #2D3748;
             --text-dim: #4A5568;
-            --border-soft: rgba(44, 82, 130, 0.15);
+            --border-soft: rgba(44,82,130,0.15);
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
             --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
             --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
         }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: var(--nav-height);
-            font-size: 16px;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); font-size: 16px; }
         body {
-            font-family: var(--font-thin);
-            font-weight: 200;
-            background-color: var(--deep-space);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: var(--font-thin); font-weight: 200;
+            background: var(--deep-space); color: var(--text-primary);
+            line-height: 1.6; overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+            transition: background 0.3s, color 0.3s;
         }
 
-        /* Skip to content */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--accent);
-            color: white;
-            padding: 8px 16px;
-            z-index: 10004;
-            transition: top 0.3s;
-            text-decoration: none;
-            border-radius: 0 0 var(--radius-sm) 0;
-        }
-        .skip-link:focus {
-            top: 0;
-        }
+        /* Skip link */
+        .skip-link { position: absolute; top: -40px; left: 0; background: var(--accent); color: white; padding: 8px 16px; z-index: 10004; transition: top 0.3s; border-radius: 0 0 8px 0; }
+        .skip-link:focus { top: 0; }
 
         /* Preloader */
-        #preloader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.5s ease, visibility 0.5s;
-            opacity: 1;
-            visibility: visible;
-        }
-        #preloader.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid rgba(74, 111, 165, 0.15);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 0.75s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        #preloader { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--dark-blue); display:flex; align-items:center; justify-content:center; z-index:10000; transition:opacity 0.5s, visibility 0.5s; }
+        #preloader.fade-out { opacity:0; visibility:hidden; }
+        .spinner { width:48px; height:48px; border:3px solid rgba(74,111,165,0.15); border-top:3px solid var(--accent); border-radius:50%; animation:spin 0.75s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
 
-        /* Particle Canvas */
-        #particleCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.25;
-        }
-        body.light-mode #particleCanvas {
-            opacity: 0.15;
-        }
+        /* Particle canvas */
+        #particleCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0.25; }
+        body.light-mode #particleCanvas { opacity:0.15; }
 
         /* Navigation */
-        .nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            height: var(--nav-height);
-            background: rgba(11, 11, 31, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-soft);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-        body.light-mode .nav {
-            background: rgba(255,255,255,0.9);
-        }
-        .nav.scrolled {
-            background: rgba(11, 11, 31, 0.95);
-            box-shadow: var(--shadow-sm);
-        }
-        body.light-mode .nav.scrolled {
-            background: rgba(255,255,255,0.97);
-        }
-        .nav-container {
-            width: 100%;
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 1.2rem;
-            letter-spacing: 3px;
-            color: var(--accent);
-            text-transform: uppercase;
-            white-space: nowrap;
-            transition: var(--transition);
-        }
-        .nav-logo:hover {
-            color: var(--accent-soft);
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 8px;
-            align-items: center;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 300;
-            font-size: 0.85rem;
-            padding: 8px 16px;
-            border-radius: 25px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: var(--transition);
-        }
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--accent);
-            background: rgba(74, 111, 165, 0.08);
-        }
-        .nav-cta {
-            border: 1px solid var(--accent) !important;
-            background: transparent !important;
-            font-weight: 400 !important;
-        }
-        .nav-cta:hover {
-            background: var(--accent) !important;
-            color: white !important;
-            border-color: var(--accent) !important;
-        }
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            flex-direction: column;
-            gap: 5px;
-            z-index: 1001;
-        }
-        .nav-toggle span {
-            display: block;
-            width: 26px;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-        .nav-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        .nav-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .nav-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 12px;
-        }
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 6px;
-            border-radius: 50%;
-            transition: var(--transition);
-            color: var(--text-secondary);
-        }
-        .icon-btn:hover {
-            color: var(--accent);
-            background: rgba(74, 111, 165, 0.1);
-        }
+        .nav { position:fixed; top:0; left:0; right:0; z-index:1000; height:var(--nav-height); background:rgba(11,11,31,0.85); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--border-soft); display:flex; align-items:center; transition:0.3s; }
+        body.light-mode .nav { background:rgba(255,255,255,0.9); }
+        .nav.scrolled { background:rgba(11,11,31,0.95); box-shadow:var(--shadow-sm); }
+        .nav-container { width:100%; max-width:var(--max-width); margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
+        .nav-logo { display:flex; align-items:center; gap:8px; text-decoration:none; font-weight:400; font-size:1.2rem; letter-spacing:3px; color:var(--accent); text-transform:uppercase; }
+        .nav-logo:hover { color:var(--accent-soft); }
+        .nav-links { display:flex; list-style:none; gap:8px; align-items:center; }
+        .nav-links a { text-decoration:none; color:var(--text-secondary); font-weight:300; font-size:0.85rem; padding:8px 16px; border-radius:25px; letter-spacing:1px; text-transform:uppercase; transition:0.3s; }
+        .nav-links a:hover, .nav-links a.active { color:var(--accent); background:rgba(74,111,165,0.08); }
+        .nav-cta { border:1px solid var(--accent) !important; background:transparent !important; font-weight:400 !important; }
+        .nav-cta:hover { background:var(--accent) !important; color:white !important; }
+        .nav-toggle { display:none; background:none; border:none; padding:8px; flex-direction:column; gap:5px; z-index:1001; }
+        .nav-toggle span { display:block; width:26px; height:2px; background:var(--accent); border-radius:2px; transition:0.3s; }
+        .nav-toggle.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .nav-toggle.active span:nth-child(2) { opacity:0; }
+        .nav-toggle.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+        .nav-actions { display:flex; align-items:center; gap:8px; margin-left:12px; }
+        .icon-btn { background:none; border:none; font-size:1.2rem; padding:6px; border-radius:50%; transition:0.3s; color:var(--text-secondary); }
+        .icon-btn:hover { color:var(--accent); background:rgba(74,111,165,0.1); }
 
         /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: calc(var(--nav-height) + 40px) 24px 60px;
-            z-index: 1;
-        }
-        .hero-content {
-            max-width: 750px;
-            text-align: center;
-            animation: fadeInUp 1s ease-out;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(74, 111, 165, 0.12);
-            border: 1px solid var(--border-soft);
-            color: var(--accent);
-            font-weight: 300;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            padding: 6px 20px;
-            border-radius: 30px;
-            margin-bottom: 20px;
-        }
-        .hero h1 {
-            font-weight: 200;
-            font-size: clamp(2.8rem, 6vw, 4.5rem);
-            letter-spacing: -0.5px;
-            color: var(--text-primary);
-            line-height: 1.15;
-            margin-bottom: 16px;
-        }
-        .hero h1 .highlight {
-            color: var(--accent);
-            font-weight: 300;
-        }
-        .typewriter-cursor {
-            color: var(--accent);
-            font-weight: 200;
-            animation: blink 1s step-end infinite;
-        }
-        @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .hero-subtitle {
-            font-weight: 300;
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 36px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .typewriter-subtitle {
-            display: inline-block;
-        }
-        .hero-buttons {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 30px;
-            border-radius: 30px;
-            font-weight: 400;
-            font-size: 0.95rem;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1px solid transparent;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: var(--transition);
-            font-family: var(--font-thin);
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-            font-weight: 500;
-            box-shadow: var(--shadow-sm);
-        }
-        .btn-primary:hover {
-            background: var(--accent-soft);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        .btn-outline {
-            background: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-        }
-        .btn-outline:hover {
-            background: rgba(74, 111, 165, 0.1);
-            transform: translateY(-2px);
-        }
+        .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:calc(var(--nav-height)+40px) 24px 60px; position:relative; z-index:1; }
+        .hero-content { max-width:750px; text-align:center; animation:fadeInUp 1s ease-out; }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        .hero-badge { display:inline-block; background:rgba(74,111,165,0.12); border:1px solid var(--border-soft); color:var(--accent); font-weight:300; font-size:0.75rem; letter-spacing:3px; text-transform:uppercase; padding:6px 20px; border-radius:30px; margin-bottom:20px; }
+        .hero h1 { font-weight:200; font-size:clamp(2.8rem,6vw,4.5rem); letter-spacing:-0.5px; color:var(--text-primary); line-height:1.15; margin-bottom:16px; }
+        .hero h1 .highlight { color:var(--accent); font-weight:300; }
+        .typewriter-cursor { color:var(--accent); animation:blink 1s step-end infinite; }
+        @keyframes blink { 50%{opacity:0} }
+        .hero-subtitle { font-weight:300; font-size:1.1rem; color:var(--text-secondary); margin-bottom:36px; max-width:500px; margin-left:auto; margin-right:auto; }
+        .hero-buttons { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; }
+        .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 30px; border-radius:30px; font-weight:400; font-size:0.95rem; text-decoration:none; cursor:pointer; border:1px solid transparent; letter-spacing:1px; text-transform:uppercase; transition:0.3s; }
+        .btn-primary { background:var(--accent); color:white; font-weight:500; box-shadow:var(--shadow-sm); }
+        .btn-primary:hover { background:var(--accent-soft); transform:translateY(-2px); box-shadow:var(--shadow-md); }
+        .btn-outline { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+        .btn-outline:hover { background:rgba(74,111,165,0.1); transform:translateY(-2px); }
 
-        /* Scroll down indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            color: var(--accent);
-            opacity: 0.7;
-            transition: opacity 0.5s;
-            cursor: pointer;
-        }
-        .scroll-indicator.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .scroll-indicator span {
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .scroll-arrow {
-            width: 24px;
-            height: 24px;
-            border-left: 2px solid var(--accent);
-            border-bottom: 2px solid var(--accent);
-            transform: rotate(-45deg);
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: rotate(-45deg) translate(0, 0); }
-            40% { transform: rotate(-45deg) translate(-6px, -6px); }
-            60% { transform: rotate(-45deg) translate(-3px, -3px); }
-        }
+        /* Scroll indicator */
+        .scroll-indicator { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--accent); opacity:0.7; transition:opacity 0.5s; cursor:pointer; }
+        .scroll-indicator.hidden { opacity:0; pointer-events:none; }
+        .scroll-indicator span { font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; }
+        .scroll-arrow { width:24px; height:24px; border-left:2px solid var(--accent); border-bottom:2px solid var(--accent); transform:rotate(-45deg); animation:bounce 2s infinite; }
+        @keyframes bounce { 0%,100%{transform:rotate(-45deg) translate(0,0)} 50%{transform:rotate(-45deg) translate(-6px,-6px)} }
 
         /* Sections */
-        .section {
-            padding: 80px 24px;
-            max-width: var(--max-width);
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 56px;
-        }
-        .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--accent);
-            font-weight: 300;
-            margin-bottom: 8px;
-        }
-        .section-title {
-            font-weight: 200;
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-        .section-subtitle {
-            color: var(--text-dim);
-            max-width: 550px;
-            margin: 0 auto;
-            font-size: 1rem;
-            font-weight: 300;
-        }
-        .section-divider {
-            width: 60px;
-            height: 1px;
-            background: var(--accent);
-            margin: 16px auto;
-        }
+        .section { padding:80px 24px; max-width:var(--max-width); margin:0 auto; position:relative; z-index:1; }
+        .section-header { text-align:center; margin-bottom:56px; }
+        .section-label { display:inline-block; font-size:0.75rem; text-transform:uppercase; letter-spacing:4px; color:var(--accent); font-weight:300; margin-bottom:8px; }
+        .section-title { font-weight:200; font-size:clamp(2rem,4vw,2.8rem); color:var(--text-primary); margin-bottom:12px; }
+        .section-subtitle { color:var(--text-dim); max-width:550px; margin:0 auto; font-size:1rem; }
+        .section-divider { width:60px; height:1px; background:var(--accent); margin:16px auto; }
 
-        /* Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 28px;
-        }
-        .service-card {
-            background: rgba(21, 27, 58, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-soft);
-            border-radius: var(--radius-lg);
-            padding: 32px 24px;
-            text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            perspective: 800px;
-            cursor: default;
-        }
-        body.light-mode .service-card {
-            background: rgba(232, 236, 241, 0.6);
-        }
-        .service-card:hover {
-            box-shadow: var(--shadow-md);
-        }
-        .service-icon {
-            font-size: 3.5rem;
-            margin-bottom: 16px;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
-        }
-        .service-card h3 {
-            font-weight: 300;
-            font-size: 1.3rem;
-            color: var(--accent);
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-        .service-card p {
-            color: var(--text-dim);
-            font-weight: 300;
-            line-height: 1.6;
-        }
+        /* Services grid */
+        .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px; }
+        .service-card { background:rgba(21,27,58,0.4); backdrop-filter:blur(12px); border:1px solid var(--border-soft); border-radius:var(--radius-lg); padding:32px 24px; text-align:center; transition:0.3s; }
+        body.light-mode .service-card { background:rgba(232,236,241,0.6); }
+        .service-card:hover { box-shadow:var(--shadow-md); }
+        .service-icon { font-size:3.5rem; margin-bottom:16px; }
+        .service-card h3 { font-weight:300; font-size:1.3rem; color:var(--accent); margin-bottom:8px; }
+        .service-card p { color:var(--text-dim); }
 
         /* Portfolio */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-        .portfolio-item {
-            background: rgba(21, 27, 58, 0.5);
-            border: 1px solid var(--border-soft);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            transition: var(--transition-slow);
-            backdrop-filter: blur(8px);
-            cursor: pointer;
-        }
-        body.light-mode .portfolio-item {
-            background: rgba(232, 236, 241, 0.7);
-        }
-        .portfolio-item:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow-md);
-        }
-        .portfolio-image {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            background: linear-gradient(135deg, #0B0B1F, #151B3A);
-            border-bottom: 1px solid var(--border-soft);
-            transition: background 0.3s;
-        }
-        body.light-mode .portfolio-image {
-            background: linear-gradient(135deg, #E8ECF1, #D1D9E6);
-        }
-        .portfolio-body {
-            padding: 16px 20px;
-        }
-        .portfolio-body h4 {
-            font-weight: 300;
-            color: var(--accent);
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-        }
-        .portfolio-body p {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            font-weight: 300;
-            margin-top: 4px;
-        }
+        .portfolio-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+        .portfolio-item { background:rgba(21,27,58,0.5); border:1px solid var(--border-soft); border-radius:var(--radius-md); overflow:hidden; transition:0.5s; cursor:pointer; }
+        body.light-mode .portfolio-item { background:rgba(232,236,241,0.7); }
+        .portfolio-item:hover { transform:scale(1.02); box-shadow:var(--shadow-md); }
+        .portfolio-image { height:200px; display:flex; align-items:center; justify-content:center; font-size:4rem; background:linear-gradient(135deg,#0B0B1F,#151B3A); border-bottom:1px solid var(--border-soft); }
+        .portfolio-body { padding:16px 20px; }
+        .portfolio-body h4 { font-weight:300; color:var(--accent); }
+        .portfolio-body p { color:var(--text-dim); font-size:0.9rem; }
 
         /* About */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: center;
-        }
-        .about-visual {
-            padding: 40px;
-            background: rgba(21, 27, 58, 0.3);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-soft);
-            text-align: center;
-            font-size: 5rem;
-            backdrop-filter: blur(8px);
-        }
-        body.light-mode .about-visual {
-            background: rgba(232, 236, 241, 0.5);
-        }
-        .about-text h3 {
-            font-weight: 300;
-            font-size: 1.8rem;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-        .about-text p {
-            color: var(--text-secondary);
-            font-weight: 300;
-            line-height: 1.8;
-            margin-bottom: 12px;
-        }
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .skill-tag {
-            background: rgba(74, 111, 165, 0.1);
-            border: 1px solid var(--border-soft);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 300;
-            color: var(--accent);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
+        .about-visual { padding:40px; background:rgba(21,27,58,0.3); border-radius:var(--radius-lg); border:1px solid var(--border-soft); text-align:center; font-size:5rem; }
+        .about-text h3 { font-weight:300; font-size:1.8rem; color:var(--accent); margin-bottom:16px; }
+        .about-text p { color:var(--text-secondary); line-height:1.8; margin-bottom:12px; }
+        .skill-tags { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+        .skill-tag { background:rgba(74,111,165,0.1); border:1px solid var(--border-soft); padding:6px 16px; border-radius:20px; font-size:0.8rem; color:var(--accent); }
 
         /* Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-        .testimonial-card {
-            background: rgba(21, 27, 58, 0.45);
-            border: 1px solid var(--border-soft);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            backdrop-filter: blur(12px);
-            transition: var(--transition);
-        }
-        body.light-mode .testimonial-card {
-            background: rgba(232, 236, 241, 0.6);
-        }
-        .testimonial-card:hover {
-            box-shadow: var(--shadow-sm);
-        }
-        .testimonial-text {
-            font-weight: 300;
-            color: var(--text-secondary);
-            font-style: italic;
-            margin-bottom: 16px;
-        }
-        .testimonial-author {
-            font-weight: 400;
-            color: var(--accent);
-            font-size: 0.9rem;
-        }
-        .stars {
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
+        .testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+        .testimonial-card { background:rgba(21,27,58,0.45); border:1px solid var(--border-soft); border-radius:var(--radius-lg); padding:28px; backdrop-filter:blur(12px); }
+        .testimonial-card:hover { box-shadow:var(--shadow-sm); }
+        .testimonial-text { font-style:italic; color:var(--text-secondary); margin-bottom:16px; }
+        .testimonial-author { font-weight:400; color:var(--accent); }
+        .stars { color:var(--accent); }
 
         /* Contact */
-        #contact {
-            background: rgba(5, 5, 16, 0.8);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-soft);
-            padding: 80px 0;
-            position: relative;
-            z-index: 1;
-        }
-        body.light-mode #contact {
-            background: rgba(245, 247, 250, 0.9);
-        }
-        #contact .section {
-            max-width: 700px;
-        }
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .contact-form input,
-        .contact-form textarea {
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 30px;
-            border: 1px solid var(--border-soft);
-            background: rgba(11, 11, 31, 0.6);
-            color: var(--text-primary);
-            font-family: var(--font-thin);
-            font-weight: 300;
-            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-            resize: vertical;
-        }
-        body.light-mode .contact-form input,
-        body.light-mode .contact-form textarea {
-            background: rgba(255,255,255,0.8);
-        }
-        .contact-form input::placeholder,
-        .contact-form textarea::placeholder {
-            color: var(--text-dim);
-        }
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
-        }
-        /* Live validation styles */
-        .contact-form .valid {
-            border-color: var(--success) !important;
-            box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.2);
-        }
-        .contact-form .error {
-            border-color: var(--error) !important;
-            box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
-            animation: shake 0.3s ease-in-out;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-4px); }
-            40% { transform: translateX(4px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
-        }
-        .character-count {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            text-align: right;
-            margin-top: -10px;
-        }
-        .contact-form .btn-primary {
-            width: fit-content;
-            margin: 0 auto;
-        }
+        #contact { background:rgba(5,5,16,0.8); backdrop-filter:blur(20px); border-top:1px solid var(--border-soft); padding:80px 0; position:relative; z-index:1; }
+        #contact .section { max-width:700px; }
+        .contact-form { display:flex; flex-direction:column; gap:16px; }
+        .contact-form input, .contact-form textarea { width:100%; padding:14px 20px; border-radius:30px; border:1px solid var(--border-soft); background:rgba(11,11,31,0.6); color:var(--text-primary); font-family:var(--font-thin); transition:0.3s; }
+        body.light-mode .contact-form input, body.light-mode .contact-form textarea { background:rgba(255,255,255,0.8); }
+        .contact-form input:focus, .contact-form textarea:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(74,111,165,0.2); }
+        .contact-form .valid { border-color:var(--success) !important; box-shadow:0 0 0 3px rgba(56,161,105,0.2); }
+        .contact-form .error { border-color:var(--error) !important; box-shadow:0 0 0 3px rgba(229,62,62,0.2); animation:shake 0.3s; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-4px)} 40%{transform:translateX(4px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+        .character-count { font-size:0.8rem; color:var(--text-dim); text-align:right; margin-top:4px; }
 
-        /* Toast notification */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10002;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast {
-            background: var(--error);
-            color: white;
-            padding: 14px 24px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            font-weight: 300;
-            font-size: 0.9rem;
-            animation: slideInRight 0.4s ease, fadeOut 0.4s 2.6s ease forwards;
-            max-width: 340px;
-            word-break: break-word;
-        }
-        @keyframes slideInRight {
-            from { transform: translateX(120%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
+        /* Toasts */
+        .toast-container { position:fixed; top:20px; right:20px; z-index:10002; display:flex; flex-direction:column; gap:10px; }
+        .toast { background:var(--error); color:white; padding:14px 24px; border-radius:var(--radius-md); box-shadow:var(--shadow-md); font-size:0.9rem; animation:slideInRight 0.4s, fadeOut 0.4s 2.6s forwards; max-width:340px; }
+        @keyframes slideInRight { from { transform:translateX(120%); opacity:0; } to { transform:translateX(0); opacity:1; } }
+        @keyframes fadeOut { to { opacity:0; } }
 
         /* Lightbox */
-        .lightbox-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10003;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s;
-        }
-        .lightbox-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .lightbox-content {
-            text-align: center;
-            max-width: 80vw;
-            max-height: 80vh;
-        }
-        .lightbox-image {
-            font-size: 10rem;
-            display: block;
-            margin: 0 auto 16px;
-            filter: drop-shadow(0 0 16px rgba(0,0,0,0.4));
-        }
-        .lightbox-caption {
-            color: var(--text-primary);
-            font-weight: 300;
-            font-size: 1.1rem;
-        }
-        .lightbox-close {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            background: none;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            font-size: 1.8rem;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .lightbox-close:hover {
-            background: var(--accent);
-            color: white;
-        }
+        .lightbox-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; z-index:10003; opacity:0; visibility:hidden; transition:0.4s; }
+        .lightbox-overlay.active { opacity:1; visibility:visible; }
+        .lightbox-content { text-align:center; }
+        .lightbox-image { font-size:10rem; display:block; margin:0 auto 16px; filter:drop-shadow(0 0 16px rgba(0,0,0,0.4)); }
+        .lightbox-caption { color:var(--text-primary); font-weight:300; }
+        .lightbox-close { position:absolute; top:24px; right:24px; background:none; border:1px solid var(--accent); color:var(--accent); font-size:1.8rem; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+        .lightbox-close:hover { background:var(--accent); color:white; }
 
         /* Thank‑you modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10001;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background: var(--dark-blue);
-            border: 1px solid var(--border-soft);
-            border-radius: var(--radius-xl);
-            padding: 48px 36px;
-            text-align: center;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(20px);
-            transition: transform 0.4s;
-        }
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-        .modal-content h2 {
-            font-weight: 300;
-            color: var(--accent);
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
-        .modal-content p {
-            color: var(--text-secondary);
-            font-weight: 300;
-            margin-bottom: 24px;
-            font-size: 1rem;
-        }
-        .modal-content .btn {
-            margin: 0 auto;
-        }
+        .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); z-index:10001; display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:0.4s; }
+        .modal-overlay.active { opacity:1; visibility:visible; }
+        .modal-content { background:var(--dark-blue); border:1px solid var(--border-soft); border-radius:var(--radius-xl); padding:48px 36px; text-align:center; max-width:420px; width:90%; box-shadow:var(--shadow-lg); transform:translateY(20px); transition:0.4s; }
+        .modal-overlay.active .modal-content { transform:translateY(0); }
+        .modal-content h2 { font-weight:300; color:var(--accent); font-size:2rem; margin-bottom:12px; }
+        .modal-content p { color:var(--text-secondary); margin-bottom:24px; }
 
         /* Page transition overlay */
-        .page-transition-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: var(--dark-blue);
-            z-index: 10005;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            pointer-events: none;
-        }
-        .page-transition-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .page-transition-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:var(--dark-blue); z-index:10005; opacity:0; visibility:hidden; transition:0.3s; pointer-events:none; }
+        .page-transition-overlay.active { opacity:1; visibility:visible; }
 
         /* Footer */
-        .footer {
-            background: #030310;
-            border-top: 1px solid var(--border-soft);
-            text-align: center;
-            padding: 32px 24px;
-            font-size: 0.8rem;
-            font-weight: 300;
-            color: var(--text-dim);
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
-        }
-        body.light-mode .footer {
-            background: #E8ECF1;
-        }
-        .footer a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 400;
-        }
+        .footer { background:#030310; border-top:1px solid var(--border-soft); text-align:center; padding:32px 24px; font-size:0.8rem; color:var(--text-dim); }
+        body.light-mode .footer { background:#E8ECF1; }
+        .footer a { color:var(--accent); text-decoration:none; }
 
-        /* Back to Top */
-        #backToTop {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--accent);
-            cursor: pointer;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            box-shadow: var(--shadow-md);
-            border: none;
-        }
-        #backToTop.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        #backToTop:hover {
-            background: var(--accent-soft);
-            transform: scale(1.05);
-        }
-        .progress-ring {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(var(--accent) 0%, transparent 0%);
-            mask: radial-gradient(transparent 55%, black 56%);
-            -webkit-mask: radial-gradient(transparent 55%, black 56%);
-            transition: background 0.1s linear;
-        }
-        #backToTop span {
-            position: relative;
-            z-index: 2;
-            font-size: 1.2rem;
-            color: white;
-            pointer-events: none;
-        }
+        /* Back to top */
+        #backToTop { position:fixed; bottom:28px; right:28px; width:48px; height:48px; border-radius:50%; background:var(--accent); z-index:999; display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:0.3s; box-shadow:var(--shadow-md); cursor:pointer; border:none; }
+        #backToTop.visible { opacity:1; visibility:visible; }
+        #backToTop:hover { background:var(--accent-soft); transform:scale(1.05); }
+        .progress-ring { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:50%; background:conic-gradient(var(--accent) 0%, transparent 0%); mask:radial-gradient(transparent 55%, black 56%); -webkit-mask:radial-gradient(transparent 55%, black 56%); transition:background 0.1s; }
+        #backToTop span { position:relative; z-index:2; color:white; font-size:1.2rem; }
 
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        /* Reveal */
+        .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.8s, transform 0.8s; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
 
-        /* Focus visible outline for accessibility */
-        :focus-visible {
-            outline: 2px dashed var(--accent);
-            outline-offset: 4px;
-        }
-        button:focus-visible,
-        a:focus-visible,
-        input:focus-visible,
-        textarea:focus-visible {
-            outline: 2px dashed var(--accent);
-            outline-offset: 4px;
-        }
+        /* Accessibility */
+        :focus-visible { outline:2px dashed var(--accent); outline-offset:4px; }
 
-        @media (max-width: 900px) {
-            .about-grid { grid-template-columns: 1fr; }
-            .nav-links {
-                position: fixed; top: 0; right: 0; height: 100vh; width: 280px;
-                flex-direction: column;
-                background: rgba(11, 11, 31, 0.98);
-                backdrop-filter: blur(20px);
-                padding: 100px 32px 40px; gap: 20px;
-                box-shadow: -5px 0 25px rgba(0,0,0,0.5);
-                transform: translateX(100%); transition: var(--transition-slow);
-                z-index: 999;
-            }
-            body.light-mode .nav-links {
-                background: rgba(255,255,255,0.98);
-            }
-            .nav-links.open { transform: translateX(0); }
-            .nav-toggle { display: flex; }
-            .services-grid { grid-template-columns: 1fr 1fr; }
-            .nav-actions { margin-left: auto; }
+        /* Responsive */
+        @media (max-width:900px) {
+            .about-grid { grid-template-columns:1fr; }
+            .nav-links { position:fixed; top:0; right:0; height:100vh; width:280px; background:rgba(11,11,31,0.98); padding:100px 32px 40px; flex-direction:column; gap:20px; transform:translateX(100%); transition:0.5s; z-index:999; }
+            .nav-links.open { transform:translateX(0); }
+            .nav-toggle { display:flex; }
+            .services-grid { grid-template-columns:1fr 1fr; }
         }
-        @media (max-width: 550px) {
-            .services-grid, .portfolio-grid, .testimonials-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2rem; }
+        @media (max-width:550px) {
+            .services-grid, .portfolio-grid, .testimonials-grid { grid-template-columns:1fr; }
+            .hero h1 { font-size:2.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Skip to content -->
-    <a href="#home" class="skip-link">Skip to main content</a>
+<a href="#home" class="skip-link">Skip to main content</a>
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="spinner"></div>
+<div id="preloader"><div class="spinner"></div></div>
+<canvas id="particleCanvas"></canvas>
+<div class="toast-container" id="toastContainer"></div>
+
+<nav class="nav" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+        <a href="#home" class="nav-logo" aria-label="BRAVEGLOBALTECH Home"><span aria-hidden="true">▣</span> BRAVEGLOBALTECH</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        <div class="nav-actions">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">🌓</button>
+            <button class="icon-btn" id="soundToggle" aria-label="Toggle sound">🔇</button>
+            <button class="icon-btn" id="shareBtn" aria-label="Share this site">🔗</button>
+        </div>
+        <ul class="nav-links" id="navLinks" role="menubar">
+            <li role="none"><a href="#home" class="active" role="menuitem">Home</a></li>
+            <li role="none"><a href="#services" role="menuitem">Services</a></li>
+            <li role="none"><a href="#portfolio" role="menuitem">Portfolio</a></li>
+            <li role="none"><a href="#testimonials" role="menuitem">Reviews</a></li>
+            <li role="none"><a href="#contact" class="nav-cta" role="menuitem">Contact</a></li>
+        </ul>
     </div>
+</nav>
 
-    <!-- Particle Canvas -->
-    <canvas id="particleCanvas"></canvas>
-
-    <!-- Toast container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Navigation -->
-    <nav class="nav" id="navbar" role="navigation" aria-label="Main navigation">
-        <div class="nav-container">
-            <a href="#home" class="nav-logo" aria-label="BRAVEGLOBALTECH Home">
-                <span aria-hidden="true">▣</span> BRAVEGLOBALTECH
-            </a>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-            <div class="nav-actions">
-                <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Dark/Light mode">🌓</button>
-                <button class="icon-btn" id="soundToggle" aria-label="Toggle sound effects and music" title="Sound & Music">🔇</button>
-                <button class="icon-btn" id="shareBtn" aria-label="Share this website" title="Share">🔗</button>
-            </div>
-            <ul class="nav-links" id="navLinks" role="menubar">
-                <li role="none"><a href="#home" role="menuitem" class="active">Home</a></li>
-                <li role="none"><a href="#services" role="menuitem">Services</a></li>
-                <li role="none"><a href="#portfolio" role="menuitem">Portfolio</a></li>
-                <li role="none"><a href="#testimonials" role="menuitem">Reviews</a></li>
-                <li role="none"><a href="#contact" class="nav-cta" role="menuitem">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero -->
-    <section class="hero" id="home">
-        <div class="hero-content reveal">
-            <span class="hero-badge">✦ Future of Design ✦</span>
-            <h1>Design Beyond <span class="highlight" id="typewriter">Imagination</span><span class="typewriter-cursor" aria-hidden="true">|</span></h1>
-            <p class="hero-subtitle">
-                <span class="typewriter-subtitle" id="heroSubtitle"></span><span class="typewriter-cursor" aria-hidden="true">|</span>
-            </p>
-            <div class="hero-buttons">
-                <a href="#services" class="btn btn-primary">Explore Services</a>
-                <a href="#portfolio" class="btn btn-outline">View Work</a>
-            </div>
-        </div>
-        <div class="scroll-indicator" id="scrollIndicator" aria-label="Scroll down for more">
-            <span>Scroll</span>
-            <div class="scroll-arrow" aria-hidden="true"></div>
-        </div>
-    </section>
-
-    <!-- Services -->
-    <section class="section" id="services" aria-labelledby="services-heading">
-        <div class="section-header reveal">
-            <span class="section-label">Capabilities</span>
-            <h2 class="section-title" id="services-heading">Design Services</h2>
-            <div class="section-divider"></div>
-            <p class="section-subtitle">
-                From classic tools to cutting‑edge AI, we craft visuals that are uniquely yours.
-            </p>
-        </div>
-        <div class="services-grid">
-            <div class="service-card tilt-card reveal">
-                <div class="service-icon" aria-hidden="true">🎨</div>
-                <h3>Canva Mastery</h3>
-                <p>Stunning social graphics, presentations, and brand kits designed with precision in Canva.</p>
-            </div>
-            <div class="service-card tilt-card reveal">
-                <div class="service-icon" aria-hidden="true">📱</div>
-                <h3>PixelLab Art</h3>
-                <p>Advanced text effects, 3D typography, and mobile‑first designs using PixelLab.</p>
-            </div>
-            <div class="service-card tilt-card reveal">
-                <div class="service-icon" aria-hidden="true">🤖</div>
-                <h3>AI Image Generation</h3>
-                <p>Unique, high‑quality visuals created with state‑of‑the‑art generative AI models.</p>
-            </div>
-            <div class="service-card tilt-card reveal">
-                <div class="service-icon" aria-hidden="true">✒️</div>
-                <h3>Logo & Branding</h3>
-                <p>Minimal, futuristic logos and full visual identity systems tailored to your vision.</p>
-            </div>
-            <div class="service-card tilt-card reveal">
-                <div class="service-icon" aria-hidden="true">🖼️</div>
-                <h3>Photo Editing</h3>
-                <p>Professional retouching, manipulation, and color grading for flawless images.</p>
-            </div>
-            <div class="service-card tilt-card reveal">
-                <div class="service-icon" aria-hidden="true">🌌</div>
-                <h3>Custom Compositions</h3>
-                <p>Bespoke digital art, posters, and experimental graphics that push boundaries.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio -->
-    <section class="section" id="portfolio" aria-labelledby="portfolio-heading">
-        <div class="section-header reveal">
-            <span class="section-label">Recent Work</span>
-            <h2 class="section-title" id="portfolio-heading">Selected Projects</h2>
-            <div class="section-divider"></div>
-        </div>
-        <div class="portfolio-grid" id="portfolioGrid">
-            <div class="portfolio-item reveal" data-image="🔷" data-title="Nebula Brand Identity" data-desc="Futuristic logo & visual system for a tech startup.">
-                <div class="portfolio-image" aria-hidden="true">🔷</div>
-                <div class="portfolio-body"><h4>Nebula Brand Identity</h4><p>Futuristic logo & visual system for a tech startup.</p></div>
-            </div>
-            <div class="portfolio-item reveal" data-image="🌠" data-title="AI-Generated Poster Series" data-desc="Surreal artwork for a music festival campaign.">
-                <div class="portfolio-image" aria-hidden="true">🌠</div>
-                <div class="portfolio-body"><h4>AI-Generated Poster Series</h4><p>Surreal artwork for a music festival campaign.</p></div>
-            </div>
-            <div class="portfolio-item reveal" data-image="🖌️" data-title="PixelLab Typography" data-desc="3D text compositions for social media banners.">
-                <div class="portfolio-image" aria-hidden="true">🖌️</div>
-                <div class="portfolio-body"><h4>PixelLab Typography</h4><p>3D text compositions for social media banners.</p></div>
-            </div>
-            <div class="portfolio-item reveal" data-image="📸" data-title="Photo Retouching Suite" data-desc="Before/after transformations for a lifestyle brand.">
-                <div class="portfolio-image" aria-hidden="true">📸</div>
-                <div class="portfolio-body"><h4>Photo Retouching Suite</h4><p>Before/after transformations for a lifestyle brand.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About -->
-    <section class="section" id="about" aria-labelledby="about-heading">
-        <div class="section-header reveal">
-            <span class="section-label">The Lab</span>
-            <h2 class="section-title" id="about-heading">Tools & Mindset</h2>
-            <div class="section-divider"></div>
-        </div>
-        <div class="about-grid">
-            <div class="about-visual reveal" aria-hidden="true">⚡</div>
-            <div class="about-text reveal">
-                <h3>Where Creativity Meets Technology</h3>
-                <p>
-                    We blend the accessibility of Canva and PixelLab with the limitless possibilities of AI image generation.
-                    Every project is approached with a human‑centered design philosophy — clean lines, thoughtful typography, and a cosmic palette that sets your brand apart.
-                </p>
-                <div class="skill-tags">
-                    <span class="skill-tag">Canva Pro</span>
-                    <span class="skill-tag">PixelLab</span>
-                    <span class="skill-tag">Midjourney / DALL·E</span>
-                    <span class="skill-tag">Adobe Firefly</span>
-                    <span class="skill-tag">Photoshop</span>
-                    <span class="skill-tag">Logo Design</span>
-                    <span class="skill-tag">AI Art</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="section" id="testimonials" aria-labelledby="testimonials-heading">
-        <div class="section-header reveal">
-            <span class="section-label">Testimonials</span>
-            <h2 class="section-title" id="testimonials-heading">Client Feedback</h2>
-            <div class="section-divider"></div>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card reveal">
-                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                <p class="testimonial-text">“The AI‑generated imagery was out of this world. Exactly the futuristic vibe we needed.”</p>
-                <p class="testimonial-author">— K. Adebayo, Tech Startup</p>
-            </div>
-            <div class="testimonial-card reveal">
-                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                <p class="testimonial-text">“PixelLab designs that looked like they were made on a desktop. Incredible attention to detail.”</p>
-                <p class="testimonial-author">— M. Chisom, Content Creator</p>
-            </div>
-            <div class="testimonial-card reveal">
-                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                <p class="testimonial-text">“Logo design was fast, professional, and truly unique. The thin, modern style is perfect.”</p>
-                <p class="testimonial-author">— D. Okafor, Entrepreneur</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <div id="contact" aria-labelledby="contact-heading">
-        <div class="section">
-            <div class="section-header reveal">
-                <span class="section-label">Get In Touch</span>
-                <h2 class="section-title" id="contact-heading">Start a Project</h2>
-                <div class="section-divider"></div>
-                <p class="section-subtitle">Tell us about your idea. We'll respond within 24 hours.</p>
-            </div>
-            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xkokevka" method="POST" novalidate>
-                <div>
-                    <input type="text" name="name" id="name" placeholder="Your Name" required aria-required="true" autocomplete="name">
-                    <div class="character-count" id="nameFeedback"></div>
-                </div>
-                <div>
-                    <input type="email" name="email" id="email" placeholder="Email Address" required aria-required="true" autocomplete="email">
-                    <div class="character-count" id="emailFeedback"></div>
-                </div>
-                <div>
-                    <input type="text" name="service" id="service" placeholder="Service Interested In" autocomplete="off">
-                </div>
-                <div>
-                    <textarea name="message" id="message" rows="4" placeholder="Describe your project..." required aria-required="true" maxlength="500"></textarea>
-                    <div class="character-count" id="messageFeedback">500 characters remaining</div>
-                </div>
-                <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-                <button type="submit" class="btn btn-primary">Send Message ✦</button>
-            </form>
+<section class="hero" id="home">
+    <div class="hero-content reveal">
+        <span class="hero-badge">✦ Future of Design ✦</span>
+        <h1>Design Beyond <span class="highlight" id="typewriter">Imagination</span><span class="typewriter-cursor" aria-hidden="true">|</span></h1>
+        <p class="hero-subtitle"><span id="heroSubtitle"></span><span class="typewriter-cursor" aria-hidden="true">|</span></p>
+        <div class="hero-buttons">
+            <a href="#services" class="btn btn-primary">Explore Services</a>
+            <a href="#portfolio" class="btn btn-outline">View Work</a>
         </div>
     </div>
+    <div class="scroll-indicator" id="scrollIndicator" aria-label="Scroll down">
+        <span>Scroll</span>
+        <div class="scroll-arrow" aria-hidden="true"></div>
+    </div>
+</section>
 
-    <!-- Thank‑you modal -->
-    <div class="modal-overlay" id="thankYouModal" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle">
-        <div class="modal-content">
-            <h2 id="thankYouTitle">✦ Message Sent ✦</h2>
-            <p>Your project details have been received.<br>We'll get back to you within 24 hours.</p>
-            <button class="btn btn-outline" id="closeModal">Close</button>
+<section class="section" id="services" aria-labelledby="services-heading">
+    <div class="section-header reveal">
+        <span class="section-label">Capabilities</span>
+        <h2 class="section-title" id="services-heading">Design Services</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">From classic tools to cutting‑edge AI, we craft visuals that are uniquely yours.</p>
+    </div>
+    <div class="services-grid">
+        <div class="service-card tilt-card reveal"><div class="service-icon">🎨</div><h3>Canva Mastery</h3><p>Stunning social graphics, presentations, and brand kits designed with precision in Canva.</p></div>
+        <div class="service-card tilt-card reveal"><div class="service-icon">📱</div><h3>PixelLab Art</h3><p>Advanced text effects, 3D typography, and mobile‑first designs using PixelLab.</p></div>
+        <div class="service-card tilt-card reveal"><div class="service-icon">🤖</div><h3>AI Image Generation</h3><p>Unique, high‑quality visuals created with state‑of‑the‑art generative AI models.</p></div>
+        <div class="service-card tilt-card reveal"><div class="service-icon">✒️</div><h3>Logo & Branding</h3><p>Minimal, futuristic logos and full visual identity systems tailored to your vision.</p></div>
+        <div class="service-card tilt-card reveal"><div class="service-icon">🖼️</div><h3>Photo Editing</h3><p>Professional retouching, manipulation, and color grading for flawless images.</p></div>
+        <div class="service-card tilt-card reveal"><div class="service-icon">🌌</div><h3>Custom Compositions</h3><p>Bespoke digital art, posters, and experimental graphics that push boundaries.</p></div>
+    </div>
+</section>
+
+<section class="section" id="portfolio" aria-labelledby="portfolio-heading">
+    <div class="section-header reveal">
+        <span class="section-label">Recent Work</span>
+        <h2 class="section-title" id="portfolio-heading">Selected Projects</h2>
+        <div class="section-divider"></div>
+    </div>
+    <div class="portfolio-grid" id="portfolioGrid">
+        <div class="portfolio-item reveal" data-image="🔷" data-title="Nebula Brand Identity" data-desc="Futuristic logo & visual system for a tech startup.">
+            <div class="portfolio-image" aria-hidden="true">🔷</div>
+            <div class="portfolio-body"><h4>Nebula Brand Identity</h4><p>Futuristic logo & visual system for a tech startup.</p></div>
+        </div>
+        <div class="portfolio-item reveal" data-image="🌠" data-title="AI-Generated Poster Series" data-desc="Surreal artwork for a music festival campaign.">
+            <div class="portfolio-image" aria-hidden="true">🌠</div>
+            <div class="portfolio-body"><h4>AI-Generated Poster Series</h4><p>Surreal artwork for a music festival campaign.</p></div>
+        </div>
+        <div class="portfolio-item reveal" data-image="🖌️" data-title="PixelLab Typography" data-desc="3D text compositions for social media banners.">
+            <div class="portfolio-image" aria-hidden="true">🖌️</div>
+            <div class="portfolio-body"><h4>PixelLab Typography</h4><p>3D text compositions for social media banners.</p></div>
+        </div>
+        <div class="portfolio-item reveal" data-image="📸" data-title="Photo Retouching Suite" data-desc="Before/after transformations for a lifestyle brand.">
+            <div class="portfolio-image" aria-hidden="true">📸</div>
+            <div class="portfolio-body"><h4>Photo Retouching Suite</h4><p>Before/after transformations for a lifestyle brand.</p></div>
         </div>
     </div>
+</section>
 
-    <!-- Lightbox -->
-    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxCaption">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">✕</button>
-        <div class="lightbox-content">
-            <span class="lightbox-image" id="lightboxImage" aria-hidden="true"></span>
-            <h3 class="lightbox-caption" id="lightboxCaption"></h3>
-            <p class="lightbox-caption" id="lightboxDesc" style="font-size:0.9rem; opacity:0.8;"></p>
+<section class="section" id="about" aria-labelledby="about-heading">
+    <div class="section-header reveal">
+        <span class="section-label">The Lab</span>
+        <h2 class="section-title" id="about-heading">Tools & Mindset</h2>
+        <div class="section-divider"></div>
+    </div>
+    <div class="about-grid">
+        <div class="about-visual reveal" aria-hidden="true">⚡</div>
+        <div class="about-text reveal">
+            <h3>Where Creativity Meets Technology</h3>
+            <p>We blend the accessibility of Canva and PixelLab with the limitless possibilities of AI image generation. Every project is approached with a human‑centered design philosophy — clean lines, thoughtful typography, and a cosmic palette that sets your brand apart.</p>
+            <div class="skill-tags">
+                <span class="skill-tag">Canva Pro</span><span class="skill-tag">PixelLab</span><span class="skill-tag">Midjourney / DALL·E</span><span class="skill-tag">Adobe Firefly</span><span class="skill-tag">Photoshop</span><span class="skill-tag">Logo Design</span><span class="skill-tag">AI Art</span>
+            </div>
         </div>
     </div>
+</section>
 
-    <!-- Page transition overlay -->
-    <div class="page-transition-overlay" id="pageTransition"></div>
+<section class="section" id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="section-header reveal">
+        <span class="section-label">Testimonials</span>
+        <h2 class="section-title" id="testimonials-heading">Client Feedback</h2>
+        <div class="section-divider"></div>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card reveal"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><p class="testimonial-text">“The AI‑generated imagery was out of this world. Exactly the futuristic vibe we needed.”</p><p class="testimonial-author">— K. Adebayo, Tech Startup</p></div>
+        <div class="testimonial-card reveal"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><p class="testimonial-text">“PixelLab designs that looked like they were made on a desktop. Incredible attention to detail.”</p><p class="testimonial-author">— M. Chisom, Content Creator</p></div>
+        <div class="testimonial-card reveal"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><p class="testimonial-text">“Logo design was fast, professional, and truly unique. The thin, modern style is perfect.”</p><p class="testimonial-author">— D. Okafor, Entrepreneur</p></div>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <p>© <span id="currentYear"></span> BRAVEGLOBALTECH. All rights reserved. — Made with ♥️ by Akanji Mus'ab</p>
-        <p style="margin-top:6px;">
-            <a href="#home">Home</a> · <a href="#services">Services</a> · <a href="#contact">Contact</a>
-        </p>
-    </footer>
+<div id="contact" aria-labelledby="contact-heading">
+    <div class="section">
+        <div class="section-header reveal">
+            <span class="section-label">Get In Touch</span>
+            <h2 class="section-title" id="contact-heading">Start a Project</h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">Tell us about your idea. We'll respond within 24 hours.</p>
+        </div>
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/xkokevka" method="POST" novalidate>
+            <div><input type="text" name="name" id="name" placeholder="Your Name" required autocomplete="name"><div class="character-count" id="nameFeedback"></div></div>
+            <div><input type="email" name="email" id="email" placeholder="Email Address" required autocomplete="email"><div class="character-count" id="emailFeedback"></div></div>
+            <div><input type="text" name="service" id="service" placeholder="Service Interested In"></div>
+            <div><textarea name="message" id="message" rows="4" placeholder="Describe your project..." required maxlength="500"></textarea><div class="character-count" id="messageFeedback">500 characters remaining</div></div>
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+            <button type="submit" class="btn btn-primary">Send Message ✦</button>
+        </form>
+    </div>
+</div>
 
-    <!-- Back to Top -->
-    <button id="backToTop" aria-label="Back to top">
-        <div class="progress-ring" id="progressRing" aria-hidden="true"></div>
-        <span aria-hidden="true">↑</span>
-    </button>
+<div class="modal-overlay" id="thankYouModal" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle">
+    <div class="modal-content">
+        <h2 id="thankYouTitle">✦ Message Sent ✦</h2>
+        <p>Your project details have been received.<br>We'll get back to you within 24 hours.</p>
+        <button class="btn btn-outline" id="closeModal">Close</button>
+    </div>
+</div>
 
-    <!-- ═══════════ SCRIPTS (compiled from TypeScript) ═══════════ -->
-    <script type="module">
-        // ── Typewriter (title & subtitle) ──
-        const titleEl = document.getElementById('typewriter');
-        const titleWords = ['Imagination', 'Innovation', 'The Future', 'Precision', 'Light'];
-        let wordIndex = 0, charIndex = 0, isDeleting = false;
-        const typeSpeed = 100, deleteSpeed = 50, pauseBetween = 1500;
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxCaption">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">✕</button>
+    <div class="lightbox-content">
+        <span class="lightbox-image" id="lightboxImage" aria-hidden="true"></span>
+        <h3 class="lightbox-caption" id="lightboxCaption"></h3>
+        <p class="lightbox-caption" id="lightboxDesc" style="font-size:0.9rem; opacity:0.8;"></p>
+    </div>
+</div>
 
-        function typeWriter() {
-            if (!titleEl) return;
-            const currentWord = titleWords[wordIndex];
-            if (!isDeleting) {
-                titleEl.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-                if (charIndex === currentWord.length) {
-                    isDeleting = true;
-                    setTimeout(typeWriter, pauseBetween);
-                    return;
-                }
-                setTimeout(typeWriter, typeSpeed);
-            } else {
-                titleEl.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-                if (charIndex === 0) {
-                    isDeleting = false;
-                    wordIndex = (wordIndex + 1) % titleWords.length;
-                    setTimeout(typeWriter, typeSpeed);
-                    return;
-                }
-                setTimeout(typeWriter, deleteSpeed);
-            }
-        }
-        setTimeout(typeWriter, 1000);
+<div class="page-transition-overlay" id="pageTransition"></div>
 
-        // Subtitle typewriter
-        const subtitleEl = document.getElementById('heroSubtitle');
-        const subtitleWords = [
-            "Futuristic graphics powered by Canva, PixelLab, AI generation, and human creativity.",
-            "Logos, photo editing, and visual identities with soul.",
-            "From AI art to classic design — your vision, amplified."
-        ];
-        let subWordIndex = 0, subCharIndex = 0, subDeleting = false;
-        const subTypeSpeed = 40, subDeleteSpeed = 25, subPauseBetween = 2000;
+<footer class="footer">
+    <p>© <span id="currentYear"></span> BRAVEGLOBALTECH. All rights reserved. — Made with ♥️ by Akanji Mus'ab</p>
+    <p style="margin-top:6px;"><a href="#home">Home</a> · <a href="#services">Services</a> · <a href="#contact">Contact</a></p>
+</footer>
 
-        function typeSubtitle() {
-            if (!subtitleEl) return;
-            const currentWord = subtitleWords[subWordIndex];
-            if (!subDeleting) {
-                subtitleEl.textContent = currentWord.substring(0, subCharIndex + 1);
-                subCharIndex++;
-                if (subCharIndex === currentWord.length) {
-                    subDeleting = true;
-                    setTimeout(typeSubtitle, subPauseBetween);
-                    return;
-                }
-                setTimeout(typeSubtitle, subTypeSpeed);
-            } else {
-                subtitleEl.textContent = currentWord.substring(0, subCharIndex - 1);
-                subCharIndex--;
-                if (subCharIndex === 0) {
-                    subDeleting = false;
-                    subWordIndex = (subWordIndex + 1) % subtitleWords.length;
-                    setTimeout(typeSubtitle, subTypeSpeed);
-                    return;
-                }
-                setTimeout(typeSubtitle, subDeleteSpeed);
-            }
-        }
-        setTimeout(typeSubtitle, 500);
+<button id="backToTop" aria-label="Back to top">
+    <div class="progress-ring" id="progressRing" aria-hidden="true"></div>
+    <span aria-hidden="true">↑</span>
+</button>
 
-        // ── Toast ──
-        function showToast(message) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-            container.appendChild(toast);
-            toast.addEventListener('animationend', (e) => {
-                if (e.animationName === 'fadeOut') toast.remove();
-            });
-        }
-
-        // ── Lightbox ──
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImage = document.getElementById('lightboxImage');
-        const lightboxCaption = document.getElementById('lightboxCaption');
-        const lightboxDesc = document.getElementById('lightboxDesc');
-        const lightboxClose = document.getElementById('lightboxClose');
-
-        function openLightbox(image, title, desc) {
-            lightboxImage.textContent = image;
-            lightboxCaption.textContent = title;
-            lightboxDesc.textContent = desc;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        document.querySelectorAll('.portfolio-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const image = item.dataset.image;
-                const title = item.dataset.title;
-                const desc = item.dataset.desc;
-                if (image) openLightbox(image, title, desc);
-            });
-        });
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
-        });
-
-        // ── System‑aware theme ──
-        function applyTheme(theme) {
-            document.body.classList.toggle('light-mode', theme === 'light');
-            const icon = document.getElementById('themeToggle');
-            if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌓';
-        }
-        const storedTheme = localStorage.getItem('theme');
-        if (storedTheme) {
-            applyTheme(storedTheme);
-        } else {
-            const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            applyTheme(prefersLight ? 'light' : 'dark');
-        }
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle?.addEventListener('click', () => {
-            const isLight = document.body.classList.contains('light-mode');
-            const newTheme = isLight ? 'dark' : 'light';
-            applyTheme(newTheme);
-            localStorage.setItem('theme', newTheme);
-        });
-
-        // ── Background music (ambient drone) ──
-        let musicAudioCtx = null;
-        let musicGain = null;
-        let musicPlaying = false;
-        function initMusic() {
-            if (!musicAudioCtx) {
-                musicAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                musicGain = musicAudioCtx.createGain();
-                musicGain.gain.value = 0.03;
-                musicGain.connect(musicAudioCtx.destination);
-
-                const osc1 = musicAudioCtx.createOscillator();
-                const osc2 = musicAudioCtx.createOscillator();
-                const osc3 = musicAudioCtx.createOscillator();
-                const filter = musicAudioCtx.createBiquadFilter();
-
-                osc1.type = 'sine'; osc1.frequency.value = 55;
-                osc2.type = 'sine'; osc2.frequency.value = 82;
-                osc3.type = 'sine'; osc3.frequency.value = 110;
-                filter.type = 'lowpass';
-                filter.frequency.value = 200;
-
-                osc1.connect(filter);
-                osc2.connect(filter);
-                osc3.connect(filter);
-                filter.connect(musicGain);
-
-                osc1.start();
-                osc2.start();
-                osc3.start();
-
-                musicPlaying = true;
-            }
-        }
-        function toggleMusic(enable) {
-            if (enable) {
-                if (!musicPlaying) {
-                    initMusic();
-                    if (musicAudioCtx.state === 'suspended') musicAudioCtx.resume();
-                } else {
-                    if (musicAudioCtx.state === 'suspended') musicAudioCtx.resume();
-                    if (musicGain) musicGain.gain.value = 0.03;
-                }
-            } else {
-                if (musicGain) musicGain.gain.value = 0;
-            }
-        }
-
-        // ── Sound toggle (blips + music) ──
-        const soundToggle = document.getElementById('soundToggle');
-        let soundEnabled = false;
-        let audioCtx = null;
-        function playBlip() {
-            if (!soundEnabled || !audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.08);
-        }
-        soundToggle.addEventListener('click', () => {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            soundEnabled = !soundEnabled;
-            soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
-            toggleMusic(soundEnabled);
-            if (soundEnabled) playBlip();
-        });
-        document.querySelectorAll('a, button, .btn, .service-card, .portfolio-item, .testimonial-card').forEach(el => {
-            el.addEventListener('click', () => { if (soundEnabled) playBlip(); });
-            el.addEventListener('mouseenter', () => { if (soundEnabled) playBlip(); });
-        });
-
-        // ── Share button ──
-        const shareBtn = document.getElementById('shareBtn');
-        shareBtn?.addEventListener('click', async () => {
-            const shareData = {
-                title: document.title,
-                text: 'Futuristic graphics design powered by Canva, PixelLab, AI, and human creativity.',
-                url: window.location.href,
-            };
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    await navigator.clipboard.writeText(window.location.href);
-                    showToast('Link copied to clipboard!');
-                }
-            } catch (err) {
-                // fallback
-                try {
-                    await navigator.clipboard.writeText(window.location.href);
-                    showToast('Link copied to clipboard!');
-                } catch (clipErr) {
-                    showToast('Could not share. Please copy the URL manually.');
-                }
-            }
-        });
-
-        // ── Scroll indicator ──
-        const scrollIndicator = document.getElementById('scrollIndicator');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                scrollIndicator.classList.add('hidden');
-            } else {
-                scrollIndicator.classList.remove('hidden');
-            }
-        });
-        scrollIndicator.addEventListener('click', () => {
-            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // ── Smooth page transitions ──
-        const transitionOverlay = document.getElementById('pageTransition');
-        function navigateTo(hash) {
-            transitionOverlay.classList.add('active');
-            setTimeout(() => {
-                const target = document.querySelector(hash);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    window.location.hash = hash;
-                }
-                setTimeout(() => {
-                    transitionOverlay.classList.remove('active');
-                }, 300);
-            }, 200);
-        }
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href === '#') return;
-                e.preventDefault();
-                if (href === '#home') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    return;
-                }
-                navigateTo(href);
-            });
-        });
-
-        // ── Live form validation + character count ──
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const messageInput = document.getElementById('message');
-        const nameFeedback = document.getElementById('nameFeedback');
-        const emailFeedback = document.getElementById('emailFeedback');
-        const messageFeedback = document.getElementById('messageFeedback');
-
-        function validateName(value) {
-            return value.trim().length >= 2;
-        }
-        function validateEmail(value) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-        }
-        function updateFieldUI(input, feedbackEl, isValid, message) {
-            input.classList.remove('valid', 'error');
-            if (input.value.trim() === '') {
-                feedbackEl.textContent = '';
-                return;
-            }
-            if (isValid) {
-                input.classList.add('valid');
-                feedbackEl.textContent = '✓';
-                feedbackEl.style.color = 'var(--success)';
-            } else {
-                input.classList.add('error');
-                feedbackEl.textContent = message || 'Invalid';
-                feedbackEl.style.color = 'var(--error)';
-                setTimeout(() => feedbackEl.textContent = '', 2000);
-            }
-        }
-
-        nameInput.addEventListener('input', () => {
-            const valid = validateName(nameInput.value);
-            updateFieldUI(nameInput, nameFeedback, valid, 'Name too short');
-        });
-        emailInput.addEventListener('input', () => {
-            const valid = validateEmail(emailInput.value);
-            updateFieldUI(emailInput, emailFeedback, valid, 'Invalid email');
-        });
-        messageInput.addEventListener('input', () => {
-            const max = 500;
-            const length = messageInput.value.length;
-            const remaining = max - length;
-            messageFeedback.textContent = `${remaining} characters remaining`;
-            messageFeedback.style.color = remaining < 50 ? 'var(--error)' : 'var(--text-dim)';
-            if (length < 5) {
-                messageInput.classList.add('error');
-            } else {
-                messageInput.classList.remove('error');
-                messageInput.classList.add('valid');
-            }
-            if (length === 0) {
-                messageInput.classList.remove('valid', 'error');
-                messageFeedback.textContent = '500 characters remaining';
-            }
-        });
-
-        // ── Form submission (Formspree + popup) ──
-        const contactForm = document.getElementById('contactForm');
-        const thankYouModal = document.getElementById('thankYouModal');
-        const closeModalBtn = document.getElementById('closeModal');
-
-        contactForm?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fields = [nameInput, emailInput, messageInput];
-            let valid = true;
-            // Trigger live validation UI
-            if (!validateName(nameInput.value)) { nameInput.classList.add('error'); valid = false; }
-            if (!validateEmail(emailInput.value)) { emailInput.classList.add('error'); valid = false; }
-            if (messageInput.value.trim().length < 5) { messageInput.classList.add('error'); valid = false; }
-
-            if (!valid) {
-                showToast('Please fill in all required fields correctly.');
-                return;
-            }
-
-            const formData = new FormData(contactForm);
-            try {
-                const response = await fetch(contactForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                });
-                if (response.ok) {
-                    thankYouModal?.classList.add('active');
-                    contactForm.reset();
-                    [nameInput, emailInput, messageInput].forEach(el => el.classList.remove('valid', 'error'));
-                    nameFeedback.textContent = emailFeedback.textContent = '';
-                    messageFeedback.textContent = '500 characters remaining';
-                } else {
-                    const errorData = await response.json();
-                    showToast(errorData.error || 'Something went wrong. Please try again.');
-                }
-            } catch (err) {
-                showToast('Network error. Please check your connection.');
-            }
-        });
-
-        closeModalBtn?.addEventListener('click', () => thankYouModal?.classList.remove('active'));
-        thankYouModal?.addEventListener('click', (e) => {
-            if (e.target === thankYouModal) thankYouModal.classList.remove('active');
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && thankYouModal?.classList.contains('active')) {
-                thankYouModal.classList.remove('active');
-            }
-        });
-    </script>
-
-    <!-- Original site scripts (particles, nav, tilt, scroll reveal, back-to-top, footer year) -->
-    <script>
-        (() => {
-            "use strict";
-            const navbar = document.getElementById('navbar');
-            const navToggle = document.getElementById('navToggle');
-            const navLinksEl = document.getElementById('navLinks');
-            const allNavLinks = navLinksEl.querySelectorAll('a');
-            const currentYearSpan = document.getElementById('currentYear');
-            const revealEls = document.querySelectorAll('.reveal');
-            const canvas = document.getElementById('particleCanvas');
-            const ctx = canvas.getContext('2d');
-            const preloader = document.getElementById('preloader');
-            const backToTopBtn = document.getElementById('backToTop');
-            const progressRing = document.getElementById('progressRing');
-
-            let isMenuOpen = false;
-
-            if (preloader) setTimeout(() => preloader.classList.add('fade-out'), 2000);
-
-            // Particles
-            let particles = [];
-            const PARTICLE_COUNT = 70;
-            const connectionDistance = 100;
-            class Particle {
-                constructor() { this.reset(); }
-                reset() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.vx = (Math.random() - 0.5) * 0.35;
-                    this.vy = (Math.random() - 0.5) * 0.35;
-                    this.radius = Math.random() * 1.2 + 0.4;
-                    this.opacity = Math.random() * 0.4 + 0.1;
-                }
-                update() {
-                    this.x += this.vx; this.y += this.vy;
-                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-                }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-                    ctx.fillStyle = `rgba(200, 210, 230, ${this.opacity})`;
-                    ctx.fill();
-                }
-            }
-            function initParticles() { particles = []; for (let i=0; i<PARTICLE_COUNT; i++) particles.push(new Particle()); }
-            function drawConnections() {
-                for (let i=0; i<particles.length; i++) {
-                    for (let j=i+1; j<particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx*dx+dy*dy);
-                        if (dist < connectionDistance) {
-                            const opacity = (1 - dist/connectionDistance) * 0.08;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(180,190,210,${opacity})`;
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-            function animateParticles() {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                particles.forEach(p => { p.update(); p.draw(); });
-                drawConnections();
-                requestAnimationFrame(animateParticles);
-            }
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                initParticles();
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-            animateParticles();
-
-            // Navigation
-            function toggleMenu() {
-                isMenuOpen = !isMenuOpen;
-                navLinksEl.classList.toggle('open', isMenuOpen);
-                navToggle.classList.toggle('active', isMenuOpen);
-                navToggle.setAttribute('aria-expanded', isMenuOpen);
-                document.body.style.overflow = isMenuOpen ? 'hidden' : '';
-            }
-            function closeMenu() {
-                if (isMenuOpen) {
-                    isMenuOpen = false;
-                    navLinksEl.classList.remove('open');
-                    navToggle.classList.remove('active');
-                    navToggle.setAttribute('aria-expanded', false);
-                    document.body.style.overflow = '';
-                }
-            }
-            navToggle.addEventListener('click', toggleMenu);
-            allNavLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    closeMenu();
-                    allNavLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                });
-            });
-            document.addEventListener('keydown', e => { if (e.key === 'Escape' && isMenuOpen) closeMenu(); });
-
-            // Scroll handlers
-            function handleNavScroll() {
-                navbar.classList.toggle('scrolled', window.scrollY > 20);
-                updateActiveNavLink();
-                updateBackToTop();
-                updateProgressRing();
-            }
-            function updateActiveNavLink() {
-                const sections = document.querySelectorAll('section[id], div[id]');
-                const scrollPos = window.scrollY + 120;
-                let current = '';
-                sections.forEach(section => {
-                    const top = section.offsetTop;
-                    const height = section.offsetHeight;
-                    if (scrollPos >= top && scrollPos < top + height) current = section.getAttribute('id') || '';
-                });
-                allNavLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
-                });
-            }
-            window.addEventListener('scroll', () => requestAnimationFrame(handleNavScroll), { passive: true });
-            handleNavScroll();
-
-            // Back to top
-            function updateBackToTop() {
-                if (window.scrollY > 500) backToTopBtn.classList.add('visible');
-                else backToTopBtn.classList.remove('visible');
-            }
-            function updateProgressRing() {
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-                progressRing.style.background = `conic-gradient(var(--accent) ${progress}%, transparent ${progress}%)`;
-            }
-            backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-            // Tilt
-            document.querySelectorAll('.tilt-card').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width/2, centerY = rect.height/2;
-                    const rotateX = ((y-centerY)/centerY) * -8;
-                    const rotateY = ((x-centerX)/centerX) * 8;
-                    card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`;
-                });
-                card.addEventListener('mouseleave', () => card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale3d(1,1,1)');
-            });
-
-            // Scroll reveal
-            if ('IntersectionObserver' in window) {
-                new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                            entry.target._observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' }).observe(document.querySelectorAll('.reveal'));
-            } else {
-                revealEls.forEach(el => el.classList.add('visible'));
-            }
-
-            if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
-        })();
-    </script>
-
-    <!-- ═══════════ ORIGINAL TYPESCRIPT SOURCE (all new features) ═══════════ -->
-    <!--
-    // main.ts — full TypeScript for new features
-
-    // Typewriter title & subtitle
-    const titleEl = document.getElementById('typewriter') as HTMLSpanElement | null;
-    const titleWords: string[] = ['Imagination', 'Innovation', 'The Future', 'Precision', 'Light'];
-    let wordIndex = 0, charIndex = 0, isDeleting = false;
-    const typeSpeed = 100, deleteSpeed = 50, pauseBetween = 1500;
-
-    function typeWriter(): void {
+<!-- Scripts (all features fully functional) -->
+<script type="module">
+    // ── Typewriter effects ──
+    const titleEl = document.getElementById('typewriter');
+    const titleWords = ['Imagination','Innovation','The Future','Precision','Light'];
+    let wordIdx=0, charIdx=0, deleting=false;
+    function typeTitle() {
         if (!titleEl) return;
-        const currentWord = titleWords[wordIndex];
-        if (!isDeleting) {
-            titleEl.textContent = currentWord.substring(0, charIndex + 1);
-            charIndex++;
-            if (charIndex === currentWord.length) {
-                isDeleting = true;
-                setTimeout(typeWriter, pauseBetween);
-                return;
-            }
-            setTimeout(typeWriter, typeSpeed);
+        const word = titleWords[wordIdx];
+        if (!deleting) {
+            titleEl.textContent = word.substring(0,charIdx+1);
+            charIdx++;
+            if (charIdx===word.length) { deleting=true; setTimeout(typeTitle,1500); return; }
+            setTimeout(typeTitle,100);
         } else {
-            titleEl.textContent = currentWord.substring(0, charIndex - 1);
-            charIndex--;
-            if (charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % titleWords.length;
-                setTimeout(typeWriter, typeSpeed);
-                return;
-            }
-            setTimeout(typeWriter, deleteSpeed);
+            titleEl.textContent = word.substring(0,charIdx-1);
+            charIdx--;
+            if (charIdx===0) { deleting=false; wordIdx=(wordIdx+1)%titleWords.length; setTimeout(typeTitle,100); return; }
+            setTimeout(typeTitle,50);
         }
     }
-    setTimeout(typeWriter, 1000);
+    setTimeout(typeTitle,1000);
 
-    const subtitleEl = document.getElementById('heroSubtitle') as HTMLSpanElement | null;
-    const subtitleWords = [
-        "Futuristic graphics powered by Canva, PixelLab, AI generation, and human creativity.",
-        "Logos, photo editing, and visual identities with soul.",
-        "From AI art to classic design — your vision, amplified."
-    ];
-    let subWordIndex = 0, subCharIndex = 0, subDeleting = false;
-    const subTypeSpeed = 40, subDeleteSpeed = 25, subPauseBetween = 2000;
-
-    function typeSubtitle(): void {
-        if (!subtitleEl) return;
-        const currentWord = subtitleWords[subWordIndex];
-        if (!subDeleting) {
-            subtitleEl.textContent = currentWord.substring(0, subCharIndex + 1);
-            subCharIndex++;
-            if (subCharIndex === currentWord.length) {
-                subDeleting = true;
-                setTimeout(typeSubtitle, subPauseBetween);
-                return;
-            }
-            setTimeout(typeSubtitle, subTypeSpeed);
+    const subEl = document.getElementById('heroSubtitle');
+    const subWords = ["Futuristic graphics powered by Canva, PixelLab, AI generation, and human creativity.","Logos, photo editing, and visual identities with soul.","From AI art to classic design — your vision, amplified."];
+    let subWIdx=0, subChIdx=0, subDel=false;
+    function typeSub() {
+        if (!subEl) return;
+        const word = subWords[subWIdx];
+        if (!subDel) {
+            subEl.textContent = word.substring(0,subChIdx+1);
+            subChIdx++;
+            if (subChIdx===word.length) { subDel=true; setTimeout(typeSub,2000); return; }
+            setTimeout(typeSub,40);
         } else {
-            subtitleEl.textContent = currentWord.substring(0, subCharIndex - 1);
-            subCharIndex--;
-            if (subCharIndex === 0) {
-                subDeleting = false;
-                subWordIndex = (subWordIndex + 1) % subtitleWords.length;
-                setTimeout(typeSubtitle, subTypeSpeed);
-                return;
-            }
-            setTimeout(typeSubtitle, subDeleteSpeed);
+            subEl.textContent = word.substring(0,subChIdx-1);
+            subChIdx--;
+            if (subChIdx===0) { subDel=false; subWIdx=(subWIdx+1)%subWords.length; setTimeout(typeSub,40); return; }
+            setTimeout(typeSub,25);
         }
     }
-    setTimeout(typeSubtitle, 500);
+    setTimeout(typeSub,500);
 
-    // Toast
-    function showToast(message: string): void {
-        const container = document.getElementById('toastContainer') as HTMLDivElement;
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        container.appendChild(toast);
-        toast.addEventListener('animationend', (e: AnimationEvent) => {
-            if (e.animationName === 'fadeOut') toast.remove();
-        });
+    // ── Toast ──
+    function toast(msg) {
+        const c=document.getElementById('toastContainer');
+        const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+        c.appendChild(t);
+        t.addEventListener('animationend',e=>{ if(e.animationName==='fadeOut')t.remove(); });
     }
 
-    // Lightbox
-    const lightbox = document.getElementById('lightbox') as HTMLDivElement;
-    const lightboxImage = document.getElementById('lightboxImage') as HTMLSpanElement;
-    const lightboxCaption = document.getElementById('lightboxCaption') as HTMLHeadingElement;
-    const lightboxDesc = document.getElementById('lightboxDesc') as HTMLParagraphElement;
-    const lightboxClose = document.getElementById('lightboxClose') as HTMLButtonElement;
-
-    function openLightbox(image: string, title: string, desc: string): void {
-        lightboxImage.textContent = image;
-        lightboxCaption.textContent = title;
-        lightboxDesc.textContent = desc;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
+    // ── Lightbox ──
+    const lb=document.getElementById('lightbox'), lbImg=document.getElementById('lightboxImage'),
+          lbCap=document.getElementById('lightboxCaption'), lbDesc=document.getElementById('lightboxDesc'),
+          lbClose=document.getElementById('lightboxClose');
+    function openLB(img,title,desc) {
+        lbImg.textContent=img; lbCap.textContent=title; lbDesc.textContent=desc;
+        lb.classList.add('active'); document.body.style.overflow='hidden';
     }
-    function closeLightbox(): void {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    document.querySelectorAll('.portfolio-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const image = (item as HTMLElement).dataset.image;
-            const title = (item as HTMLElement).dataset.title;
-            const desc = (item as HTMLElement).dataset.desc;
-            if (image) openLightbox(image, title ?? '', desc ?? '');
+    function closeLB() { lb.classList.remove('active'); document.body.style.overflow=''; }
+    document.querySelectorAll('.portfolio-item').forEach(el=>{
+        el.addEventListener('click',()=>{
+            const img=el.dataset.image, title=el.dataset.title, desc=el.dataset.desc;
+            if(img) openLB(img,title,desc);
         });
     });
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e: MouseEvent) => { if (e.target === lightbox) closeLightbox(); });
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    lbClose.addEventListener('click',closeLB);
+    lb.addEventListener('click',e=>{ if(e.target===lb)closeLB(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&lb.classList.contains('active'))closeLB(); });
+
+    // ── Theme ──
+    function applyTheme(th) {
+        document.body.classList.toggle('light-mode',th==='light');
+        document.getElementById('themeToggle').textContent = th==='light'?'☀️':'🌓';
+    }
+    const stored=localStorage.getItem('theme');
+    if(stored) applyTheme(stored);
+    else applyTheme(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');
+    document.getElementById('themeToggle').addEventListener('click',()=>{
+        const next=document.body.classList.contains('light-mode')?'dark':'light';
+        applyTheme(next); localStorage.setItem('theme',next);
     });
 
-    // System‑aware theme
-    function applyTheme(theme: string): void {
-        document.body.classList.toggle('light-mode', theme === 'light');
-        const icon = document.getElementById('themeToggle');
-        if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌓';
-    }
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) applyTheme(storedTheme);
-    else {
-        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-        applyTheme(prefersLight ? 'light' : 'dark');
-    }
-    const themeToggle = document.getElementById('themeToggle') as HTMLButtonElement;
-    themeToggle?.addEventListener('click', () => {
-        const isLight = document.body.classList.contains('light-mode');
-        const newTheme = isLight ? 'dark' : 'light';
-        applyTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-
-    // Background music
-    let musicAudioCtx: AudioContext | null = null;
-    let musicGain: GainNode | null = null;
-    let musicPlaying = false;
-    function initMusic(): void {
-        if (!musicAudioCtx) {
-            musicAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-            musicGain = musicAudioCtx.createGain();
-            musicGain.gain.value = 0.03;
-            musicGain.connect(musicAudioCtx.destination);
-            const osc1 = musicAudioCtx.createOscillator();
-            const osc2 = musicAudioCtx.createOscillator();
-            const osc3 = musicAudioCtx.createOscillator();
-            const filter = musicAudioCtx.createBiquadFilter();
-            osc1.type = 'sine'; osc1.frequency.value = 55;
-            osc2.type = 'sine'; osc2.frequency.value = 82;
-            osc3.type = 'sine'; osc3.frequency.value = 110;
-            filter.type = 'lowpass';
-            filter.frequency.value = 200;
-            osc1.connect(filter); osc2.connect(filter); osc3.connect(filter);
-            filter.connect(musicGain);
-            osc1.start(); osc2.start(); osc3.start();
-            musicPlaying = true;
+    // ── Music & sound ──
+    let musicCtx=null, musicGain=null, musicOn=false;
+    function startMusic(){
+        if(!musicCtx){
+            musicCtx=new(window.AudioContext||window.webkitAudioContext)();
+            musicGain=musicCtx.createGain(); musicGain.gain.value=0.03;
+            musicGain.connect(musicCtx.destination);
+            const o1=musicCtx.createOscillator(),o2=musicCtx.createOscillator(),o3=musicCtx.createOscillator(),
+                  f=musicCtx.createBiquadFilter();
+            o1.type='sine';o1.frequency.value=55; o2.type='sine';o2.frequency.value=82; o3.type='sine';o3.frequency.value=110;
+            f.type='lowpass';f.frequency.value=200;
+            o1.connect(f);o2.connect(f);o3.connect(f);f.connect(musicGain);
+            o1.start();o2.start();o3.start();
+            musicOn=true;
         }
     }
-    function toggleMusic(enable: boolean): void {
-        if (enable) {
-            if (!musicPlaying) { initMusic(); if (musicAudioCtx?.state === 'suspended') musicAudioCtx.resume(); }
-            else { if (musicAudioCtx?.state === 'suspended') musicAudioCtx.resume(); if (musicGain) musicGain.gain.value = 0.03; }
-        } else {
-            if (musicGain) musicGain.gain.value = 0;
-        }
+    function toggleMusic(on){
+        if(on){
+            if(!musicOn){startMusic(); if(musicCtx.state==='suspended')musicCtx.resume();}
+            else { if(musicCtx.state==='suspended')musicCtx.resume(); if(musicGain)musicGain.gain.value=0.03; }
+        } else { if(musicGain)musicGain.gain.value=0; }
     }
 
-    // Sound toggle
-    const soundToggle = document.getElementById('soundToggle') as HTMLButtonElement;
-    let soundEnabled = false;
-    let audioCtx: AudioContext | null = null;
-    function playBlip(): void {
-        if (!soundEnabled || !audioCtx) return;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.08);
+    let sfxOn=false, sfxCtx=null;
+    function playBlip(){
+        if(!sfxOn||!sfxCtx)return;
+        const o=sfxCtx.createOscillator(),g=sfxCtx.createGain();
+        o.type='sine';o.frequency.setValueAtTime(800,sfxCtx.currentTime);
+        g.gain.setValueAtTime(0.08,sfxCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,sfxCtx.currentTime+0.08);
+        o.connect(g);g.connect(sfxCtx.destination);o.start();o.stop(sfxCtx.currentTime+0.08);
     }
-    soundToggle.addEventListener('click', () => {
-        if (!audioCtx) audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-        soundEnabled = !soundEnabled;
-        soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
-        toggleMusic(soundEnabled);
-        if (soundEnabled) playBlip();
+    const soundToggle=document.getElementById('soundToggle');
+    soundToggle.addEventListener('click',()=>{
+        if(!sfxCtx) sfxCtx=new(window.AudioContext||window.webkitAudioContext)();
+        sfxOn=!sfxOn; soundToggle.textContent=sfxOn?'🔊':'🔇';
+        toggleMusic(sfxOn); if(sfxOn)playBlip();
     });
-    document.querySelectorAll('a, button, .btn, .service-card, .portfolio-item, .testimonial-card').forEach(el => {
-        el.addEventListener('click', () => { if (soundEnabled) playBlip(); });
-        el.addEventListener('mouseenter', () => { if (soundEnabled) playBlip(); });
-    });
-
-    // Share
-    const shareBtn = document.getElementById('shareBtn') as HTMLButtonElement;
-    shareBtn?.addEventListener('click', async () => {
-        const shareData = {
-            title: document.title,
-            text: 'Futuristic graphics design powered by Canva, PixelLab, AI, and human creativity.',
-            url: window.location.href,
-        };
-        try {
-            if (navigator.share) await navigator.share(shareData);
-            else { await navigator.clipboard.writeText(window.location.href); showToast('Link copied!'); }
-        } catch (err) {
-            try { await navigator.clipboard.writeText(window.location.href); showToast('Link copied!'); }
-            catch (clipErr) { showToast('Could not share.'); }
-        }
+    document.querySelectorAll('a,button,.btn,.service-card,.portfolio-item,.testimonial-card').forEach(el=>{
+        el.addEventListener('click',()=>{ if(sfxOn)playBlip(); });
+        el.addEventListener('mouseenter',()=>{ if(sfxOn)playBlip(); });
     });
 
-    // Scroll indicator
-    const scrollIndicator = document.getElementById('scrollIndicator') as HTMLDivElement;
-    window.addEventListener('scroll', () => {
-        scrollIndicator.classList.toggle('hidden', window.scrollY > 100);
-    });
-    scrollIndicator.addEventListener('click', () => {
-        document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+    // ── Share ──
+    document.getElementById('shareBtn').addEventListener('click',async()=>{
+        const data={title:document.title,text:'Futuristic graphics design by BRAVEGLOBALTECH',url:window.location.href};
+        try { if(navigator.share) await navigator.share(data); else { await navigator.clipboard.writeText(window.location.href); toast('Link copied!'); } }
+        catch { try { await navigator.clipboard.writeText(window.location.href); toast('Link copied!'); } catch{toast('Could not share.');} }
     });
 
-    // Page transitions
-    const transitionOverlay = document.getElementById('pageTransition') as HTMLDivElement;
-    function navigateTo(hash: string): void {
-        transitionOverlay.classList.add('active');
-        setTimeout(() => {
-            const target = document.querySelector(hash);
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
-            else window.location.hash = hash;
-            setTimeout(() => transitionOverlay.classList.remove('active'), 300);
-        }, 200);
+    // ── Scroll indicator ──
+    const si=document.getElementById('scrollIndicator');
+    window.addEventListener('scroll',()=>{ si.classList.toggle('hidden',window.scrollY>100); });
+    si.addEventListener('click',()=> document.getElementById('services')?.scrollIntoView({behavior:'smooth'}));
+
+    // ── Page transitions ──
+    const pt=document.getElementById('pageTransition');
+    function navTo(hash){
+        pt.classList.add('active');
+        setTimeout(()=>{
+            const target=document.querySelector(hash);
+            if(target) target.scrollIntoView({behavior:'smooth'});
+            else window.location.hash=hash;
+            setTimeout(()=>pt.classList.remove('active'),300);
+        },200);
     }
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', (e: Event) => {
-            const href = (link as HTMLAnchorElement).getAttribute('href')!;
-            if (href === '#') return;
-            e.preventDefault();
-            if (href === '#home') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
-            navigateTo(href);
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click',e=>{
+            const href=a.getAttribute('href');
+            if(href==='#'||href==='#home') { window.scrollTo({top:0,behavior:'smooth'}); e.preventDefault(); return; }
+            e.preventDefault(); navTo(href);
         });
     });
 
-    // Live form validation
-    const nameInput = document.getElementById('name') as HTMLInputElement;
-    const emailInput = document.getElementById('email') as HTMLInputElement;
-    const messageInput = document.getElementById('message') as HTMLTextAreaElement;
-    const nameFeedback = document.getElementById('nameFeedback') as HTMLDivElement;
-    const emailFeedback = document.getElementById('emailFeedback') as HTMLDivElement;
-    const messageFeedback = document.getElementById('messageFeedback') as HTMLDivElement;
-
-    function validateName(value: string): boolean { return value.trim().length >= 2; }
-    function validateEmail(value: string): boolean { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()); }
-    function updateFieldUI(input: HTMLInputElement|HTMLTextAreaElement, feedbackEl: HTMLElement, isValid: boolean, message?: string): void {
-        input.classList.remove('valid', 'error');
-        if (input.value.trim() === '') { feedbackEl.textContent = ''; return; }
-        if (isValid) {
-            input.classList.add('valid');
-            feedbackEl.textContent = '✓';
-            feedbackEl.style.color = 'var(--success)';
-        } else {
-            input.classList.add('error');
-            feedbackEl.textContent = message || 'Invalid';
-            feedbackEl.style.color = 'var(--error)';
-            setTimeout(() => feedbackEl.textContent = '', 2000);
-        }
+    // ── Live form validation ──
+    const n=document.getElementById('name'), e=document.getElementById('email'), m=document.getElementById('message');
+    const nF=document.getElementById('nameFeedback'), eF=document.getElementById('emailFeedback'), mF=document.getElementById('messageFeedback');
+    const nameOk=v=>v.trim().length>=2, emailOk=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    function updateUI(inp,feed,ok,msg){
+        inp.classList.remove('valid','error');
+        if(inp.value.trim()===''){ feed.textContent=''; return; }
+        if(ok){ inp.classList.add('valid'); feed.textContent='✓'; feed.style.color='var(--success)'; }
+        else { inp.classList.add('error'); feed.textContent=msg||'Invalid'; feed.style.color='var(--error)'; setTimeout(()=>feed.textContent='',2000); }
     }
-    nameInput.addEventListener('input', () => updateFieldUI(nameInput, nameFeedback, validateName(nameInput.value), 'Name too short'));
-    emailInput.addEventListener('input', () => updateFieldUI(emailInput, emailFeedback, validateEmail(emailInput.value), 'Invalid email'));
-    messageInput.addEventListener('input', () => {
-        const max = 500, length = messageInput.value.length, remaining = max - length;
-        messageFeedback.textContent = `${remaining} characters remaining`;
-        messageFeedback.style.color = remaining < 50 ? 'var(--error)' : 'var(--text-dim)';
-        if (length < 5) messageInput.classList.add('error');
-        else { messageInput.classList.remove('error'); messageInput.classList.add('valid'); }
-        if (length === 0) { messageInput.classList.remove('valid', 'error'); messageFeedback.textContent = '500 characters remaining'; }
+    n.addEventListener('input',()=>updateUI(n,nF,nameOk(n.value),'Name too short'));
+    e.addEventListener('input',()=>updateUI(e,eF,emailOk(e.value),'Invalid email'));
+    m.addEventListener('input',()=>{
+        const rem=500-m.value.length;
+        mF.textContent=`${rem} characters remaining`;
+        mF.style.color=rem<50?'var(--error)':'var(--text-dim)';
+        m.classList.toggle('error',m.value.trim().length<5&&m.value.trim().length>0);
+        m.classList.toggle('valid',m.value.trim().length>=5);
+        if(m.value.trim()===''){ m.classList.remove('valid','error'); mF.textContent='500 characters remaining'; }
     });
 
-    // Form submission
-    const contactForm = document.getElementById('contactForm') as HTMLFormElement;
-    const thankYouModal = document.getElementById('thankYouModal') as HTMLDivElement;
-    const closeModalBtn = document.getElementById('closeModal') as HTMLButtonElement;
-    contactForm.addEventListener('submit', async (e: Event) => {
-        e.preventDefault();
-        let valid = true;
-        if (!validateName(nameInput.value)) { nameInput.classList.add('error'); valid = false; }
-        if (!validateEmail(emailInput.value)) { emailInput.classList.add('error'); valid = false; }
-        if (messageInput.value.trim().length < 5) { messageInput.classList.add('error'); valid = false; }
-        if (!valid) { showToast('Please fill in all required fields correctly.'); return; }
+    // ── Form submission ──
+    const form=document.getElementById('contactForm'), modal=document.getElementById('thankYouModal'), closeModal=document.getElementById('closeModal');
+    form.addEventListener('submit',async ev=>{
+        ev.preventDefault();
+        let ok=true;
+        if(!nameOk(n.value)){ n.classList.add('error'); ok=false; }
+        if(!emailOk(e.value)){ e.classList.add('error'); ok=false; }
+        if(m.value.trim().length<5){ m.classList.add('error'); ok=false; }
+        if(!ok){ toast('Please fill in all required fields correctly.'); return; }
+        const fd=new FormData(form);
+        try{
+            const res=await fetch(form.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}});
+            if(res.ok){
+                modal.classList.add('active');
+                form.reset();
+                [n,e,m].forEach(i=>i.classList.remove('valid','error'));
+                nF.textContent=eF.textContent=''; mF.textContent='500 characters remaining';
+            } else { const d=await res.json(); toast(d.error||'Something went wrong.'); }
+        } catch { toast('Network error.'); }
+    });
+    closeModal.addEventListener('click',()=>modal.classList.remove('active'));
+    modal.addEventListener('click',ev=>{ if(ev.target===modal)modal.classList.remove('active'); });
+    document.addEventListener('keydown',ev=>{ if(ev.key==='Escape'&&modal.classList.contains('active'))modal.classList.remove('active'); });
+</script>
 
-        const formData = new FormData(contactForm);
-        try {
-            const response = await fetch(contactForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-            if (response.ok) {
-                thankYouModal.classList.add('active');
-                contactForm.reset();
-                [nameInput, emailInput, messageInput].forEach(el => el.classList.remove('valid', 'error'));
-                nameFeedback.textContent = emailFeedback.textContent = '';
-                messageFeedback.textContent = '500 characters remaining';
-            } else {
-                const errorData = await response.json();
-                showToast(errorData.error || 'Something went wrong.');
-            }
-        } catch (err) {
-            showToast('Network error.');
+<!-- Core site scripts (particles, nav, tilt, scroll‑reveal) -->
+<script>
+    (()=>{
+        const nav=document.getElementById('navbar'), toggle=document.getElementById('navToggle'), linksEl=document.getElementById('navLinks'),
+              links=linksEl.querySelectorAll('a'), revealEls=document.querySelectorAll('.reveal'),
+              canvas=document.getElementById('particleCanvas'), ctx=canvas.getContext('2d'),
+              preloader=document.getElementById('preloader'), backBtn=document.getElementById('backToTop'),
+              ring=document.getElementById('progressRing'), yearSpan=document.getElementById('currentYear');
+        let menuOpen=false;
+
+        if(preloader) setTimeout(()=>preloader.classList.add('fade-out'),2000);
+
+        // Particles
+        let particles=[];
+        class Particle {
+            constructor(){ this.reset(); }
+            reset(){ this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.vx=(Math.random()-0.5)*0.35; this.vy=(Math.random()-0.5)*0.35; this.radius=Math.random()*1.2+0.4; this.opacity=Math.random()*0.4+0.1; }
+            update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width)this.vx*=-1; if(this.y<0||this.y>canvas.height)this.vy*=-1; }
+            draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.radius,0,Math.PI*2); ctx.fillStyle=`rgba(200,210,230,${this.opacity})`; ctx.fill(); }
         }
-    });
-    closeModalBtn.addEventListener('click', () => thankYouModal.classList.remove('active'));
-    thankYouModal.addEventListener('click', (e: MouseEvent) => { if (e.target === thankYouModal) thankYouModal.classList.remove('active'); });
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === 'Escape' && thankYouModal.classList.contains('active')) thankYouModal.classList.remove('active');
-    });
-    -->
+        function initParticles(){ particles=[]; for(let i=0;i<70;i++)particles.push(new Particle()); }
+        function drawConnections(){
+            for(let i=0;i<particles.length;i++)
+                for(let j=i+1;j<particles.length;j++){
+                    const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);
+                    if(dist<100){ ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(180,190,210,${(1-dist/100)*0.08})`; ctx.stroke(); }
+                }
+        }
+        function animate(){ ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); drawConnections(); requestAnimationFrame(animate); }
+        window.addEventListener('resize',()=>{ canvas.width=innerWidth; canvas.height=innerHeight; initParticles(); });
+        canvas.width=innerWidth; canvas.height=innerHeight; initParticles(); animate();
+
+        // Nav
+        function toggleMenu(){ menuOpen=!menuOpen; linksEl.classList.toggle('open',menuOpen); toggle.classList.toggle('active',menuOpen); toggle.setAttribute('aria-expanded',menuOpen); document.body.style.overflow=menuOpen?'hidden':''; }
+        function closeMenu(){ if(menuOpen){ menuOpen=false; linksEl.classList.remove('open'); toggle.classList.remove('active'); toggle.setAttribute('aria-expanded',false); document.body.style.overflow=''; } }
+        toggle.addEventListener('click',toggleMenu);
+        links.forEach(l=>l.addEventListener('click',()=>{ closeMenu(); links.forEach(a=>a.classList.remove('active')); l.classList.add('active'); }));
+        document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&menuOpen)closeMenu(); });
+
+        function handleScroll(){
+            nav.classList.toggle('scrolled',scrollY>20);
+            updateActiveLink(); updateBackToTop(); updateRing();
+        }
+        function updateActiveLink(){
+            const sections=document.querySelectorAll('section[id],div[id]'),pos=scrollY+120; let cur='';
+            sections.forEach(s=>{ if(pos>=s.offsetTop&&pos<s.offsetTop+s.offsetHeight)cur=s.id||''; });
+            links.forEach(l=>{ l.classList.toggle('active',l.getAttribute('href')===`#${cur}`); });
+        }
+        window.addEventListener('scroll',()=>requestAnimationFrame(handleScroll),{passive:true}); handleScroll();
+
+        function updateBackToTop(){ backBtn.classList.toggle('visible',scrollY>500); }
+        function updateRing(){ const p=scrollY/(document.documentElement.scrollHeight-innerHeight)*100; ring.style.background=`conic-gradient(var(--accent) ${p}%,transparent ${p}%)`; }
+        backBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+        // Tilt
+        document.querySelectorAll('.tilt-card').forEach(c=>{
+            c.addEventListener('mousemove',e=>{
+                const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,cx=r.width/2,cy=r.height/2,
+                      rx=((y-cy)/cy)*-8,ry=((x-cx)/cx)*8;
+                c.style.transform=`perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
+            });
+            c.addEventListener('mouseleave',()=>c.style.transform='perspective(600px) rotateX(0) rotateY(0) scale3d(1,1,1)');
+        });
+
+        // Scroll reveal
+        if('IntersectionObserver' in window){
+            const obs=new IntersectionObserver(entries=>{
+                entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('visible'); obs.unobserve(en.target); } });
+            },{threshold:0.15});
+            revealEls.forEach(el=>obs.observe(el));
+        } else revealEls.forEach(el=>el.classList.add('visible'));
+
+        if(yearSpan) yearSpan.textContent=new Date().getFullYear();
+    })();
+</script>
 </body>
 </html>
