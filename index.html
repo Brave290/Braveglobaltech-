@@ -300,6 +300,15 @@
             color: var(--accent);
             font-weight: 300;
         }
+        .typewriter-cursor {
+            color: var(--accent);
+            font-weight: 200;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
         .hero-subtitle {
             font-weight: 300;
             font-size: 1.1rem;
@@ -450,6 +459,7 @@
             overflow: hidden;
             transition: var(--transition-slow);
             backdrop-filter: blur(8px);
+            cursor: pointer;
         }
         body.light-mode .portfolio-item {
             background: rgba(232, 236, 241, 0.7);
@@ -635,7 +645,95 @@
             margin: 0 auto;
         }
 
-        /* Thank‑you popup modal */
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10002;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: var(--error);
+            color: white;
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            font-weight: 300;
+            font-size: 0.9rem;
+            animation: slideInRight 0.4s ease, fadeOut 0.4s 2.6s ease forwards;
+            max-width: 340px;
+            word-break: break-word;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Lightbox */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10003;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+        }
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lightbox-content {
+            text-align: center;
+            max-width: 80vw;
+            max-height: 80vh;
+        }
+        .lightbox-image {
+            font-size: 10rem;
+            display: block;
+            margin: 0 auto 16px;
+            filter: drop-shadow(0 0 16px rgba(0,0,0,0.4));
+        }
+        .lightbox-caption {
+            color: var(--text-primary);
+            font-weight: 300;
+            font-size: 1.1rem;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 1.8rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-close:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Thank‑you modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -801,6 +899,9 @@
     <!-- Particle Canvas -->
     <canvas id="particleCanvas"></canvas>
 
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <!-- Navigation -->
     <nav class="nav" id="navbar">
         <div class="nav-container">
@@ -828,7 +929,7 @@
     <section class="hero" id="home">
         <div class="hero-content reveal">
             <span class="hero-badge">✦ Future of Design ✦</span>
-            <h1>Design Beyond <span class="highlight">Imagination</span></h1>
+            <h1>Design Beyond <span class="highlight" id="typewriter">Imagination</span><span class="typewriter-cursor">|</span></h1>
             <p class="hero-subtitle">
                 Futuristic graphics powered by Canva, PixelLab, AI generation, and human creativity.
                 Logos, photo editing, and visual identities with soul.
@@ -891,20 +992,20 @@
             <h2 class="section-title">Selected Projects</h2>
             <div class="section-divider"></div>
         </div>
-        <div class="portfolio-grid">
-            <div class="portfolio-item reveal">
+        <div class="portfolio-grid" id="portfolioGrid">
+            <div class="portfolio-item reveal" data-image="🔷" data-title="Nebula Brand Identity" data-desc="Futuristic logo & visual system for a tech startup.">
                 <div class="portfolio-image">🔷</div>
                 <div class="portfolio-body"><h4>Nebula Brand Identity</h4><p>Futuristic logo & visual system for a tech startup.</p></div>
             </div>
-            <div class="portfolio-item reveal">
+            <div class="portfolio-item reveal" data-image="🌠" data-title="AI-Generated Poster Series" data-desc="Surreal artwork for a music festival campaign.">
                 <div class="portfolio-image">🌠</div>
                 <div class="portfolio-body"><h4>AI-Generated Poster Series</h4><p>Surreal artwork for a music festival campaign.</p></div>
             </div>
-            <div class="portfolio-item reveal">
+            <div class="portfolio-item reveal" data-image="🖌️" data-title="PixelLab Typography" data-desc="3D text compositions for social media banners.">
                 <div class="portfolio-image">🖌️</div>
                 <div class="portfolio-body"><h4>PixelLab Typography</h4><p>3D text compositions for social media banners.</p></div>
             </div>
-            <div class="portfolio-item reveal">
+            <div class="portfolio-item reveal" data-image="📸" data-title="Photo Retouching Suite" data-desc="Before/after transformations for a lifestyle brand.">
                 <div class="portfolio-image">📸</div>
                 <div class="portfolio-body"><h4>Photo Retouching Suite</h4><p>Before/after transformations for a lifestyle brand.</p></div>
             </div>
@@ -981,7 +1082,6 @@
                 <textarea name="message" id="message" rows="4" placeholder="Describe your project..." required></textarea>
                 <input type="text" name="_gotcha" style="display:none">
                 <button type="submit" class="btn btn-primary">Send Message ✦</button>
-                <p class="form-feedback" id="formFeedback" style="text-align:center; min-height:24px; font-weight:300; color:var(--accent);"></p>
             </form>
         </div>
     </div>
@@ -995,9 +1095,19 @@
         </div>
     </div>
 
+    <!-- Lightbox -->
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">✕</button>
+        <div class="lightbox-content">
+            <span class="lightbox-image" id="lightboxImage"></span>
+            <h3 class="lightbox-caption" id="lightboxCaption"></h3>
+            <p class="lightbox-caption" id="lightboxDesc" style="font-size:0.9rem; opacity:0.8;"></p>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
-        <p>© <span id="currentYear"></span> BRAVEGLOBALTECH. All rights reserved. — Human‑Built Futuristic Design ✦</p>
+        <p>© <span id="currentYear"></span> BRAVEGLOBALTECH. All rights reserved. — Made with ♥️ by Akanji Mus'ab</p>
         <p style="margin-top:6px;">
             <a href="#home">Home</a> · <a href="#services">Services</a> · <a href="#contact">Contact</a>
         </p>
@@ -1011,13 +1121,117 @@
 
     <!-- ═══════════ SCRIPTS ═══════════ -->
 
-    <!-- Form + Popup logic (compiled from TypeScript) -->
+    <!-- New features compiled from TypeScript -->
     <script type="module">
-        // Compiled from main.ts (see TypeScript source at bottom)
+        // ── Typewriter ──
+        const typewriterEl = document.getElementById('typewriter');
+        const words = ['Imagination', 'Innovation', 'The Future', 'Precision', 'Light'];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+        const typeSpeed = 100, deleteSpeed = 50, pauseBetween = 1500;
+
+        function typeWriter() {
+            if (!typewriterEl) return;
+            const currentWord = words[wordIndex];
+            if (!isDeleting) {
+                typewriterEl.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+                if (charIndex === currentWord.length) {
+                    isDeleting = true;
+                    setTimeout(typeWriter, pauseBetween);
+                    return;
+                }
+                setTimeout(typeWriter, typeSpeed);
+            } else {
+                typewriterEl.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    setTimeout(typeWriter, typeSpeed);
+                    return;
+                }
+                setTimeout(typeWriter, deleteSpeed);
+            }
+        }
+        setTimeout(typeWriter, 1000);
+
+        // ── Toast ──
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            container.appendChild(toast);
+            toast.addEventListener('animationend', (e) => {
+                if (e.animationName === 'fadeOut') {
+                    toast.remove();
+                }
+            });
+        }
+
+        // ── Lightbox ──
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const lightboxDesc = document.getElementById('lightboxDesc');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        function openLightbox(image, title, desc) {
+            lightboxImage.textContent = image;
+            lightboxCaption.textContent = title;
+            lightboxDesc.textContent = desc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const image = item.dataset.image;
+                const title = item.dataset.title;
+                const desc = item.dataset.desc;
+                if (image) openLightbox(image, title, desc);
+            });
+        });
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+
+        // ── System‑aware theme ──
+        function applyTheme(theme) {
+            document.body.classList.toggle('light-mode', theme === 'light');
+            const icon = document.getElementById('themeToggle');
+            if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌓';
+        }
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+            applyTheme(storedTheme);
+        } else {
+            const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            applyTheme(prefersLight ? 'light' : 'dark');
+        }
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle?.addEventListener('click', () => {
+            const isLight = document.body.classList.contains('light-mode');
+            const newTheme = isLight ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // ── Form validation with toast + Formspree + Popup ──
         const contactForm = document.getElementById('contactForm');
         const thankYouModal = document.getElementById('thankYouModal');
         const closeModalBtn = document.getElementById('closeModal');
-        const formFeedback = document.getElementById('formFeedback');
 
         const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
@@ -1039,7 +1253,6 @@
             const messageInput = document.getElementById('message');
             const fields = [nameInput, emailInput, messageInput];
             clearErrors(fields);
-            if (formFeedback) formFeedback.textContent = '';
 
             let valid = true;
             if (!nameInput.value.trim() || nameInput.value.trim().length < 2) {
@@ -1055,10 +1268,7 @@
                 valid = false;
             }
             if (!valid) {
-                if (formFeedback) {
-                    formFeedback.textContent = 'Please fill in all required fields correctly.';
-                    formFeedback.style.color = '#E53E3E';
-                }
+                showToast('Please fill in all required fields correctly.');
                 return;
             }
 
@@ -1072,19 +1282,12 @@
                 if (response.ok) {
                     thankYouModal?.classList.add('active');
                     contactForm.reset();
-                    if (formFeedback) formFeedback.textContent = '';
                 } else {
                     const errorData = await response.json();
-                    if (formFeedback) {
-                        formFeedback.textContent = errorData.error || 'Something went wrong. Please try again.';
-                        formFeedback.style.color = '#E53E3E';
-                    }
+                    showToast(errorData.error || 'Something went wrong. Please try again.');
                 }
             } catch (err) {
-                if (formFeedback) {
-                    formFeedback.textContent = 'Network error. Please check your connection.';
-                    formFeedback.style.color = '#E53E3E';
-                }
+                showToast('Network error. Please check your connection.');
             }
         });
 
@@ -1103,7 +1306,7 @@
         });
     </script>
 
-    <!-- Original site scripts (particles, nav, etc.) -->
+    <!-- Original site scripts (particles, nav, tilt, sound, scroll reveal, etc.) -->
     <script>
         (() => {
             "use strict";
@@ -1119,7 +1322,6 @@
             const preloader = document.getElementById('preloader');
             const backToTopBtn = document.getElementById('backToTop');
             const progressRing = document.getElementById('progressRing');
-            const themeToggle = document.getElementById('themeToggle');
             const soundToggle = document.getElementById('soundToggle');
 
             let isMenuOpen = false;
@@ -1287,17 +1489,6 @@
                 });
             });
 
-            // Theme
-            const currentTheme = localStorage.getItem('theme') || 'dark';
-            if (currentTheme === 'light') document.body.classList.add('light-mode');
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('light-mode');
-                const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
-                localStorage.setItem('theme', theme);
-                themeToggle.textContent = theme === 'light' ? '☀️' : '🌓';
-            });
-            themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌓';
-
             // Sound
             function initAudio() {
                 if (!audioCtx) {
@@ -1351,23 +1542,123 @@
         })();
     </script>
 
-    <!-- ═══════════ ORIGINAL TYPESCRIPT SOURCE (for reference) ═══════════ -->
+    <!-- ═══════════ ORIGINAL TYPESCRIPT SOURCE (new features) ═══════════ -->
     <!--
-    // main.ts
+    // main.ts — new features: typewriter, toast, lightbox, system-aware theme, form validation
+
+    // Typewriter
+    const typewriterEl = document.getElementById('typewriter') as HTMLSpanElement | null;
+    const words: string[] = ['Imagination', 'Innovation', 'The Future', 'Precision', 'Light'];
+    let wordIndex = 0, charIndex = 0, isDeleting = false;
+    const typeSpeed = 100, deleteSpeed = 50, pauseBetween = 1500;
+
+    function typeWriter(): void {
+        if (!typewriterEl) return;
+        const currentWord = words[wordIndex];
+        if (!isDeleting) {
+            typewriterEl.textContent = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+            if (charIndex === currentWord.length) {
+                isDeleting = true;
+                setTimeout(typeWriter, pauseBetween);
+                return;
+            }
+            setTimeout(typeWriter, typeSpeed);
+        } else {
+            typewriterEl.textContent = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+            if (charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                setTimeout(typeWriter, typeSpeed);
+                return;
+            }
+            setTimeout(typeWriter, deleteSpeed);
+        }
+    }
+    setTimeout(typeWriter, 1000);
+
+    // Toast
+    function showToast(message: string): void {
+        const container = document.getElementById('toastContainer') as HTMLDivElement;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        container.appendChild(toast);
+        toast.addEventListener('animationend', (e: AnimationEvent) => {
+            if (e.animationName === 'fadeOut') toast.remove();
+        });
+    }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox') as HTMLDivElement;
+    const lightboxImage = document.getElementById('lightboxImage') as HTMLSpanElement;
+    const lightboxCaption = document.getElementById('lightboxCaption') as HTMLHeadingElement;
+    const lightboxDesc = document.getElementById('lightboxDesc') as HTMLParagraphElement;
+    const lightboxClose = document.getElementById('lightboxClose') as HTMLButtonElement;
+
+    function openLightbox(image: string, title: string, desc: string): void {
+        lightboxImage.textContent = image;
+        lightboxCaption.textContent = title;
+        lightboxDesc.textContent = desc;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(): void {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.portfolio-item').forEach((item) => {
+        item.addEventListener('click', () => {
+            const image = (item as HTMLElement).dataset.image;
+            const title = (item as HTMLElement).dataset.title;
+            const desc = (item as HTMLElement).dataset.desc;
+            if (image) openLightbox(image, title ?? '', desc ?? '');
+        });
+    });
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e: MouseEvent) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    });
+
+    // System‑aware theme
+    function applyTheme(theme: string): void {
+        document.body.classList.toggle('light-mode', theme === 'light');
+        const icon = document.getElementById('themeToggle');
+        if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌓';
+    }
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) {
+        applyTheme(storedTheme);
+    } else {
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        applyTheme(prefersLight ? 'light' : 'dark');
+    }
+    const themeToggle = document.getElementById('themeToggle') as HTMLButtonElement;
+    themeToggle?.addEventListener('click', () => {
+        const isLight = document.body.classList.contains('light-mode');
+        const newTheme = isLight ? 'dark' : 'light';
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+
+    // Form validation with toast + Formspree + popup
     const contactForm = document.getElementById('contactForm') as HTMLFormElement | null;
     const thankYouModal = document.getElementById('thankYouModal') as HTMLDivElement | null;
     const closeModalBtn = document.getElementById('closeModal') as HTMLButtonElement | null;
-    const formFeedback = document.getElementById('formFeedback') as HTMLParagraphElement | null;
 
     const isValidEmail = (email: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-
     const showError = (element: HTMLInputElement | HTMLTextAreaElement): void => {
         element.classList.add('error');
         element.addEventListener('animationend', () => {
             element.classList.remove('error');
         }, { once: true });
     };
-
     const clearErrors = (fields: Array<HTMLInputElement | HTMLTextAreaElement>): void => {
         fields.forEach(f => f.classList.remove('error'));
     };
@@ -1379,7 +1670,6 @@
         const messageInput = document.getElementById('message') as HTMLTextAreaElement;
         const fields = [nameInput, emailInput, messageInput];
         clearErrors(fields);
-        if (formFeedback) formFeedback.textContent = '';
 
         let valid = true;
         if (!nameInput.value.trim() || nameInput.value.trim().length < 2) {
@@ -1395,10 +1685,7 @@
             valid = false;
         }
         if (!valid) {
-            if (formFeedback) {
-                formFeedback.textContent = 'Please fill in all required fields correctly.';
-                formFeedback.style.color = '#E53E3E';
-            }
+            showToast('Please fill in all required fields correctly.');
             return;
         }
 
@@ -1412,29 +1699,20 @@
             if (response.ok) {
                 thankYouModal?.classList.add('active');
                 contactForm.reset();
-                if (formFeedback) formFeedback.textContent = '';
             } else {
                 const errorData = await response.json();
-                if (formFeedback) {
-                    formFeedback.textContent = errorData.error || 'Something went wrong. Please try again.';
-                    formFeedback.style.color = '#E53E3E';
-                }
+                showToast(errorData.error || 'Something went wrong. Please try again.');
             }
         } catch (err) {
-            if (formFeedback) {
-                formFeedback.textContent = 'Network error. Please check your connection.';
-                formFeedback.style.color = '#E53E3E';
-            }
+            showToast('Network error. Please check your connection.');
         }
     });
 
     closeModalBtn?.addEventListener('click', () => {
         thankYouModal?.classList.remove('active');
     });
-    thankYouModal?.addEventListener('click', (e: Event) => {
-        if (e.target === thankYouModal) {
-            thankYouModal.classList.remove('active');
-        }
+    thankYouModal?.addEventListener('click', (e: MouseEvent) => {
+        if (e.target === thankYouModal) thankYouModal.classList.remove('active');
     });
     document.addEventListener('keydown', (e: KeyboardEvent) => {
         if (e.key === 'Escape' && thankYouModal?.classList.contains('active')) {
