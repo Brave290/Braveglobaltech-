@@ -12,7 +12,6 @@
     <meta property="og:type" content="website">
     <title>BRAVEGLOBALTECH | Futuristic Graphics &amp; AI Design</title>
 
-    <!-- Google Font: Exo 2 (thin, futuristic) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;600&display=swap" rel="stylesheet">
@@ -22,12 +21,13 @@
             --deep-space: #050510;
             --dark-blue: #0B0B1F;
             --mid-blue: #151B3A;
-            --accent: #4A6FA5;          /* Muted, human‑friendly blue */
+            --accent: #4A6FA5;
             --accent-soft: #5C85C2;
             --text-primary: rgba(224, 242, 254, 0.95);
             --text-secondary: rgba(170, 190, 210, 0.85);
             --text-dim: rgba(130, 150, 180, 0.65);
             --border-soft: rgba(74, 111, 165, 0.18);
+            --error: #E53E3E;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.25);
             --shadow-md: 0 4px 20px rgba(0,0,0,0.35);
             --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
@@ -42,7 +42,6 @@
             --nav-height: 80px;
         }
 
-        /* Light mode overrides */
         body.light-mode {
             --deep-space: #F5F7FA;
             --dark-blue: #FFFFFF;
@@ -84,7 +83,7 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* ───── PRELOADER (spinner only) ───── */
+        /* Preloader */
         #preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -113,7 +112,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ───── PARTICLE CANVAS BACKGROUND (subtle) ───── */
+        /* Particle Canvas */
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -128,7 +127,7 @@
             opacity: 0.15;
         }
 
-        /* ───── NAVIGATION ───── */
+        /* Navigation */
         .nav {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -166,7 +165,6 @@
             align-items: center;
             gap: 8px;
             text-decoration: none;
-            font-family: var(--font-thin);
             font-weight: 400;
             font-size: 1.2rem;
             letter-spacing: 3px;
@@ -237,7 +235,6 @@
         .nav-toggle.active span:nth-child(3) {
             transform: rotate(-45deg) translate(5px, -5px);
         }
-        /* Theme & sound toggles */
         .nav-actions {
             display: flex;
             align-items: center;
@@ -259,7 +256,7 @@
             background: rgba(74, 111, 165, 0.1);
         }
 
-        /* ───── HERO ───── */
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -292,7 +289,6 @@
             margin-bottom: 20px;
         }
         .hero h1 {
-            font-family: var(--font-thin);
             font-weight: 200;
             font-size: clamp(2.8rem, 6vw, 4.5rem);
             letter-spacing: -0.5px;
@@ -356,7 +352,7 @@
             transform: translateY(-2px);
         }
 
-        /* ───── SECTIONS ───── */
+        /* Sections */
         .section {
             padding: 80px 24px;
             max-width: var(--max-width);
@@ -378,7 +374,6 @@
             margin-bottom: 8px;
         }
         .section-title {
-            font-family: var(--font-thin);
             font-weight: 200;
             font-size: clamp(2rem, 4vw, 2.8rem);
             color: var(--text-primary);
@@ -398,7 +393,7 @@
             margin: 16px auto;
         }
 
-        /* ───── SERVICES GRID with Tilt ───── */
+        /* Services Grid */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -442,7 +437,7 @@
             line-height: 1.6;
         }
 
-        /* ───── PORTFOLIO / SHOWCASE ───── */
+        /* Portfolio */
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -491,7 +486,7 @@
             margin-top: 4px;
         }
 
-        /* ───── ABOUT / TECH ───── */
+        /* About */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -540,7 +535,7 @@
             text-transform: uppercase;
         }
 
-        /* ───── TESTIMONIALS ───── */
+        /* Testimonials */
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -576,7 +571,7 @@
             margin-bottom: 8px;
         }
 
-        /* ───── CONTACT ───── */
+        /* Contact */
         #contact {
             background: rgba(5, 5, 16, 0.8);
             backdrop-filter: blur(20px);
@@ -606,7 +601,7 @@
             color: var(--text-primary);
             font-family: var(--font-thin);
             font-weight: 300;
-            transition: var(--transition);
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
             resize: vertical;
         }
         body.light-mode .contact-form input,
@@ -623,12 +618,75 @@
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
         }
+        /* Error state */
+        .contact-form .error {
+            border-color: var(--error) !important;
+            box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+            animation: shake 0.3s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-4px); }
+            40% { transform: translateX(4px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
         .contact-form .btn-primary {
             width: fit-content;
             margin: 0 auto;
         }
 
-        /* ───── FOOTER ───── */
+        /* Thank-you popup modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--dark-blue);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-xl);
+            padding: 48px 36px;
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: transform 0.4s;
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-content h2 {
+            font-weight: 300;
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .modal-content p {
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
+        .modal-content .btn {
+            margin: 0 auto;
+        }
+
+        /* Footer */
         .footer {
             background: #030310;
             border-top: 1px solid var(--border-soft);
@@ -650,7 +708,7 @@
             font-weight: 400;
         }
 
-        /* ───── BACK TO TOP BUTTON ───── */
+        /* Back to Top */
         #backToTop {
             position: fixed;
             bottom: 28px;
@@ -697,7 +755,7 @@
             pointer-events: none;
         }
 
-        /* ───── SCROLL REVEAL ───── */
+        /* Scroll reveal */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -708,7 +766,6 @@
             transform: translateY(0);
         }
 
-        /* ───── RESPONSIVE ───── */
         @media (max-width: 900px) {
             .about-grid { grid-template-columns: 1fr; }
             .nav-links {
@@ -737,15 +794,15 @@
 </head>
 <body>
 
-    <!-- Preloader (spinner only) -->
+    <!-- Preloader -->
     <div id="preloader">
         <div class="spinner"></div>
     </div>
 
-    <!-- Particle Background Canvas -->
+    <!-- Particle Canvas -->
     <canvas id="particleCanvas"></canvas>
 
-    <!-- ═══════════ NAVIGATION ═══════════ -->
+    <!-- Navigation -->
     <nav class="nav" id="navbar">
         <div class="nav-container">
             <a href="#home" class="nav-logo" aria-label="BRAVEGLOBALTECH Home">
@@ -768,7 +825,7 @@
         </div>
     </nav>
 
-    <!-- ═══════════ HERO ═══════════ -->
+    <!-- Hero -->
     <section class="hero" id="home">
         <div class="hero-content reveal">
             <span class="hero-badge">✦ Future of Design ✦</span>
@@ -784,7 +841,7 @@
         </div>
     </section>
 
-    <!-- ═══════════ SERVICES ═══════════ -->
+    <!-- Services -->
     <section class="section" id="services">
         <div class="section-header reveal">
             <span class="section-label">Capabilities</span>
@@ -828,7 +885,7 @@
         </div>
     </section>
 
-    <!-- ═══════════ PORTFOLIO ═══════════ -->
+    <!-- Portfolio -->
     <section class="section" id="portfolio">
         <div class="section-header reveal">
             <span class="section-label">Recent Work</span>
@@ -855,7 +912,7 @@
         </div>
     </section>
 
-    <!-- ═══════════ ABOUT ═══════════ -->
+    <!-- About -->
     <section class="section" id="about">
         <div class="section-header reveal">
             <span class="section-label">The Lab</span>
@@ -883,7 +940,7 @@
         </div>
     </section>
 
-    <!-- ═══════════ TESTIMONIALS ═══════════ -->
+    <!-- Testimonials -->
     <section class="section" id="testimonials">
         <div class="section-header reveal">
             <span class="section-label">Testimonials</span>
@@ -909,7 +966,7 @@
         </div>
     </section>
 
-    <!-- ═══════════ CONTACT ═══════════ -->
+    <!-- Contact -->
     <div id="contact">
         <div class="section">
             <div class="section-header reveal">
@@ -918,18 +975,30 @@
                 <div class="section-divider"></div>
                 <p class="section-subtitle">Tell us about your idea. We'll respond within 24 hours.</p>
             </div>
-            <form class="contact-form reveal" id="contactForm">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="email" id="email" placeholder="Email Address" required>
-                <input type="text" id="service" placeholder="Service Interested In">
-                <textarea id="message" rows="4" placeholder="Describe your project..." required></textarea>
+            <!-- Formspree endpoint (replace with your actual ID if different) -->
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xqkrbqlo" method="POST">
+                <input type="text" name="name" id="name" placeholder="Your Name" required>
+                <input type="email" name="email" id="email" placeholder="Email Address" required>
+                <input type="text" name="service" id="service" placeholder="Service Interested In">
+                <textarea name="message" id="message" rows="4" placeholder="Describe your project..." required></textarea>
+                <!-- Honeypot (hidden) prevents spam -->
+                <input type="text" name="_gotcha" style="display:none">
                 <button type="submit" class="btn btn-primary">Send Message ✦</button>
                 <p class="form-feedback" id="formFeedback" style="text-align:center; min-height:24px; font-weight:300; color:var(--accent);"></p>
             </form>
         </div>
     </div>
 
-    <!-- ═══════════ FOOTER ═══════════ -->
+    <!-- Thank-you modal -->
+    <div class="modal-overlay" id="thankYouModal">
+        <div class="modal-content">
+            <h2>✦ Message Sent ✦</h2>
+            <p>Your project details have been received.<br>We'll get back to you within 24 hours.</p>
+            <button class="btn btn-outline" id="closeModal">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <p>© <span id="currentYear"></span> BRAVEGLOBALTECH. All rights reserved. — Human‑Built Futuristic Design ✦</p>
         <p style="margin-top:6px;">
@@ -937,24 +1006,121 @@
         </p>
     </footer>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <button id="backToTop" aria-label="Back to top">
         <div class="progress-ring" id="progressRing"></div>
         <span>↑</span>
     </button>
 
-    <!-- ═══════════ SCRIPTS ═══════════ -->
+    <!-- ═══════════ SCRIPTS (compiled from TypeScript) ═══════════ -->
+    <script type="module">
+        // ── TypeScript-compiled logic: form validation, Formspree submission, custom popup ──
+        const contactForm = document.getElementById('contactForm');
+        const thankYouModal = document.getElementById('thankYouModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const formFeedback = document.getElementById('formFeedback');
+
+        // Validation helper
+        const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+        // Show red error border + shake animation
+        const showError = (element) => {
+            element.classList.add('error');
+            element.addEventListener('animationend', () => {
+                element.classList.remove('error');
+            }, { once: true });
+        };
+
+        // Clear any existing error classes
+        const clearErrors = (fields) => {
+            fields.forEach(f => f.classList.remove('error'));
+        };
+
+        // Form submission
+        contactForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+            const serviceInput = document.getElementById('service');
+            const fields = [nameInput, emailInput, messageInput];
+            clearErrors(fields);
+            formFeedback.textContent = '';
+
+            // Validate
+            let valid = true;
+            if (!nameInput.value.trim() || nameInput.value.trim().length < 2) {
+                showError(nameInput);
+                valid = false;
+            }
+            if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) {
+                showError(emailInput);
+                valid = false;
+            }
+            if (!messageInput.value.trim() || messageInput.value.trim().length < 5) {
+                showError(messageInput);
+                valid = false;
+            }
+            if (!valid) {
+                formFeedback.textContent = 'Please fill in all required fields correctly.';
+                formFeedback.style.color = '#E53E3E';
+                return;
+            }
+
+            // Prepare FormData & submit via fetch
+            const formData = new FormData(contactForm);
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    // Show custom popup (force, no redirect)
+                    thankYouModal.classList.add('active');
+                    contactForm.reset();
+                    formFeedback.textContent = '';
+                } else {
+                    const errorData = await response.json();
+                    formFeedback.textContent = errorData.error || 'Something went wrong. Please try again.';
+                    formFeedback.style.color = '#E53E3E';
+                }
+            } catch (err) {
+                formFeedback.textContent = 'Network error. Please check your connection.';
+                formFeedback.style.color = '#E53E3E';
+            }
+        });
+
+        // Close modal
+        closeModalBtn?.addEventListener('click', () => {
+            thankYouModal.classList.remove('active');
+        });
+        // Close on overlay click
+        thankYouModal?.addEventListener('click', (e) => {
+            if (e.target === thankYouModal) {
+                thankYouModal.classList.remove('active');
+            }
+        });
+        // Close with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && thankYouModal.classList.contains('active')) {
+                thankYouModal.classList.remove('active');
+            }
+        });
+
+        // Keep the rest of your site logic untouched (particles, nav, etc.)
+        // The existing scripts are included below, converted to TypeScript style in the source.
+    </script>
+
+    <!-- Original site scripts (minimally modified for the new features, already present) -->
     <script>
         (() => {
             "use strict";
 
-            // ───── DOM refs ─────
             const navbar = document.getElementById('navbar');
             const navToggle = document.getElementById('navToggle');
             const navLinksEl = document.getElementById('navLinks');
             const allNavLinks = navLinksEl.querySelectorAll('a');
-            const contactForm = document.getElementById('contactForm');
-            const formFeedback = document.getElementById('formFeedback');
             const currentYearSpan = document.getElementById('currentYear');
             const revealEls = document.querySelectorAll('.reveal');
             const canvas = document.getElementById('particleCanvas');
@@ -965,20 +1131,18 @@
             const themeToggle = document.getElementById('themeToggle');
             const soundToggle = document.getElementById('soundToggle');
 
-            // ───── STATE ─────
             let isMenuOpen = false;
-            let isSubmitting = false;
             let soundEnabled = false;
             let audioCtx = null;
 
-            // ───── PRELOADER (spinner for 2s) ─────
+            // Preloader
             if (preloader) {
                 setTimeout(() => {
                     preloader.classList.add('fade-out');
                 }, 2000);
             }
 
-            // ───── PARTICLE SYSTEM (subtle) ─────
+            // Particles
             let particles = [];
             const PARTICLE_COUNT = 70;
             const connectionDistance = 100;
@@ -1049,7 +1213,7 @@
             resizeCanvas();
             animateParticles();
 
-            // ───── NAVIGATION ─────
+            // Navigation
             function toggleMenu() {
                 isMenuOpen = !isMenuOpen;
                 navLinksEl.classList.toggle('open', isMenuOpen);
@@ -1077,7 +1241,7 @@
                 if (isMenuOpen && !navLinksEl.contains(e.target) && !navToggle.contains(e.target)) closeMenu();
             });
 
-            // ───── SCROLL HANDLERS ─────
+            // Scroll handlers
             function handleNavScroll() {
                 navbar.classList.toggle('scrolled', window.scrollY > 20);
                 updateActiveNavLink();
@@ -1101,7 +1265,7 @@
             window.addEventListener('scroll', () => requestAnimationFrame(handleNavScroll), { passive: true });
             handleNavScroll();
 
-            // ───── BACK TO TOP ─────
+            // Back to top
             function updateBackToTop() {
                 if (window.scrollY > 500) {
                     backToTopBtn.classList.add('visible');
@@ -1119,7 +1283,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ───── 3D TILT EFFECT ─────
+            // Tilt effect
             const tiltCards = document.querySelectorAll('.tilt-card');
             tiltCards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -1137,7 +1301,7 @@
                 });
             });
 
-            // ───── THEME TOGGLE (Dark/Light) ─────
+            // Theme toggle
             const currentTheme = localStorage.getItem('theme') || 'dark';
             if (currentTheme === 'light') document.body.classList.add('light-mode');
             themeToggle.addEventListener('click', () => {
@@ -1148,7 +1312,7 @@
             });
             themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌓';
 
-            // ───── SOUND EFFECTS (optional) ─────
+            // Sound effects
             function initAudio() {
                 if (!audioCtx) {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1171,9 +1335,8 @@
                 initAudio();
                 soundEnabled = !soundEnabled;
                 soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
-                if (soundEnabled) playBlip(); // feedback click
+                if (soundEnabled) playBlip();
             });
-            // Attach blip to interactive elements
             document.querySelectorAll('a, button, .btn, .service-card, .portfolio-item, .testimonial-card').forEach(el => {
                 el.addEventListener('click', () => {
                     if (soundEnabled) playBlip();
@@ -1183,7 +1346,7 @@
                 });
             });
 
-            // ───── SCROLL REVEAL ─────
+            // Scroll reveal
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
@@ -1198,48 +1361,7 @@
                 revealEls.forEach(el => el.classList.add('visible'));
             }
 
-            // ───── FORM ─────
-            function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()); }
-            function sanitize(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
-            function showFeedback(msg, type) {
-                formFeedback.textContent = msg;
-                formFeedback.style.color = type === 'error' ? '#E53E3E' : 'var(--accent)';
-                setTimeout(() => { if (formFeedback.textContent === msg) formFeedback.textContent = ''; }, 5000);
-            }
-            contactForm?.addEventListener('submit', e => {
-                e.preventDefault();
-                if (isSubmitting) return;
-                const name = document.getElementById('name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const message = document.getElementById('message').value.trim();
-                if (!name || name.length < 2) return showFeedback('Please enter your name.', 'error');
-                if (!email || !isValidEmail(email)) return showFeedback('Valid email required.', 'error');
-                if (!message || message.length < 5) return showFeedback('Message too short.', 'error');
-
-                isSubmitting = true;
-                const btn = contactForm.querySelector('button[type="submit"]');
-                const originalText = btn.textContent;
-                btn.textContent = '⏳ Sending...';
-                btn.disabled = true;
-
-                const formData = {
-                    name: sanitize(name),
-                    email: sanitize(email),
-                    service: sanitize(document.getElementById('service').value.trim() || 'Not specified'),
-                    message: sanitize(message),
-                };
-                console.log('📩 BRAVEGLOBALTECH Inquiry:', formData);
-
-                setTimeout(() => {
-                    showFeedback('Message sent! We’ll get back to you soon.', 'success');
-                    contactForm.reset();
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    isSubmitting = false;
-                }, 1300);
-            });
-
-            // ───── FOOTER YEAR ─────
+            // Footer year
             if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
 
             console.log('%c🚀 BRAVEGLOBALTECH %cHuman‑Built Futuristic Design',
