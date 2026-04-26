@@ -618,7 +618,6 @@
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
         }
-        /* Error state */
         .contact-form .error {
             border-color: var(--error) !important;
             box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
@@ -636,7 +635,7 @@
             margin: 0 auto;
         }
 
-        /* Thank-you popup modal */
+        /* Thank‑you popup modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -975,13 +974,11 @@
                 <div class="section-divider"></div>
                 <p class="section-subtitle">Tell us about your idea. We'll respond within 24 hours.</p>
             </div>
-            <!-- Formspree endpoint (replace with your actual ID if different) -->
-            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xqkrbqlo" method="POST">
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xkokevka" method="POST">
                 <input type="text" name="name" id="name" placeholder="Your Name" required>
                 <input type="email" name="email" id="email" placeholder="Email Address" required>
                 <input type="text" name="service" id="service" placeholder="Service Interested In">
                 <textarea name="message" id="message" rows="4" placeholder="Describe your project..." required></textarea>
-                <!-- Honeypot (hidden) prevents spam -->
                 <input type="text" name="_gotcha" style="display:none">
                 <button type="submit" class="btn btn-primary">Send Message ✦</button>
                 <p class="form-feedback" id="formFeedback" style="text-align:center; min-height:24px; font-weight:300; color:var(--accent);"></p>
@@ -989,7 +986,7 @@
         </div>
     </div>
 
-    <!-- Thank-you modal -->
+    <!-- Thank‑you modal -->
     <div class="modal-overlay" id="thankYouModal">
         <div class="modal-content">
             <h2>✦ Message Sent ✦</h2>
@@ -1012,18 +1009,18 @@
         <span>↑</span>
     </button>
 
-    <!-- ═══════════ SCRIPTS (compiled from TypeScript) ═══════════ -->
+    <!-- ═══════════ SCRIPTS ═══════════ -->
+
+    <!-- Form + Popup logic (compiled from TypeScript) -->
     <script type="module">
-        // ── TypeScript-compiled logic: form validation, Formspree submission, custom popup ──
+        // Compiled from main.ts (see TypeScript source at bottom)
         const contactForm = document.getElementById('contactForm');
         const thankYouModal = document.getElementById('thankYouModal');
         const closeModalBtn = document.getElementById('closeModal');
         const formFeedback = document.getElementById('formFeedback');
 
-        // Validation helper
         const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
-        // Show red error border + shake animation
         const showError = (element) => {
             element.classList.add('error');
             element.addEventListener('animationend', () => {
@@ -1031,23 +1028,19 @@
             }, { once: true });
         };
 
-        // Clear any existing error classes
         const clearErrors = (fields) => {
             fields.forEach(f => f.classList.remove('error'));
         };
 
-        // Form submission
         contactForm?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const nameInput = document.getElementById('name');
             const emailInput = document.getElementById('email');
             const messageInput = document.getElementById('message');
-            const serviceInput = document.getElementById('service');
             const fields = [nameInput, emailInput, messageInput];
             clearErrors(fields);
-            formFeedback.textContent = '';
+            if (formFeedback) formFeedback.textContent = '';
 
-            // Validate
             let valid = true;
             if (!nameInput.value.trim() || nameInput.value.trim().length < 2) {
                 showError(nameInput);
@@ -1062,12 +1055,13 @@
                 valid = false;
             }
             if (!valid) {
-                formFeedback.textContent = 'Please fill in all required fields correctly.';
-                formFeedback.style.color = '#E53E3E';
+                if (formFeedback) {
+                    formFeedback.textContent = 'Please fill in all required fields correctly.';
+                    formFeedback.style.color = '#E53E3E';
+                }
                 return;
             }
 
-            // Prepare FormData & submit via fetch
             const formData = new FormData(contactForm);
             try {
                 const response = await fetch(contactForm.action, {
@@ -1076,43 +1070,40 @@
                     headers: { 'Accept': 'application/json' }
                 });
                 if (response.ok) {
-                    // Show custom popup (force, no redirect)
-                    thankYouModal.classList.add('active');
+                    thankYouModal?.classList.add('active');
                     contactForm.reset();
-                    formFeedback.textContent = '';
+                    if (formFeedback) formFeedback.textContent = '';
                 } else {
                     const errorData = await response.json();
-                    formFeedback.textContent = errorData.error || 'Something went wrong. Please try again.';
-                    formFeedback.style.color = '#E53E3E';
+                    if (formFeedback) {
+                        formFeedback.textContent = errorData.error || 'Something went wrong. Please try again.';
+                        formFeedback.style.color = '#E53E3E';
+                    }
                 }
             } catch (err) {
-                formFeedback.textContent = 'Network error. Please check your connection.';
-                formFeedback.style.color = '#E53E3E';
+                if (formFeedback) {
+                    formFeedback.textContent = 'Network error. Please check your connection.';
+                    formFeedback.style.color = '#E53E3E';
+                }
             }
         });
 
-        // Close modal
         closeModalBtn?.addEventListener('click', () => {
-            thankYouModal.classList.remove('active');
+            thankYouModal?.classList.remove('active');
         });
-        // Close on overlay click
         thankYouModal?.addEventListener('click', (e) => {
             if (e.target === thankYouModal) {
                 thankYouModal.classList.remove('active');
             }
         });
-        // Close with Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && thankYouModal.classList.contains('active')) {
+            if (e.key === 'Escape' && thankYouModal?.classList.contains('active')) {
                 thankYouModal.classList.remove('active');
             }
         });
-
-        // Keep the rest of your site logic untouched (particles, nav, etc.)
-        // The existing scripts are included below, converted to TypeScript style in the source.
     </script>
 
-    <!-- Original site scripts (minimally modified for the new features, already present) -->
+    <!-- Original site scripts (particles, nav, etc.) -->
     <script>
         (() => {
             "use strict";
@@ -1135,7 +1126,6 @@
             let soundEnabled = false;
             let audioCtx = null;
 
-            // Preloader
             if (preloader) {
                 setTimeout(() => {
                     preloader.classList.add('fade-out');
@@ -1177,7 +1167,6 @@
                 particles = [];
                 for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
             }
-
             function drawConnections() {
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i+1; j < particles.length; j++) {
@@ -1196,14 +1185,12 @@
                     }
                 }
             }
-
             function animateParticles() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 particles.forEach(p => { p.update(); p.draw(); });
                 drawConnections();
                 requestAnimationFrame(animateParticles);
             }
-
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
@@ -1241,7 +1228,7 @@
                 if (isMenuOpen && !navLinksEl.contains(e.target) && !navToggle.contains(e.target)) closeMenu();
             });
 
-            // Scroll handlers
+            // Scroll
             function handleNavScroll() {
                 navbar.classList.toggle('scrolled', window.scrollY > 20);
                 updateActiveNavLink();
@@ -1265,7 +1252,6 @@
             window.addEventListener('scroll', () => requestAnimationFrame(handleNavScroll), { passive: true });
             handleNavScroll();
 
-            // Back to top
             function updateBackToTop() {
                 if (window.scrollY > 500) {
                     backToTopBtn.classList.add('visible');
@@ -1283,7 +1269,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Tilt effect
+            // Tilt
             const tiltCards = document.querySelectorAll('.tilt-card');
             tiltCards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -1301,7 +1287,7 @@
                 });
             });
 
-            // Theme toggle
+            // Theme
             const currentTheme = localStorage.getItem('theme') || 'dark';
             if (currentTheme === 'light') document.body.classList.add('light-mode');
             themeToggle.addEventListener('click', () => {
@@ -1312,7 +1298,7 @@
             });
             themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌓';
 
-            // Sound effects
+            // Sound
             function initAudio() {
                 if (!audioCtx) {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1338,12 +1324,8 @@
                 if (soundEnabled) playBlip();
             });
             document.querySelectorAll('a, button, .btn, .service-card, .portfolio-item, .testimonial-card').forEach(el => {
-                el.addEventListener('click', () => {
-                    if (soundEnabled) playBlip();
-                });
-                el.addEventListener('mouseenter', () => {
-                    if (soundEnabled) playBlip();
-                });
+                el.addEventListener('click', () => { if (soundEnabled) playBlip(); });
+                el.addEventListener('mouseenter', () => { if (soundEnabled) playBlip(); });
             });
 
             // Scroll reveal
@@ -1361,7 +1343,6 @@
                 revealEls.forEach(el => el.classList.add('visible'));
             }
 
-            // Footer year
             if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
 
             console.log('%c🚀 BRAVEGLOBALTECH %cHuman‑Built Futuristic Design',
@@ -1369,5 +1350,97 @@
                 'color:#aaa;');
         })();
     </script>
+
+    <!-- ═══════════ ORIGINAL TYPESCRIPT SOURCE (for reference) ═══════════ -->
+    <!--
+    // main.ts
+    const contactForm = document.getElementById('contactForm') as HTMLFormElement | null;
+    const thankYouModal = document.getElementById('thankYouModal') as HTMLDivElement | null;
+    const closeModalBtn = document.getElementById('closeModal') as HTMLButtonElement | null;
+    const formFeedback = document.getElementById('formFeedback') as HTMLParagraphElement | null;
+
+    const isValidEmail = (email: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+    const showError = (element: HTMLInputElement | HTMLTextAreaElement): void => {
+        element.classList.add('error');
+        element.addEventListener('animationend', () => {
+            element.classList.remove('error');
+        }, { once: true });
+    };
+
+    const clearErrors = (fields: Array<HTMLInputElement | HTMLTextAreaElement>): void => {
+        fields.forEach(f => f.classList.remove('error'));
+    };
+
+    contactForm?.addEventListener('submit', async (e: Event) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('name') as HTMLInputElement;
+        const emailInput = document.getElementById('email') as HTMLInputElement;
+        const messageInput = document.getElementById('message') as HTMLTextAreaElement;
+        const fields = [nameInput, emailInput, messageInput];
+        clearErrors(fields);
+        if (formFeedback) formFeedback.textContent = '';
+
+        let valid = true;
+        if (!nameInput.value.trim() || nameInput.value.trim().length < 2) {
+            showError(nameInput);
+            valid = false;
+        }
+        if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) {
+            showError(emailInput);
+            valid = false;
+        }
+        if (!messageInput.value.trim() || messageInput.value.trim().length < 5) {
+            showError(messageInput);
+            valid = false;
+        }
+        if (!valid) {
+            if (formFeedback) {
+                formFeedback.textContent = 'Please fill in all required fields correctly.';
+                formFeedback.style.color = '#E53E3E';
+            }
+            return;
+        }
+
+        const formData = new FormData(contactForm);
+        try {
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+            if (response.ok) {
+                thankYouModal?.classList.add('active');
+                contactForm.reset();
+                if (formFeedback) formFeedback.textContent = '';
+            } else {
+                const errorData = await response.json();
+                if (formFeedback) {
+                    formFeedback.textContent = errorData.error || 'Something went wrong. Please try again.';
+                    formFeedback.style.color = '#E53E3E';
+                }
+            }
+        } catch (err) {
+            if (formFeedback) {
+                formFeedback.textContent = 'Network error. Please check your connection.';
+                formFeedback.style.color = '#E53E3E';
+            }
+        }
+    });
+
+    closeModalBtn?.addEventListener('click', () => {
+        thankYouModal?.classList.remove('active');
+    });
+    thankYouModal?.addEventListener('click', (e: Event) => {
+        if (e.target === thankYouModal) {
+            thankYouModal.classList.remove('active');
+        }
+    });
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && thankYouModal?.classList.contains('active')) {
+            thankYouModal.classList.remove('active');
+        }
+    });
+    -->
 </body>
 </html>
